@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
 
     public static GameManager pInstance;
-
     public System.Random pRandom = new System.Random();
+
+    public Character pActiveCharacter;
 
     private void Awake()
     {
@@ -24,13 +22,94 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    private void Update()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+
+            //if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            //{
+            //    if (pActiveCharacter != null)
+            //    {
+            //        if (hit.transform != pActiveCharacter.transform)
+            //        {
+            //            if (hit.transform.GetComponent<Character>() != null)
+            //            {
+            //                pActiveCharacter.Deactivation();
+            //                hit.transform.GetComponent<Character>().Activation();
+            //            }
+            //            else
+            //            {
+
+            //            }
+
+
+
+
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (hit.transform.GetComponent<Character>()!=null)
+            //        {
+            //            hit.transform.GetComponent<Character>().Activation();
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    if (pActiveCharacter != null)
+            //    {
+            //        pActiveCharacter.Deactivation();
+            //    }
+            //}
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            {
+                if (pActiveCharacter != null)
+                {
+                    if (hit.transform.GetComponent<Character>() != null)
+                    {
+                        if (hit.transform != pActiveCharacter.transform)
+                        {
+                            pActiveCharacter.Deactivation();
+                        }
+                    }
+                    else
+                    {
+                        if (hit.transform.GetComponent<Tile>() != null)
+                        {
+                            if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            {
+                                pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
+                            }
+                            else
+                            {
+                                pActiveCharacter.Deactivation();
+                            }
+                        }
+                        else
+                        {
+                            pActiveCharacter.Deactivation();
+                        }
+                    }
+                }
+                else
+                {
+                    if (hit.transform.GetComponent<Character>() != null)
+                    {
+                        hit.transform.GetComponent<Character>().Activation();
+                    }
+                }
+            }
+            else
+            {
+                if (pActiveCharacter != null)
+                {
+                    pActiveCharacter.Deactivation();
+                }
+            }
+        }
+    }
 }

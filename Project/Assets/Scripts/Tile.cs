@@ -1,25 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
-    public Vector2 pPosition;
+    public Vector2Int pPosition;
+    public Occupant pOccupant;
 
-    public bool pIsBlockedUpRight;
-    public bool pIsBlockedRight;
-    public bool pIsBlockedDownRight;
-    public bool pIsBlockedDownLeft;
-    public bool pIsBlockedLeft;
-    public bool pIsBlockedUpLeft;
-
-    public void AdjustWalls()
+    public void ResetTile()
     {
-        if(pIsBlockedUpRight) transform.GetChild(0).gameObject.SetActive(true);
-        if(pIsBlockedRight) transform.GetChild(1).gameObject.SetActive(true);
-        if(pIsBlockedDownRight) transform.GetChild(2).gameObject.SetActive(true);
-        if(pIsBlockedDownLeft) transform.GetChild(3).gameObject.SetActive(true);
-        if(pIsBlockedLeft) transform.GetChild(4).gameObject.SetActive(true);
-        if(pIsBlockedUpLeft) transform.GetChild(5).gameObject.SetActive(true);
+        for (int i = 0; i < 6; i++)
+        {
+            transform.GetChild(1).GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    public void IsReachable(Character character)
+    {
+
+        for (int j = 0; j < 6; j++)
+        {
+            Tile tempTile = GridManager.pInstance.GetNeighbour(this, j);
+            if (tempTile == null || !character.pReachableTiles.Contains(tempTile))
+            {
+                transform.GetChild(1).GetChild(j).gameObject.SetActive(true);
+            }
+        }
     }
 }
