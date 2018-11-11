@@ -26,4 +26,11 @@ public class Tile : MonoBehaviour
             }
         }
     }
+
+    public static int Distance (Tile a,Tile b)
+    {
+        int dx = Mathf.Abs(a.pPosition.x - b.pPosition.x);
+        int dy = Mathf.Abs(a.pPosition.y - b.pPosition.y);
+        return dy + Mathf.Max(0, (dx - dy) / 2);
+    }
 }

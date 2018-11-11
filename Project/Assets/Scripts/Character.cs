@@ -9,6 +9,7 @@ public class Character : Occupant
     public int pWalkRange;
     private bool mIsActiveCharacter;
     public List<Tile> pReachableTiles;
+    public List<Tile> pVisibleTiles;
 
 
     public void StandardAttack()
@@ -46,6 +47,12 @@ public class Character : Occupant
         {
             tile.IsReachable(this);
         }
+
+        pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange);
+        foreach(Tile tile in pVisibleTiles)
+        {
+            tile.transform.position += Vector3.up;
+        }
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
     }
@@ -55,6 +62,12 @@ public class Character : Occupant
         foreach (Tile tile in pReachableTiles)
         {
             tile.ResetTile();
+        }
+
+        foreach (Tile tile in pVisibleTiles)
+        {
+            tile.transform.position -= Vector3.up;
+
         }
         GameManager.pInstance.pActiveCharacter = null;
         mIsActiveCharacter = false;

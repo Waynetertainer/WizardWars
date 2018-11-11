@@ -144,4 +144,63 @@ public class GridManager : MonoBehaviour
                 return null;
         }
     }
+
+    public List<Tile> GetVisibleTiles(Tile startTile, int range)
+    {
+        List<Tile> allTiles = new List<Tile>();
+        List<List<Tile>> largeTileList = new List<List<Tile>> { new List<Tile>() };
+        largeTileList[0].Add(startTile);
+        for (int i = 1; i <= range; i++)
+        {
+            largeTileList.Add(new List<Tile>());
+            foreach (Tile tile in largeTileList[i - 1])
+            {
+                for (int j = 0; j < 6; j++)
+                {
+                    Tile tempTile = GetNeighbour(tile, j);
+                    if (tempTile != null)
+                    {
+                        if (!allTiles.Contains(tempTile))
+                        {
+                            bool notBlocked = true;
+                            int distance = Tile.Distance(startTile, tempTile);
+                            for (int k = 1; k <= distance; k++)
+                            {
+                                int XTempMinusStart = tempTile.pPosition.x - startTile.pPosition.x;
+                                float XDivided = (float)XTempMinusStart / distance;
+                                float XMultiplied = XDivided * k;
+                                float XComplete = startTile.pPosition.x + XMultiplied;
+
+                                int YTempMinusStart = tempTile.pPosition.y - startTile.pPosition.y;
+                                float YDivided = (float)YTempMinusStart / distance;
+                                float YMultiplied = YDivided * k;
+                                float YComplete = startTile.pPosition.y + YMultiplied;
+
+                                float Xf = ((startTile.pPosition.x +((float) (tempTile.pPosition.x - startTile.pPosition.x) / distance) * k));
+                                float Yf = ((startTile.pPosition.y +((float) (tempTile.pPosition.y - startTile.pPosition.y) / distance) * k));
+                                if (distance % 2 == 0)
+                                {
+                                    Xf += 0.5f;
+                                    Yf += 0.5f;
+                                }
+                                int x = (int)(Xf);
+                                int y = (int)(Yf);
+                                if (!(mGrid[x, y] == null || mGrid[x, y].pOccupant == null))
+                                {
+                                    notBlocked = false;
+                                }
+                            }
+
+                            if (notBlocked)
+                            {
+                                allTiles.Add(tempTile);
+                                largeTileList[i].Add(tempTile);
+                            } 
+                        }
+                    }
+                }
+            }
+        }
+        return allTiles;
+    }
 }

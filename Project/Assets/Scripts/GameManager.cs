@@ -29,42 +29,6 @@ public class GameManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            //if (Physics.Raycast(ray, out hit, Mathf.Infinity))
-            //{
-            //    if (pActiveCharacter != null)
-            //    {
-            //        if (hit.transform != pActiveCharacter.transform)
-            //        {
-            //            if (hit.transform.GetComponent<Character>() != null)
-            //            {
-            //                pActiveCharacter.Deactivation();
-            //                hit.transform.GetComponent<Character>().Activation();
-            //            }
-            //            else
-            //            {
-
-            //            }
-
-
-
-
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (hit.transform.GetComponent<Character>()!=null)
-            //        {
-            //            hit.transform.GetComponent<Character>().Activation();
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (pActiveCharacter != null)
-            //    {
-            //        pActiveCharacter.Deactivation();
-            //    }
-            //}
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (pActiveCharacter != null)
@@ -74,6 +38,7 @@ public class GameManager : MonoBehaviour
                         if (hit.transform != pActiveCharacter.transform)
                         {
                             pActiveCharacter.Deactivation();
+                            hit.transform.GetComponent<Character>().Activation();
                         }
                     }
                     else

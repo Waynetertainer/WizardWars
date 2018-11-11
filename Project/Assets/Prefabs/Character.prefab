@@ -98,9 +98,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
   pFraction: 1
-  pVisionRange: 0
+  pVisionRange: 9
   pWalkRange: 8
   pReachableTiles: []
+  pVisibleTiles: []
 --- !u!136 &136610158401779702
 CapsuleCollider:
   m_ObjectHideFlags: 1
