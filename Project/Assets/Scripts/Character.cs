@@ -26,10 +26,15 @@ public class Character : Occupant
     {
         foreach (Tile tile in pReachableTiles)
         {
-            tile.ResetTile();
+            tile.ResetReachable();
+        }
+        foreach (Tile tile in pVisibleTiles)
+        {
+            tile.ResetVisibility();
+
         }
         transform.position = targetTile.transform.position;
-        transform.position+= Vector3.up;
+        transform.position += Vector3.up;
         pTile.pOccupant = null;
         pTile = targetTile;
         targetTile.pOccupant = this;
@@ -37,6 +42,11 @@ public class Character : Occupant
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
+        }
+        pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange);
+        foreach (Tile tile in pVisibleTiles)
+        {
+            tile.IsVisible();
         }
     }
 
@@ -49,9 +59,9 @@ public class Character : Occupant
         }
 
         pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange);
-        foreach(Tile tile in pVisibleTiles)
+        foreach (Tile tile in pVisibleTiles)
         {
-            tile.transform.position += Vector3.up;
+            tile.IsVisible();
         }
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
@@ -61,12 +71,12 @@ public class Character : Occupant
     {
         foreach (Tile tile in pReachableTiles)
         {
-            tile.ResetTile();
+            tile.ResetReachable();
         }
 
         foreach (Tile tile in pVisibleTiles)
         {
-            tile.transform.position -= Vector3.up;
+            tile.ResetVisibility();
 
         }
         GameManager.pInstance.pActiveCharacter = null;

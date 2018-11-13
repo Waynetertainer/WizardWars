@@ -162,40 +162,60 @@ public class GridManager : MonoBehaviour
                     {
                         if (!allTiles.Contains(tempTile))
                         {
-                            bool notBlocked = true;
+                            bool Blocked = false;
                             int distance = Tile.Distance(startTile, tempTile);
                             for (int k = 1; k <= distance; k++)
                             {
-                                int XTempMinusStart = tempTile.pPosition.x - startTile.pPosition.x;
-                                float XDivided = (float)XTempMinusStart / distance;
-                                float XMultiplied = XDivided * k;
-                                float XComplete = startTile.pPosition.x + XMultiplied;
+                                //int XTempMinusStart = tempTile.pPosition.x - startTile.pPosition.x;
+                                //float XDivided = (float)XTempMinusStart / distance;
+                                //float XMultiplied = XDivided * k;
+                                //float XComplete = startTile.pPosition.x + XMultiplied;
 
-                                int YTempMinusStart = tempTile.pPosition.y - startTile.pPosition.y;
-                                float YDivided = (float)YTempMinusStart / distance;
-                                float YMultiplied = YDivided * k;
-                                float YComplete = startTile.pPosition.y + YMultiplied;
+                                //int YTempMinusStart = tempTile.pPosition.y - startTile.pPosition.y;
+                                //float YDivided = (float)YTempMinusStart / distance;
+                                //float YMultiplied = YDivided * k;
+                                //float YComplete = startTile.pPosition.y + YMultiplied;
 
-                                float Xf = ((startTile.pPosition.x +((float) (tempTile.pPosition.x - startTile.pPosition.x) / distance) * k));
-                                float Yf = ((startTile.pPosition.y +((float) (tempTile.pPosition.y - startTile.pPosition.y) / distance) * k));
-                                if (distance % 2 == 0)
+                                float Xf = ((startTile.pPosition.x + ((float)(tempTile.pPosition.x - startTile.pPosition.x) / distance) * k)) + 0.5f;
+                                float Yf = ((startTile.pPosition.y + ((float)(tempTile.pPosition.y - startTile.pPosition.y) / distance) * k)) + 0.5f;
+                                if (startTile.pPosition.x >= tempTile.pPosition.x)
                                 {
-                                    Xf += 0.5f;
-                                    Yf += 0.5f;
+                                    if (startTile.pPosition.y >= tempTile.pPosition.y)
+                                    {
+                                        Xf += 0.01f;
+                                        Yf -= 0.01f;
+                                    }
+                                    else
+                                    {
+                                        Xf += 0.01f;
+                                        Yf += 0.01f;
+                                    }
                                 }
+                                else
+                                {
+                                    if (startTile.pPosition.y >= tempTile.pPosition.y)
+                                    {
+                                        Xf -= 0.01f;
+                                        Yf -= 0.01f;
+                                    }
+                                    else
+                                    {
+                                        Xf -= 0.01f;
+                                        Yf += 0.01f;
+                                    }
+                                }
+
                                 int x = (int)(Xf);
                                 int y = (int)(Yf);
                                 if (!(mGrid[x, y] == null || mGrid[x, y].pOccupant == null))
                                 {
-                                    notBlocked = false;
+                                    Blocked = true;
                                 }
                             }
 
-                            if (notBlocked)
-                            {
-                                allTiles.Add(tempTile);
-                                largeTileList[i].Add(tempTile);
-                            } 
+                            if (Blocked) continue;
+                            allTiles.Add(tempTile);
+                            largeTileList[i].Add(tempTile);
                         }
                     }
                 }
