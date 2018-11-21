@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,13 @@ public class GameManager : MonoBehaviour
     public System.Random pRandom = new System.Random();
 
     public Character pActiveCharacter;
+
+    [Header("Leveleditor On/Off")]
+    public bool pEditmode;
+    [Header("Level (Only for editor)")]
+    public int pLevel;
+
+
 
     private void Awake()
     {
@@ -24,55 +32,62 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (pEditmode)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        }
+        else
+        {
+            if (Input.GetMouseButtonDown(0))
             {
-                if (pActiveCharacter != null)
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity))
                 {
-                    if (hit.transform.GetComponent<Character>() != null)
+                    if (pActiveCharacter != null)
                     {
-                        if (hit.transform != pActiveCharacter.transform)
+                        if (hit.transform.GetComponent<Character>() != null)
                         {
-                            pActiveCharacter.Deactivation();
-                            hit.transform.GetComponent<Character>().Activation();
-                        }
-                    }
-                    else
-                    {
-                        if (hit.transform.GetComponent<Tile>() != null)
-                        {
-                            if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            if (hit.transform != pActiveCharacter.transform)
                             {
-                                pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
+                                pActiveCharacter.Deactivation();
+                                hit.transform.GetComponent<Character>().Activation();
+                            }
+                        }
+                        else
+                        {
+                            if (hit.transform.GetComponent<Tile>() != null)
+                            {
+                                if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                                {
+                                    pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
+                                }
+                                else
+                                {
+                                    pActiveCharacter.Deactivation();
+                                }
                             }
                             else
                             {
                                 pActiveCharacter.Deactivation();
                             }
                         }
-                        else
+                    }
+                    else
+                    {
+                        if (hit.transform.GetComponent<Character>() != null)
                         {
-                            pActiveCharacter.Deactivation();
+                            hit.transform.GetComponent<Character>().Activation();
                         }
                     }
                 }
                 else
                 {
-                    if (hit.transform.GetComponent<Character>() != null)
+                    if (pActiveCharacter != null)
                     {
-                        hit.transform.GetComponent<Character>().Activation();
+                        pActiveCharacter.Deactivation();
                     }
-                }
-            }
-            else
-            {
-                if (pActiveCharacter != null)
-                {
-                    pActiveCharacter.Deactivation();
                 }
             }
         }

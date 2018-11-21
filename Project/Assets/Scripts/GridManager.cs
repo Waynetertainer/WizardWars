@@ -1,6 +1,8 @@
 ﻿
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
+
 
 public class GridManager : MonoBehaviour
 {
@@ -8,7 +10,7 @@ public class GridManager : MonoBehaviour
 
     public GameObject pTilePrefab;
     public GameObject pCharacterPrefab;
-    public Vector2Int[] pSpawnPoints = new Vector2Int[3];
+    public Vector2Int[,] pSpawnPoints = new Vector2Int[2, 3];
 
     private Tile[,] mGrid;
 
@@ -28,7 +30,10 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        CreateNewGrid();
+
+        CreateGrid();
+
+
         foreach (Vector2Int position in pSpawnPoints)
         {
             GameObject character = Instantiate(pCharacterPrefab, new Vector3(
@@ -65,20 +70,37 @@ public class GridManager : MonoBehaviour
         return allTiles;
     }
 
-    private void CreateNewGrid()
+    private void CreateGrid()
     {
-        mGrid = new Tile[31, 15];
+        mGrid = new Tile[101, 51];
         for (int j = 0; j < mGrid.GetLength(1); j++)
         {
             for (int i = 0; i < mGrid.GetLength(0); i++)
             {
                 if (i % 2 != j % 2) continue;
-                GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 1, i * Mathf.Sqrt(3) / 2), Quaternion.identity);
+                GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 1, i * Mathf.Sqrt(3) / 2), pTilePrefab.transform.rotation);
+                tempTile.transform.parent = this.transform;
                 mGrid[i, j] = tempTile.GetComponent<Tile>();
                 mGrid[i, j].pPosition = new Vector2Int(i, j);
             }
         }
     }
+
+    //private void CreateGrid(Tile[,] input)
+    //{
+    //    mGrid = new Tile[input.GetLength(0), input.GetLength(1)];
+    //    for (int j = 0; j < mGrid.GetLength(1); j++)
+    //    {
+    //        for (int i = 0; i < mGrid.GetLength(0); i++)
+    //        {
+    //            if (i % 2 != j % 2) continue;
+    //            GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 1, i * Mathf.Sqrt(3) / 2), Quaternion.identity);
+    //            mGrid[i, j] = tempTile.GetComponent<Tile>();
+    //            mGrid[i, j].pPosition = new Vector2Int(i, j);
+    //            //TODO add Occupant
+    //        }
+    //    }
+    //}
 
     public Tile GetNeighbour(Tile startTile, int direction)
     {
@@ -160,64 +182,17 @@ public class GridManager : MonoBehaviour
                     {
                         bool Blocked = false;
                         int distance = Tile.Distance(startTile, tempTile);
-                        for (int k = 1; k <= distance; k++)
+                        for (int k = 1; k < distance; k++)
                         {
-                            ////int XTempMinusStart = tempTile.pPosition.x - startTile.pPosition.x;
-                            ////float XDivided = (float)XTempMinusStart / distance;
-                            ////float XMultiplied = XDivided * k;
-                            ////float XComplete = startTile.pPosition.x + XMultiplied;
-
-                            ////int YTempMinusStart = tempTile.pPosition.y - startTile.pPosition.y;
-                            ////float YDivided = (float)YTempMinusStart / distance;
-                            ////float YMultiplied = YDivided * k;
-                            ////float YComplete = startTile.pPosition.y + YMultiplied;
-
-                            //float Xf = ((startTile.pPosition.x + ((float)(tempTile.pPosition.x - startTile.pPosition.x) / distance) * k)) + 0.51f;
-                            //float Yf = ((startTile.pPosition.y + ((float)(tempTile.pPosition.y - startTile.pPosition.y) / distance) * k)) + 0.51f;
-                            ////if (startTile.pPosition.x >= tempTile.pPosition.x)
-                            ////{
-                            ////    if (startTile.pPosition.y >= tempTile.pPosition.y)
-                            ////    {
-                            ////        Xf += 0.01f;
-                            ////        Yf -= 0.01f;
-                            ////    }
-                            ////    else
-                            ////    {
-                            ////        Xf += 0.01f;
-                            ////        Yf += 0.01f;
-                            ////    }
-                            ////}
-                            ////else
-                            ////{
-                            ////    if (startTile.pPosition.y >= tempTile.pPosition.y)
-                            ////    {
-                            ////        Xf -= 0.01f;
-                            ////        Yf -= 0.01f;
-                            ////    }
-                            ////    else
-                            ////    {
-                            ////        Xf -= 0.01f;
-                            ////        Yf += 0.01f;
-                            ////    }
-                            ////}
-
-                            //int x = (int)(Xf);
-                            //int y = (int)(Yf);
                             float Xf = ((startTile.pPosition.x + ((float)(tempTile.pPosition.x - startTile.pPosition.x) / distance) * k));
                             float Yf = ((startTile.pPosition.y + ((float)(tempTile.pPosition.y - startTile.pPosition.y) / distance) * k));
-
-                            float Xr = Mathf.Round(Xf / 2) * 2;
-
                             int y = Mathf.RoundToInt(Yf);
-                            int x = (int)(Xr);
-                            x -= (Mathf.RoundToInt(Xf) % 4 - 2) * (y % 2);
-
+                            int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
                             if (!(mGrid[x, y] == null || mGrid[x, y].pOccupant == null))
                             {
                                 Blocked = true;
                             }
                         }
-
                         if (Blocked) continue;
                         allTiles.Add(tempTile);
                         largeTileList[i].Add(tempTile);

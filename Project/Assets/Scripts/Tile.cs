@@ -3,6 +3,8 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+[Serializable]
+[ExecuteInEditMode]
 public class Tile : MonoBehaviour
 {
     public Vector2Int pPosition;
@@ -14,15 +16,15 @@ public class Tile : MonoBehaviour
     private void Start()
     {
         mLine = FindObjectOfType<LineRenderer>();
-        transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Text>().text = "X " + pPosition.x;
-        transform.GetChild(2).GetChild(0).GetChild(1).GetComponent<Text>().text = "Y " + pPosition.y;
+        transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Text>().text = "X " + pPosition.x;
+        transform.GetChild(1).GetChild(0).GetChild(1).GetComponent<Text>().text = "Y " + pPosition.y;
     }
 
     public void ResetReachable()
     {
         for (int i = 0; i < 6; i++)
         {
-            transform.GetChild(1).GetChild(i).gameObject.SetActive(false);
+            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
         }
     }
 
@@ -32,6 +34,10 @@ public class Tile : MonoBehaviour
         {
             trans.gameObject.layer = 9;
         }
+        if (pOccupant != null)
+        {
+            pOccupant.GetComponent<MeshRenderer>().enabled = false;
+        }
     }
 
     public void IsVisible()
@@ -39,6 +45,11 @@ public class Tile : MonoBehaviour
         foreach (var trans in gameObject.GetComponentsInChildren<Transform>(true))
         {
             trans.gameObject.layer = 0;
+        }
+
+        if (pOccupant != null)
+        {
+            pOccupant.GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
@@ -50,7 +61,7 @@ public class Tile : MonoBehaviour
             Tile tempTile = GridManager.pInstance.GetNeighbour(this, j);
             if (tempTile == null || !character.pReachableTiles.Contains(tempTile))
             {
-                transform.GetChild(1).GetChild(j).gameObject.SetActive(true);
+                transform.GetChild(0).GetChild(j).gameObject.SetActive(true);
             }
         }
     }
@@ -93,13 +104,9 @@ public class Tile : MonoBehaviour
                 {
                     float Xf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.x + ((float)(this.pPosition.x - GameManager.pInstance.pActiveCharacter.pTile.pPosition.x) / distance) * k));
                     float Yf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.y + ((float)(this.pPosition.y - GameManager.pInstance.pActiveCharacter.pTile.pPosition.y) / distance) * k));
-
-                    float Xr = Mathf.Round(Xf / 2) * 2;
-
                     int y = Mathf.RoundToInt(Yf);
-                    int x = (int)(Xr);
-                    x -= (Mathf.RoundToInt(Xf) % 4 - 2) * (y % 2);
-                    Debug.Log("Knoten " + k + " | FloatX = " + Xf + " FloatY = " + Yf + " | RoundedX= " + Xr + " | IntX = " + x + " IntY = " + y);
+                    int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
+                    Debug.Log("Knoten " + k + " | FloatX = " + Xf + " FloatY = " + Yf + " | RoundedX= " + "NI" + " | IntX = " + x + " IntY = " + y);
                 }
             }
         }
