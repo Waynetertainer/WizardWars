@@ -98,6 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
   pFraction: 1
+  pHp: 100
+  pAp: 8
   pVisionRange: 9
   pWalkRange: 8
   pReachableTiles: []

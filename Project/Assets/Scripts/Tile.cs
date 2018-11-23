@@ -10,8 +10,10 @@ public class Tile : MonoBehaviour
     public Vector2Int pPosition;
     public Occupant pOccupant;
 
+    protected Color mColor;
     private LineRenderer mLine;
     private bool mMouseOver;
+
 
     private void Start()
     {
@@ -34,10 +36,10 @@ public class Tile : MonoBehaviour
         {
             trans.gameObject.layer = 9;
         }
-        if (pOccupant != null)
-        {
-            pOccupant.GetComponent<MeshRenderer>().enabled = false;
-        }
+        //if (pOccupant != null)
+        //{
+        //    pOccupant.GetComponent<MeshRenderer>().enabled = false;
+        //}
     }
 
     public void IsVisible()
@@ -55,7 +57,6 @@ public class Tile : MonoBehaviour
 
     public void IsReachable(Character character)
     {
-
         for (int j = 0; j < 6; j++)
         {
             Tile tempTile = GridManager.pInstance.GetNeighbour(this, j);
@@ -73,24 +74,60 @@ public class Tile : MonoBehaviour
         return dy + Mathf.Max(0, (dx - dy) / 2);
     }
 
-    private void OnMouseEnter()
+    protected virtual void OnMouseEnter()
     {
-
-        if (GameManager.pInstance.pActiveCharacter != null)
+        switch (GameManager.pInstance.pGameState)
+        {
+            case eGameState.Move:
+                mLine.gameObject.SetActive(true);
+                mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
+                mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0)); break;
+            case eGameState.FireSkill:
+                mColor = GetComponent<Renderer>().material.color;
+                GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+                break;
+            case eGameState.FireUnique:
+                mColor = GetComponent<Renderer>().material.color;
+                GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+                for (int i = 0; i < 6; ++i)
+                {
+                    Tile t = GridManager.pInstance.GetNeighbour(this, i);
+                    if (t != null)
+                        t.GetComponent<Renderer>().material.SetColor("_Color", Color.red); ;
+                }
+                break;
+        }
+        if (GameManager.pInstance.pGameState == eGameState.Move)
         {
             mMouseOver = true;
             mLine.gameObject.SetActive(true);
             mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
             mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0));
-
         }
-
     }
 
-    private void OnMouseExit()
+    protected virtual void OnMouseExit()
     {
-        mMouseOver = false;
         mLine.gameObject.SetActive(false);
+        switch (GameManager.pInstance.pGameState)
+        {
+            case eGameState.Move:
+                mMouseOver = false;
+                break;
+            case eGameState.FireSkill:
+                GetComponent<Renderer>().material.SetColor("_Color", mColor);
+                break;
+            case eGameState.FireUnique:
+                GetComponent<Renderer>().material.SetColor("_Color", mColor);
+                for (int i = 0; i < 6; ++i)
+                {
+                    Tile t = GridManager.pInstance.GetNeighbour(this, i);
+                    if (t != null)
+                        t.GetComponent<Renderer>().material.SetColor("_Color", mColor); ;
+                }
+                break;
+        }
+
     }
 
     private void Update()

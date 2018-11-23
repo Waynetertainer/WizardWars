@@ -14,7 +14,21 @@ public enum eGameState
     Selected,
     Move,
     Moving,
-    Fire,
-    Firing
+    WaitForInput,
+    FireSkill,
+    FireUnique,
+    End
+}
+
+public enum eVisibility
+{
+    Opaque,
+    Seethrough
+}
+
+public enum eBlockType
+{
+    Blocked,
+    HalfBlocked,
 }
 

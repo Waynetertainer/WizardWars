@@ -33,16 +33,18 @@ public class GridManager : MonoBehaviour
 
         CreateGrid();
 
-
+        int i = 0;
         foreach (Vector2Int position in pSpawnPoints)
         {
-            GameObject character = Instantiate(pCharacterPrefab, new Vector3(
-                mGrid[position.y, position.x].gameObject.transform.position.x,
-                mGrid[position.y, position.x].gameObject.transform.position.y + 1.2f,
-                mGrid[position.y, position.x].gameObject.transform.position.z),
-                Quaternion.identity);
-            character.GetComponent<Character>().pTile = mGrid[position.y, position.x];
-            mGrid[position.y, position.x].pOccupant = character.GetComponent<Character>();
+            Character character = Instantiate(pCharacterPrefab, new Vector3(
+                mGrid[i, position.x].gameObject.transform.position.x,
+                mGrid[i, position.x].gameObject.transform.position.y + 1.2f,
+                mGrid[i, position.x].gameObject.transform.position.z),
+                Quaternion.identity).GetComponent<Character>();
+            character.GetComponent<Character>().pTile = mGrid[i, position.x];
+            mGrid[i, position.x].pOccupant = character.GetComponent<Character>();
+            character.pFraction = i < 6 ? eFraction.PC : eFraction.Player;
+            i += 2;
         }
     }
 
@@ -180,7 +182,7 @@ public class GridManager : MonoBehaviour
                     Tile tempTile = GetNeighbour(tile, j);
                     if (tempTile != null && !allTiles.Contains(tempTile))
                     {
-                        bool Blocked = false;
+                        bool blocked = false;
                         int distance = Tile.Distance(startTile, tempTile);
                         for (int k = 1; k < distance; k++)
                         {
@@ -188,12 +190,12 @@ public class GridManager : MonoBehaviour
                             float Yf = ((startTile.pPosition.y + ((float)(tempTile.pPosition.y - startTile.pPosition.y) / distance) * k));
                             int y = Mathf.RoundToInt(Yf);
                             int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
-                            if (!(mGrid[x, y] == null || mGrid[x, y].pOccupant == null))
+                            if (!(mGrid[x, y] == null || (mGrid[x, y].pOccupant == null || mGrid[x, y].pOccupant.pVisibilty != eVisibility.Opaque)))
                             {
-                                Blocked = true;
+                                blocked = true;
                             }
                         }
-                        if (Blocked) continue;
+                        if (blocked) continue;
                         allTiles.Add(tempTile);
                         largeTileList[i].Add(tempTile);
 
