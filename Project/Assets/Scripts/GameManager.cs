@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class GameManager : MonoBehaviour
     public static GameManager pInstance;
     public eGameState pGameState;
     public System.Random pRandom = new System.Random();
+    public LayerMask RayCastLayers;
 
     public Character pActiveCharacter;
 
@@ -40,8 +42,11 @@ public class GameManager : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, RayCastLayers))
             {
+                if (EventSystem.current.IsPointerOverGameObject())
+                    return;
+
                 switch (pGameState)
                 {
                     case eGameState.Select:
@@ -89,58 +94,15 @@ public class GameManager : MonoBehaviour
                         break;
                 }
             }
-            else if (pActiveCharacter != null)
+            else
             {
-                pActiveCharacter.Deactivation();
-                pGameState = eGameState.Select;
-                OnGameStateChanged();
+                if (pActiveCharacter != null)
+                {
+                    pActiveCharacter.Deactivation();
+                    pGameState = eGameState.Select;
+                    OnGameStateChanged();
+                }
             }
-
-
-            //    if (pActiveCharacter != null)
-            //    {
-            //        if (hit.transform.GetComponent<Character>() != null)
-            //        {
-            //            if (hit.transform != pActiveCharacter.transform)
-            //            {
-            //                pActiveCharacter.Deactivation();
-            //                hit.transform.GetComponent<Character>().Activation();
-            //            }
-            //        }
-            //        else
-            //        {
-            //            if (hit.transform.GetComponent<Tile>() != null)
-            //            {
-            //                if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
-            //                {
-            //                    pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
-            //                }
-            //                else
-            //                {
-            //                    pActiveCharacter.Deactivation();
-            //                }
-            //            }
-            //            else
-            //            {
-            //                pActiveCharacter.Deactivation();
-            //            }
-            //        }
-            //    }
-            //    else
-            //    {
-            //        if (hit.transform.GetComponent<Character>() != null)
-            //        {
-            //            hit.transform.GetComponent<Character>().Activation();
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    if (pActiveCharacter != null)
-            //    {
-            //        pActiveCharacter.Deactivation();
-            //    }
-            //}
         }
     }
 
@@ -153,6 +115,7 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.Selected:
                 pUiManager.ShowSelectionScreen();
+                pGameState = eGameState.Move;
                 break;
             case eGameState.Move:
                 break;
@@ -163,18 +126,5 @@ public class GameManager : MonoBehaviour
             case eGameState.Firing:
                 break;
         }
-    }
-
-    private IEnumerator GameLoop()
-    {
-        yield return new WaitUntil(() => pGameState == eGameState.Move);
-
-        yield return new WaitUntil(() => pGameState == eGameState.Moving);
-
-        yield return new WaitUntil(() => pGameState == eGameState.Fire);
-
-        yield return new WaitUntil(() => pGameState == eGameState.Firing);
-
-        StartCoroutine(GameLoop());
     }
 }

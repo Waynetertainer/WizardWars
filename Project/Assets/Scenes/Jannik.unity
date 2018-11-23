@@ -664,8 +664,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 520.9001, y: -319.4}
-  m_SizeDelta: {x: 238.79, y: 29.85}
+  m_AnchoredPosition: {x: 0, y: -21}
+  m_SizeDelta: {x: 240, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!225 &997280928
 CanvasGroup:
@@ -757,6 +757,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pGameState: 0
+  RayCastLayers:
+    serializedVersion: 2
+    m_Bits: 791
   pActiveCharacter: {fileID: 0}
   pUiManager: {fileID: 2073156601}
 --- !u!4 &1222061224
@@ -806,8 +809,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 492.8, y: -307.5}
+  m_SizeDelta: {x: -1008, y: -615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1279750786
 MonoBehaviour:
@@ -877,8 +880,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 520.9, y: -282.84}
-  m_SizeDelta: {x: 238.79, y: 29.85}
+  m_AnchoredPosition: {x: 0, y: 25.6}
+  m_SizeDelta: {x: 240, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1522901133
 MonoBehaviour:
