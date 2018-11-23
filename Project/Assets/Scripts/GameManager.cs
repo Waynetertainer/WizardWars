@@ -37,11 +37,12 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (pEditmode)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
 
+        }
+        else
+        {
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, RayCastLayers))
             {
                 if (EventSystem.current.IsPointerOverGameObject())
@@ -73,7 +74,7 @@ public class GameManager : MonoBehaviour
                     case eGameState.Move:
                         if (hit.transform.GetComponent<Tile>() != null)
                         {
-                            if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            if (hit.transform.GetComponent<Tile>() != null)
                             {
                                 pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
                                 pGameState = eGameState.Fire;
