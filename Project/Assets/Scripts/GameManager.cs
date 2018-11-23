@@ -37,72 +37,68 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (pEditmode)
-        {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
 
-        }
-        else
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, RayCastLayers))
         {
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity, RayCastLayers))
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            switch (pGameState)
             {
-                if (EventSystem.current.IsPointerOverGameObject())
-                    return;
-
-                switch (pGameState)
-                {
-                    case eGameState.Select:
-                        if (hit.transform.GetComponent<Character>() != null)
+                case eGameState.Select:
+                    if (hit.transform.GetComponent<Character>() != null)
+                    {
+                        hit.transform.GetComponent<Character>().Activation();
+                        pGameState = eGameState.Selected;
+                        OnGameStateChanged();
+                    }
+                    break;
+                case eGameState.Selected:
+                    if (hit.transform.GetComponent<Character>() != null)
+                    {
+                        pActiveCharacter.Deactivation();
+                        hit.transform.GetComponent<Character>().Activation();
+                    }
+                    else
+                    {
+                        pActiveCharacter.Deactivation();
+                        pGameState = eGameState.Select;
+                        OnGameStateChanged();
+                    }
+                    break;
+                case eGameState.Move:
+                    if (hit.transform.GetComponent<Tile>() != null)
+                    {
+                        if (hit.transform.GetComponent<Tile>() != null)
                         {
-                            hit.transform.GetComponent<Character>().Activation();
-                            pGameState = eGameState.Selected;
+                            pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
+                            pGameState = eGameState.Fire;
                             OnGameStateChanged();
-                        }
-                        break;
-                    case eGameState.Selected:
-                        if (hit.transform.GetComponent<Character>() != null)
-                        {
-                            pActiveCharacter.Deactivation();
-                            hit.transform.GetComponent<Character>().Activation();
                         }
                         else
                         {
                             pActiveCharacter.Deactivation();
-                            pGameState = eGameState.Select;
-                            OnGameStateChanged();
                         }
-                        break;
-                    case eGameState.Move:
-                        if (hit.transform.GetComponent<Tile>() != null)
-                        {
-                            if (hit.transform.GetComponent<Tile>() != null)
-                            {
-                                pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
-                                pGameState = eGameState.Fire;
-                                OnGameStateChanged();
-                            }
-                            else
-                            {
-                                pActiveCharacter.Deactivation();
-                            }
-                        }
+                    }
 
-                        break;
-                    case eGameState.Moving:
-                        break;
-                    case eGameState.Fire:
-                        break;
-                    case eGameState.Firing:
-                        break;
-                }
+                    break;
+                case eGameState.Moving:
+                    break;
+                case eGameState.Fire:
+                    break;
+                case eGameState.Firing:
+                    break;
             }
-            else
+        }
+        else
+        {
+            if (pActiveCharacter != null)
             {
-                if (pActiveCharacter != null)
-                {
-                    pActiveCharacter.Deactivation();
-                    pGameState = eGameState.Select;
-                    OnGameStateChanged();
-                }
+                pActiveCharacter.Deactivation();
+                pGameState = eGameState.Select;
+                OnGameStateChanged();
             }
         }
     }

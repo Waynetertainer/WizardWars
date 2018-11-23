@@ -249,52 +249,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!1001 &324968756
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4756606848211400, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_RootOrder
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1473365775389738, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fa0c287636edc734db8aa603981c86f0, type: 2}
-  m_IsPrefabAsset: 0
 --- !u!1 &342146432
 GameObject:
   m_ObjectHideFlags: 0
@@ -705,7 +659,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8b6d8c16278f342ab0aa75cd461757, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pTilePrefab: {fileID: 1473365775389738, guid: fa0c287636edc734db8aa603981c86f0,
+  pTilePrefab: {fileID: 1450335262849980, guid: e5504def2bce7c94ba1d98a9f479b03c,
     type: 2}
   pCharacterPrefab: {fileID: 1103317419806060, guid: df6c11349548bdb43987bb14a7d8937d,
     type: 2}
@@ -1069,7 +1023,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2073156600
 GameObject:
@@ -1173,7 +1127,7 @@ RectTransform:
   m_Children:
   - {fileID: 1279750785}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
