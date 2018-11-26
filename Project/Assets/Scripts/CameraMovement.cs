@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-    [HideInInspector]
-    public Transform pTarget;
 
     [Range(0, 1)]
     public float pMovementSmooth = 0.1f;
@@ -21,25 +19,26 @@ public class CameraMovement : MonoBehaviour
     public int[] pZoomValues = { 30, 25, 20, 15, 10, 5, 2, 1 };
     public bool pBlocked;
 
+    private static Transform mTarget;
 
     private int mZoomState;
-    //private Vector3 mTargetPos;
+    private Vector3 mTargetPos;
     private Camera mCam;
     private bool mIsLoading;
 
     private void Start()
     {
-        //mTargetPos = this.transform.position;
+        mTargetPos = this.transform.position;
         mCam = Camera.main;
-        mZoomState = 5;
+        mZoomState = 1;
     }
 
     private void Update()
     {
-        //if (pTarget != null)
-        //{
-        //    mTargetPos = pTarget.position;
-        //}
+        if (mTarget != null)
+        {
+            mTargetPos = mTarget.position;
+        }
 
         float moveX = Input.GetAxis("Horizontal");
         float moveY = Input.GetAxis("Vertical");
@@ -62,19 +61,19 @@ public class CameraMovement : MonoBehaviour
                 moveY = -1;
             }
 #endif
-        float zoomFactor = ((float)pZoomValues[mZoomState] / pZoomValues[0]) * 2;
+        float zoomFactor = ((float)pZoomValues[mZoomState] / pZoomValues[0]);
 
-        //if (moveX != 0 || moveY != 0)
-        //{
-        //    pTarget = null;
+        if (moveX != 0 || moveY != 0)
+        {
+            mTarget = null;
 
-        //    mTargetPos += transform.right * pMovementSpeed * 10 * zoomFactor * moveX * Time.deltaTime;
-        //    mTargetPos += (transform.forward * pMovementSpeed * 10 * zoomFactor * moveY * Time.deltaTime) +
-        //                (transform.up * pMovementSpeed * 10 * zoomFactor * moveY * Time.deltaTime);
-        //}
+            mTargetPos += transform.right * pMovementSpeed * 10 * zoomFactor * moveX * Time.deltaTime;
+            mTargetPos += (transform.forward * pMovementSpeed * 10 * zoomFactor * moveY * Time.deltaTime) +
+                        (transform.up * pMovementSpeed * 10 * zoomFactor * moveY * Time.deltaTime);
+        }
 
-        ////Moves the Camera
-        //transform.position = Vector3.Slerp(transform.position, new Vector3(mTargetPos.x, transform.position.y, mTargetPos.z), pMovementSmooth);
+        //Moves the Camera
+        transform.position = Vector3.Slerp(transform.position, new Vector3(mTargetPos.x, transform.position.y, mTargetPos.z), pMovementSmooth);
 
         //Camera Zoom
         Vector3 pos = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, pZoomValues.Last(), 200), transform.position.z);
@@ -82,7 +81,7 @@ public class CameraMovement : MonoBehaviour
         transform.position = pos;
 
         //Camera Rotation on Zooming
-        transform.localEulerAngles = new Vector3(Mathf.Clamp(16 + pos.y * 2, 20, 45), transform.localEulerAngles.y, transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(Mathf.Clamp(16 + pos.y * 4, 30, 60), transform.localEulerAngles.y, transform.localEulerAngles.z);
 
         //Change Distance between Camera and Pivot to smaller rotation radius while zoomig in
         mCam.transform.localPosition =
@@ -112,5 +111,15 @@ public class CameraMovement : MonoBehaviour
                 mZoomState--;
             }
         }
+    }
+
+    public static void SetTarget(Transform target)
+    {
+        mTarget = target;
+    }
+
+    public static void ResetTarget()
+    {
+        mTarget = null;
     }
 }

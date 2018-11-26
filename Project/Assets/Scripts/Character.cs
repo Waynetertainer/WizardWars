@@ -29,7 +29,7 @@ public class Character : Occupant
 
     private void Update()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white : 
+        GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
                                                                 pFraction == eFraction.PC ? Color.blue : Color.red);
     }
 
@@ -67,6 +67,7 @@ public class Character : Occupant
     {
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
+        //CameraMovement.SetTarget(transform);
     }
     public void Deselect()
     {
@@ -74,6 +75,7 @@ public class Character : Occupant
         HideView();
         GameManager.pInstance.pActiveCharacter = null;
         mIsActiveCharacter = false;
+        //CameraMovement.ResetTarget();
     }
 
     public void ShowRange()

@@ -22,12 +22,13 @@ public enum eGameState
 
 public enum eVisibility
 {
-    Opaque,
-    Seethrough
+    Seethrough,
+    Opaque
 }
 
 public enum eBlockType
 {
+    Empty,
     Blocked,
     HalfBlocked,
 }

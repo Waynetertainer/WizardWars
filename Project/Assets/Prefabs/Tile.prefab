@@ -442,7 +442,7 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
+  m_DynamicOccludee: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -736,6 +736,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pPosition: {x: 0, y: 0}
   pOccupant: {fileID: 0}
+  pBlockType: 0
+  pVisibilty: 1
 --- !u!114 &114822162627688010
 MonoBehaviour:
   m_ObjectHideFlags: 1

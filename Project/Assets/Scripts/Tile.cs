@@ -9,10 +9,13 @@ public class Tile : MonoBehaviour
 {
     public Vector2Int pPosition;
     public Occupant pOccupant;
+    public eBlockType pBlockType;
+    public eVisibility pVisibilty;
+
 
     protected Color mColor;
+    protected bool mMouseOver;
     private LineRenderer mLine;
-    private bool mMouseOver;
 
 
     private void Start()
@@ -148,4 +151,12 @@ public class Tile : MonoBehaviour
             }
         }
     }
+}
+
+[Serializable]
+public struct TileStruct
+{
+    public Vector2Int pPosition;
+    public eBlockType pBlockType;
+    public eVisibility pVisibilty;
 }

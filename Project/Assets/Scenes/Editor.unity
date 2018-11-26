@@ -179,36 +179,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1708823522
+--- !u!1 &172393332
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1708823525}
-  - component: {fileID: 1708823524}
-  - component: {fileID: 1708823523}
+  - component: {fileID: 172393333}
+  - component: {fileID: 172393336}
+  - component: {fileID: 172393335}
+  - component: {fileID: 172393334}
   m_Layer: 0
-  m_Name: Main Camera (1)
+  m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1708823523
+--- !u!4 &172393333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 172393332}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 416331963}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &172393334
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 172393332}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a69f6afd767284fb4ae56363128dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pMovementSmooth: 0.1
+  pZoomSmooth: 0.1
+  pMovementSpeed: 10
+  pZoomSpeed: 40
+  pRotateSpeed: 5
+  pZoomValues: 
+  pBlocked: 0
+--- !u!81 &172393335
 AudioListener:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1708823522}
+  m_GameObject: {fileID: 172393332}
   m_Enabled: 1
---- !u!20 &1708823524
+--- !u!20 &172393336
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1708823522}
+  m_GameObject: {fileID: 172393332}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -243,19 +275,54 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &1708823525
+--- !u!1 &416331961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 416331963}
+  - component: {fileID: 416331962}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &416331962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 416331961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98a69f6afd767284fb4ae56363128dfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pMovementSmooth: 0.1
+  pZoomSmooth: 0.1
+  pMovementSpeed: 10
+  pZoomSpeed: 40
+  pRotateSpeed: 5
+  pZoomValues: 0a000000060000000400000002000000
+  pBlocked: 0
+--- !u!4 &416331963
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1708823522}
-  m_LocalRotation: {x: -0.28028786, y: 0.64918315, z: -0.28028786, w: -0.64918315}
-  m_LocalPosition: {x: 19, y: 12, z: 11}
+  m_GameObject: {fileID: 416331961}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 172393333}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 46.705, y: 270, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2090217557
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +354,7 @@ MonoBehaviour:
     type: 2}
   pCharacterPrefab: {fileID: 1103317419806060, guid: df6c11349548bdb43987bb14a7d8937d,
     type: 2}
+  pCurrentLevel: {fileID: 11400000, guid: aab76b183791d1549bb207546474899e, type: 2}
 --- !u!4 &2090217559
 Transform:
   m_ObjectHideFlags: 0

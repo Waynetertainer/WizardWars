@@ -682,6 +682,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pPosition: {x: 0, y: 0}
   pOccupant: {fileID: 0}
+  pBlockType: 0
+  pVisibilty: 1
 --- !u!114 &114315468914235390
 MonoBehaviour:
   m_ObjectHideFlags: 1
