@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.EventSystems;
+using Random = UnityEngine.Random;
 
 public class GameManager : MonoBehaviour
 {
@@ -33,7 +34,12 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         pUiManager.CloseAllWindows();
-        FindObjectsOfType<Character>()[0].Select();
+
+        EntityManager.pInstance.SpawnCharacters(
+            GridManager.pInstance.pCurrentLevel.pPlayerSpawns,
+            GridManager.pInstance.pCurrentLevel.pPCSpawns);
+
+        EntityManager.pInstance.GetCharacterForId(0).Select();
         ChangeState(eGameState.Selected);
     }
 
@@ -76,7 +82,7 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.WaitForInput);
+                                ChangeState(eGameState.Move);
                             }
                         }
                         else if (hit.transform.GetComponent<Character>() != null && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
@@ -95,7 +101,15 @@ public class GameManager : MonoBehaviour
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
-                                pActiveCharacter.StandardAttack();
+                                pActiveCharacter.StandardAttack(hit.transform.GetComponent<Tile>());
+                                ChangeState(eGameState.WaitForInput);
+                            }
+                        }
+                        else if (hit.transform.GetComponent<Character>() != null)
+                        {
+                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
+                            {
+                                pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
                                 ChangeState(eGameState.WaitForInput);
                             }
                         }
@@ -105,7 +119,7 @@ public class GameManager : MonoBehaviour
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
-                                pActiveCharacter.UniqueAttack();
+                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
                                 ChangeState(eGameState.WaitForInput);
                             }
                         }
@@ -133,6 +147,7 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.Move:
                 pActiveCharacter.HideView();
+                pActiveCharacter.HideRange();
                 pActiveCharacter.ShowRange();
                 pGridGameObject.SetActive(true);
                 break;
@@ -153,7 +168,14 @@ public class GameManager : MonoBehaviour
                 pGridGameObject.SetActive(true);
                 break;
             case eGameState.End:
-                ChangeState(eGameState.Select);
+                EntityManager.pInstance.EndRound(pActiveCharacter);
+                pActiveCharacter.Deselect();
+
+                Character ai = EntityManager.pInstance.pCurrentPCPlayers[
+                    Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
+                StartCoroutine(BaseAI.AIBehaviour(ai));
+
+                EntityManager.pInstance.EndRound(ai);
                 break;
         }
         pUiManager.Refresh();

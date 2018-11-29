@@ -18,7 +18,7 @@ public static class Extensions
                 {
                     output[i][j] = new Tile();
                     output[i][j].pPosition = input[i, j].pPosition;
-                    output[i][j].pOccupant = input[i, j].pOccupant;
+                    output[i][j].pCharacterId = input[i, j].pCharacterId;
                 }
                 else
                 {

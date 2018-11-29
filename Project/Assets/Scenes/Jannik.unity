@@ -429,6 +429,7 @@ MonoBehaviour:
   pApText: {fileID: 270181901}
   pMoveRangeText: {fileID: 278104145}
   pVisionRangeText: {fileID: 451698512}
+  pSelectButton: {fileID: 0}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -438,6 +439,7 @@ GameObject:
   m_Component:
   - component: {fileID: 170076735}
   - component: {fileID: 170076734}
+  - component: {fileID: 170076736}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -495,6 +497,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &170076736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 170076733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8235d8fa1481f4f8721d9e4e4af093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &270181899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1887,6 +1900,50 @@ MonoBehaviour:
   m_Spacing: {x: 0, y: 10}
   m_Constraint: 2
   m_ConstraintCount: 2
+--- !u!1 &945799045
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 945799047}
+  - component: {fileID: 945799046}
+  m_Layer: 0
+  m_Name: EntityManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &945799046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 945799045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc8741bc6b903e5408eac387a67ff14d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mPlayerPrefab: {fileID: 114364996531758994, guid: df6c11349548bdb43987bb14a7d8937d,
+    type: 2}
+  mAIPrefab: {fileID: 114364996531758994, guid: df6c11349548bdb43987bb14a7d8937d,
+    type: 2}
+--- !u!4 &945799047
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 945799045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 38.495514, y: 33.2622, z: 41.776966}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1039167407
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,6 +2267,7 @@ MonoBehaviour:
   pApText: {fileID: 665155421}
   pMoveRangeText: {fileID: 1165051635}
   pVisionRangeText: {fileID: 106782190}
+  pSelectButton: {fileID: 422760583}
 --- !u!114 &1215841300
 MonoBehaviour:
   m_ObjectHideFlags: 0

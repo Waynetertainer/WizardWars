@@ -8,6 +8,4 @@ public abstract class Occupant : MonoBehaviour
 {
     public Tile pTile;
     public eFraction pFraction;
-    //public eBlockType pBlockType;
-    //public eVisibility pVisibilty;
 }

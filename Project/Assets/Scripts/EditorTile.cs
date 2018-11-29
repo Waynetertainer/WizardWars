@@ -46,7 +46,6 @@ public class EditorTile : Tile
 
         if (Input.GetMouseButtonDown(2))
         {
-            pIsSpawn = !pIsSpawn;
             ChangeColor();
             GridManager.pInstance.SaveGrid();
         }

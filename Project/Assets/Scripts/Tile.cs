@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,15 +7,13 @@ using UnityEngine.UI;
 public class Tile : MonoBehaviour
 {
     public Vector2Int pPosition;
-    public Occupant pOccupant;
+    public int pCharacterId = -1;
     public eBlockType pBlockType;
     public eVisibility pVisibilty;
-
 
     protected Color mColor;
     protected bool mMouseOver;
     private LineRenderer mLine;
-
 
     private void Start()
     {
@@ -52,9 +49,9 @@ public class Tile : MonoBehaviour
             trans.gameObject.layer = 0;
         }
 
-        if (pOccupant != null)
+        if (pCharacterId != -1)
         {
-            pOccupant.GetComponent<MeshRenderer>().enabled = true;
+            EntityManager.pInstance.GetCharacterForId(pCharacterId).GetComponent<MeshRenderer>().enabled = true;
         }
     }
 

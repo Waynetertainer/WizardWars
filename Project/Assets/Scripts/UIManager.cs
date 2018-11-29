@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
         pEndButton.onClick.AddListener(delegate { SetState(eGameState.End); });
         pSkillButton.onClick.AddListener(delegate { SetState(eGameState.FireSkill); });
         pUniqueButton.onClick.AddListener(delegate { SetState(eGameState.FireUnique); });
-
     }
 
     private void OnDisable()
@@ -50,22 +49,23 @@ public class UIManager : MonoBehaviour
         Character character = GameManager.pInstance.pActiveCharacter;
         StatScreen screen = (StatScreen)pStatScreen;
         screen.pHpText.text = "Health: " + character.pHp;
-        screen.pApText.text = "Action Points: " + character.pAp;
+        screen.pApText.text = "Action Points: " + character.pCurrentAp;
         screen.pMoveRangeText.text = "Move Range: " + character.pWalkRange;
         screen.pVisionRangeText.text = "Vision Range: " + character.pVisionRange;
 
-        pMoveButton.interactable = !character.pMoved;
+        pMoveButton.interactable = !character.pMoved || (character.pMoved && !character.pFired);
         pSkillButton.interactable = !character.pFired;
+        pUniqueButton.GetComponentInChildren<Text>().text = character.pUniqueSpell.SpellName;
         pUniqueButton.interactable = !character.pFired;
     }
 
     public void ShowSelectionScreen()
     {
-        pSelectionScreen.Show();
         Character character = GameManager.pInstance.pActiveCharacter;
+        pSelectionScreen.Show(character);
         StatScreen screen = (StatScreen)pSelectionScreen;
         screen.pHpText.text = "Health: " + character.pHp;
-        screen.pApText.text = "Action Points: " + character.pAp;
+        screen.pApText.text = "Action Points: " + character.pCurrentAp;
         screen.pMoveRangeText.text = "Move Range: " + character.pWalkRange;
         screen.pVisionRangeText.text = "Vision Range: " + character.pVisionRange;
     }
@@ -128,6 +128,7 @@ public class UIManager : MonoBehaviour
                 ShowStatScreen();
                 break;
             case eGameState.End:
+                CloseAllWindows();
                 break;
         }
     }

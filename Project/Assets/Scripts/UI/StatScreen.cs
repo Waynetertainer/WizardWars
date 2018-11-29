@@ -14,5 +14,13 @@ namespace UI
         public Text pApText;
         public Text pMoveRangeText;
         public Text pVisionRangeText;
+        public Button pSelectButton;
+
+        public override void Show(Character c)
+        {
+            base.Show();
+            pSelectButton.interactable =
+                EntityManager.pInstance.pCurrentPlayers.Contains(c);
+        }
     }
 }

@@ -33,19 +33,19 @@ public class GridManager : MonoBehaviour
     {
         CreateGrid();
 
-        int i = 0;
-        foreach (Vector2Int position in pSpawnPoints)
-        {
-            Character character = Instantiate(pCharacterPrefab, new Vector3(
-                mGrid[i, position.x].gameObject.transform.position.x,
-                mGrid[i, position.x].gameObject.transform.position.y + 1.2f,
-                mGrid[i, position.x].gameObject.transform.position.z),
-                Quaternion.identity).GetComponent<Character>();
-            character.GetComponent<Character>().pTile = mGrid[i, position.x];
-            mGrid[i, position.x].pOccupant = character.GetComponent<Character>();
-            character.pFraction = i < 6 ? eFraction.PC : eFraction.Player;
-            i += 2;
-        }
+        //int i = 0;
+        //foreach (Vector2Int position in pSpawnPoints)
+        //{
+        //    Character character = Instantiate(pCharacterPrefab, new Vector3(
+        //        mGrid[i, position.x].gameObject.transform.position.x,
+        //        mGrid[i, position.x].gameObject.transform.position.y + 1.2f,
+        //        mGrid[i, position.x].gameObject.transform.position.z),
+        //        Quaternion.identity).GetComponent<Character>();
+        //    character.GetComponent<Character>().pTile = mGrid[i, position.x];
+        //    mGrid[i, position.x].pCharacter = character.GetComponent<Character>();
+        //    character.pFraction = i < 6 ? eFraction.PC : eFraction.Player;
+        //    i += 2;
+        //}
     }
 
     public List<Tile> GetReachableTiles(Tile startTile, int range)
@@ -263,5 +263,19 @@ public class GridManager : MonoBehaviour
             }
         }
         return allTiles;
+    }
+
+    public Tile GetCenter()
+    {
+        return mGrid[mGrid.GetLength(0) / 4, mGrid.GetLength(1) / 2];
+    }
+
+    public Tile GetTileAt(int x, int y)
+    {
+        return mGrid[x, y];
+    }
+    public Tile GetTileAt(Vector2Int pos)
+    {
+        return mGrid[pos.x, pos.y];
     }
 }

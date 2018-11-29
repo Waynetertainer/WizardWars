@@ -1,36 +1,35 @@
-﻿using System.Collections;
+﻿using UnityEngine;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Experimental.UIElements;
 
-public class Character : Occupant
+public class Character : Occupant, IUniqueSpell
 {
-    public int pHp;
+    public int pHp = 10;
     public int pAp = 10;
+    public int pCurrentAp;
     public int pVisionRange;
     public int pWalkRange;
     private bool mIsActiveCharacter;
     public List<Tile> pReachableTiles;
     public List<Tile> pVisibleTiles;
+    public IUniqueSpell pUniqueSpell;
+    public string SpellName { get; private set; }
 
     public bool pMoved;
     public bool pFired;
 
-
-    public void StandardAttack()
+    public static Character CreateCharacter(eFraction fraction, Tile spawnTile, Character prefab, IUniqueSpell uniqueSpell)
     {
-        pFired = true;
-    }
+        Character e = Instantiate(prefab, new Vector3(
+            spawnTile.transform.position.x,
+            spawnTile.transform.position.y + 1.2f,
+            spawnTile.transform.position.z)
+            , Quaternion.identity);
 
-    public virtual void UniqueAttack()
-    {
-        pFired = true;
-    }
-
-    private void Update()
-    {
-        GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
-                                                                pFraction == eFraction.PC ? Color.blue : Color.red);
+        e.pFraction = fraction;
+        e.pUniqueSpell = uniqueSpell;
+        e.pTile = spawnTile;
+        return e;
     }
 
     public void Move(Tile targetTile)
@@ -45,10 +44,10 @@ public class Character : Occupant
         }
         transform.position = targetTile.transform.position;
         transform.position += Vector3.up;
-        pTile.pOccupant = null;
-        pAp -= Tile.Distance(pTile, targetTile);
+        pTile.pCharacterId = -1;
+        pCurrentAp -= Tile.Distance(pTile, targetTile);
         pTile = targetTile;
-        targetTile.pOccupant = this;
+        targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
@@ -63,24 +62,55 @@ public class Character : Occupant
         pMoved = true;
     }
 
+    public void StandardAttack(Tile t)
+    {
+        pFired = true;
+
+        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(1);
+    }
+
+
+    public void CastUnique(Tile t)
+    {
+        if (pUniqueSpell != null)
+        {
+            pUniqueSpell.CastUnique(t);
+            pFired = true;
+        }
+    }
+
+    public void DealDamage(int damage)
+    {
+        pHp -= damage;
+
+        if (pHp <= 0)
+            EntityManager.pInstance.KillCharacter(this);
+    }
+
+    private void Update()
+    {
+        GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
+                                                                pFraction == eFraction.PC ? Color.blue : Color.red);
+    }
+
     public void Select()
     {
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
-        //CameraMovement.SetTarget(transform);
+        pCurrentAp = pAp;
     }
     public void Deselect()
     {
         HideRange();
         HideView();
         GameManager.pInstance.pActiveCharacter = null;
+        GameManager.pInstance.pGridGameObject.SetActive(false);
         mIsActiveCharacter = false;
-        //CameraMovement.ResetTarget();
     }
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange ? pCurrentAp : pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
@@ -109,4 +139,5 @@ public class Character : Occupant
             tile.ResetVisibility();
         }
     }
+
 }

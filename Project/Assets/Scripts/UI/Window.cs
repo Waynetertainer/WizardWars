@@ -9,12 +9,16 @@ namespace UI
 {
     public class Window : MonoBehaviour
     {
-        public void Show()
+        public virtual void Show()
+        {
+            gameObject.SetActive(true);
+        }
+        public virtual void Show(Character c)
         {
             gameObject.SetActive(true);
         }
 
-        public void Hide()
+        public virtual void Hide()
         {
             gameObject.SetActive(false);
         }

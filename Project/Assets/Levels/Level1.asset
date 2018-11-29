@@ -143,7 +143,7 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 1
   - pPosition: {x: 2, y: 4}
-    pBlockType: 0
+    pBlockType: 1
     pVisibilty: 1
   - pPosition: {x: 4, y: 4}
     pBlockType: 1
@@ -188,20 +188,20 @@ MonoBehaviour:
     pBlockType: 1
     pVisibilty: 1
   - pPosition: {x: 11, y: 5}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 13, y: 5}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 15, y: 5}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 17, y: 5}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 19, y: 5}
     pBlockType: 0
-    pVisibilty: 0
+    pVisibilty: 1
   - pPosition: {x: 0, y: 6}
     pBlockType: 0
     pVisibilty: 0
@@ -215,8 +215,8 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   - pPosition: {x: 8, y: 6}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 10, y: 6}
     pBlockType: 0
     pVisibilty: 0
@@ -248,8 +248,8 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   - pPosition: {x: 9, y: 7}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 11, y: 7}
     pBlockType: 0
     pVisibilty: 0
@@ -278,8 +278,8 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   - pPosition: {x: 8, y: 8}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 10, y: 8}
     pBlockType: 0
     pVisibilty: 0
@@ -311,8 +311,8 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   - pPosition: {x: 9, y: 9}
-    pBlockType: 0
-    pVisibilty: 0
+    pBlockType: 1
+    pVisibilty: 1
   - pPosition: {x: 11, y: 9}
     pBlockType: 0
     pVisibilty: 0
@@ -361,3 +361,11 @@ MonoBehaviour:
   - pPosition: {x: 20, y: 10}
     pBlockType: 0
     pVisibilty: 0
+  pPlayerSpawns:
+  - {x: 0, y: 0}
+  - {x: 2, y: 0}
+  - {x: 4, y: 0}
+  pPCSpawns:
+  - {x: 0, y: 6}
+  - {x: 2, y: 6}
+  - {x: 4, y: 6}
