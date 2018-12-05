@@ -14,6 +14,7 @@ public class GridEditor : Editor
         DrawDefaultInspector();
 
         GridManager myScript = (GridManager)target;
+        
         if (GUILayout.Button("Spawn Level"))
         {
             myScript.DestroyGrid();
@@ -26,8 +27,12 @@ public class GridEditor : Editor
         }
         if (GUILayout.Button("Create Navigation"))
         {
+            float startTime = Time.realtimeSinceStartup;
             Debug.Log("Guessing the Tile visibility and blocking status");
             myScript.CreateNavigation();
+            Debug.Log("Navigation complete after " + (Time.realtimeSinceStartup - startTime).ToString() + " seconds");
         }
+
+
     }
 }

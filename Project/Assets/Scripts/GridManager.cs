@@ -13,6 +13,8 @@ public class GridManager : MonoBehaviour
     public GameObject pCharacterPrefab;
     public Vector2Int[,] pSpawnPoints = new Vector2Int[2, 3];
     public Level pCurrentLevel;
+    public Material pDefaultMaterial;
+    public Material pCollisionMaterial;
     private Tile[,] mGrid;
 
     private void Awake()
@@ -84,7 +86,7 @@ public class GridManager : MonoBehaviour
             {
                 if (i % 2 != j % 2) continue;
 
-                GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 1, i * Mathf.Sqrt(3) / 2), pTilePrefab.transform.rotation);
+                GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 0, i * Mathf.Sqrt(3) / 2), pTilePrefab.transform.rotation);
                 tempTile.transform.parent = this.transform;
                 mGrid[i, j] = tempTile.GetComponent<Tile>();
 
@@ -278,6 +280,7 @@ public class GridManager : MonoBehaviour
     {
         return mGrid[x, y];
     }
+
     public Tile GetTileAt(Vector2Int pos)
     {
         return mGrid[pos.x, pos.y];
@@ -288,43 +291,50 @@ public class GridManager : MonoBehaviour
         foreach (Transform pTile in transform)
         {
 
-            Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
-            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position, 0.3f, pTile.up, 2); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
+            //Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
+            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.3f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
             Tile tile = pTile.GetComponent<Tile>();
 
             tile.pBlockType = eBlockType.Empty; // resetting tile settings
             tile.eVisibility = eVisibility.Seethrough;
             if (raycastTarget.Length > 0)
             {
+                //Debug.Log("MultiHit " + raycastTarget.Length);
                 foreach (RaycastHit hit in raycastTarget)
                 {
                     if (hit.transform.name.StartsWith("Tile"))
                     {
-                        Debug.Log("Skipped Tile");
+                        //Debug.Log("Skipped Tile");
                         continue;
                     }
 
-                    Debug.Log("Hit -> " + hit.transform.name);
+                    //Debug.Log("Hit -> " + hit.transform.name);
                     if (tile.pBlockType != eBlockType.Blocked) // search if this hit is blocking the tile if it is't already blocked
                     {
-                        tile.pBlockType = hit.transform.GetComponent<BuildingBlockSettings>().eBlockType;
+                        tile.pBlockType = hit.transform.GetComponent<EditorAssetSettings>().eBlockType;
 
                     }
 
                     if (tile.eVisibility != eVisibility.Opaque) // search if this hit is opaque it is't already opaque
                     {
-                        tile.eVisibility = hit.transform.GetComponent<BuildingBlockSettings>().eVisibility;
+                        tile.eVisibility = hit.transform.GetComponent<EditorAssetSettings>().eVisibility;
                     }
                 }
 
 
             }
-            //TODO: remove after testing! color red to represent changed tiles
+            //TODO: remove after testing? color red to represent changed tiles
+            Renderer pRend = pTile.GetComponent<Renderer>();
             if (tile.pBlockType == eBlockType.HalfBlocked || tile.pBlockType == eBlockType.Blocked)
             {
-                Renderer pRend = pTile.GetComponent<Renderer>();
-                pRend.material.color = Color.red;
+                
+                pRend.material = pCollisionMaterial;
+            }
+            else
+            {
+                pRend.material = pDefaultMaterial;
             }
         }
     }
+
 }
