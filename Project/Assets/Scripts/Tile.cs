@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
     public Vector2Int pPosition;
     public int pCharacterId = -1;
     public eBlockType pBlockType;
-    public eVisibility pVisibilty;
+    public eVisibility eVisibility;
 
     protected Color mColor;
     protected bool mMouseOver;

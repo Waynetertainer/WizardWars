@@ -95,12 +95,14 @@ public class GridManager : MonoBehaviour
                         pPosition = new Vector2Int(i, j),
                         pBlockType = eBlockType.Empty,
                         pVisibilty = eVisibility.Seethrough
+
+                        //TODO: Auslesen aus den Assets über dem Tile ähnlich CreateNavigation()
                     });
                 }
 
                 mGrid[i, j].pPosition = pCurrentLevel.pListGrid[count].pPosition;
                 mGrid[i, j].pBlockType = pCurrentLevel.pListGrid[count].pBlockType;
-                mGrid[i, j].pVisibilty = pCurrentLevel.pListGrid[count].pVisibilty;
+                mGrid[i, j].eVisibility = pCurrentLevel.pListGrid[count].pVisibilty;
                 count++;
             }
         }
@@ -108,18 +110,20 @@ public class GridManager : MonoBehaviour
 
     public void DestroyGrid()
     {
-        if (mGrid == null)
-            return;
+        //TODO: Is a NULL-Check needed?
+        //if (mGrid == null)
+        //    return;
 
-        //for (int j = 0; j < mGrid.GetLength(1); j++)
-        //{
-        //    for (int i = 0; i < mGrid.GetLength(0); i++)
-        //    {
-        //        if (i % 2 != j % 2) continue;
 
-        //        Destroy(mGrid[i, j].gameObject);
-        //    }
-        //}
+        Debug.Log("Deleting " + transform.childCount + " Tiles");
+
+        for (int i = transform.childCount - 1; i >= 0; --i)
+        {
+            if (transform.GetChild(i).name.StartsWith("Tile"))
+            {
+                GameObject.DestroyImmediate(transform.GetChild(i).gameObject);
+            }
+        }
     }
 
     public void SaveGrid()
@@ -140,7 +144,7 @@ public class GridManager : MonoBehaviour
                 {
                     pPosition = mGrid[i, j].pPosition,
                     pBlockType = mGrid[i, j].pBlockType,
-                    pVisibilty = mGrid[i, j].pVisibilty
+                    pVisibilty = mGrid[i, j].eVisibility
                 };
                 pCurrentLevel.pListGrid.Add(ts);
             }
@@ -249,7 +253,7 @@ public class GridManager : MonoBehaviour
                             float Yf = ((startTile.pPosition.y + ((float)(tempTile.pPosition.y - startTile.pPosition.y) / distance) * k));
                             int y = Mathf.RoundToInt(Yf);
                             int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
-                            if (!(mGrid[x, y] == null || (mGrid[x, y].pVisibilty == eVisibility.Seethrough)))
+                            if (!(mGrid[x, y] == null || (mGrid[x, y].eVisibility == eVisibility.Seethrough)))
                             {
                                 blocked = true;
                             }
@@ -277,5 +281,50 @@ public class GridManager : MonoBehaviour
     public Tile GetTileAt(Vector2Int pos)
     {
         return mGrid[pos.x, pos.y];
+    }
+
+    public void CreateNavigation()
+    {
+        foreach (Transform pTile in transform)
+        {
+
+            Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
+            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position, 0.3f, pTile.up, 2); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
+            Tile tile = pTile.GetComponent<Tile>();
+
+            tile.pBlockType = eBlockType.Empty; // resetting tile settings
+            tile.eVisibility = eVisibility.Seethrough;
+            if (raycastTarget.Length > 0)
+            {
+                foreach (RaycastHit hit in raycastTarget)
+                {
+                    if (hit.transform.name.StartsWith("Tile"))
+                    {
+                        Debug.Log("Skipped Tile");
+                        continue;
+                    }
+
+                    Debug.Log("Hit -> " + hit.transform.name);
+                    if (tile.pBlockType != eBlockType.Blocked) // search if this hit is blocking the tile if it is't already blocked
+                    {
+                        tile.pBlockType = hit.transform.GetComponent<BuildingBlockSettings>().eBlockType;
+
+                    }
+
+                    if (tile.eVisibility != eVisibility.Opaque) // search if this hit is opaque it is't already opaque
+                    {
+                        tile.eVisibility = hit.transform.GetComponent<BuildingBlockSettings>().eVisibility;
+                    }
+                }
+
+
+            }
+            //TODO: remove after testing! color red to represent changed tiles
+            if (tile.pBlockType == eBlockType.HalfBlocked || tile.pBlockType == eBlockType.Blocked)
+            {
+                Renderer pRend = pTile.GetComponent<Renderer>();
+                pRend.material.color = Color.red;
+            }
+        }
     }
 }

@@ -21,7 +21,13 @@ public class GridEditor : Editor
         }
         if (GUILayout.Button("Clear Level"))
         {
+            Debug.Log("Attempting to destroy level");
             myScript.DestroyGrid();
+        }
+        if (GUILayout.Button("Create Navigation"))
+        {
+            Debug.Log("Guessing the Tile visibility and blocking status");
+            myScript.CreateNavigation();
         }
     }
 }

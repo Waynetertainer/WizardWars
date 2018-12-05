@@ -29,9 +29,9 @@ public class EditorTile : Tile
 
         if (Input.GetMouseButtonDown(1))
         {
-            pVisibilty++;
-            if ((int)pVisibilty >= Enum.GetValues(typeof(eVisibility)).Length)
-                pVisibilty = 0;
+            eVisibility++;
+            if ((int)eVisibility >= Enum.GetValues(typeof(eVisibility)).Length)
+                eVisibility = 0;
             ChangeColor();
             GridManager.pInstance.SaveGrid();
         }
@@ -69,7 +69,7 @@ public class EditorTile : Tile
         switch (pBlockType)
         {
             case eBlockType.Empty:
-                switch (pVisibilty)
+                switch (eVisibility)
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.gray);
@@ -82,7 +82,7 @@ public class EditorTile : Tile
                 }
                 break;
             case eBlockType.Blocked:
-                switch (pVisibilty)
+                switch (eVisibility)
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.black);
@@ -95,7 +95,7 @@ public class EditorTile : Tile
                 }
                 break;
             case eBlockType.HalfBlocked:
-                switch (pVisibilty)
+                switch (eVisibility)
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
