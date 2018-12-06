@@ -59,9 +59,13 @@ public static class Extensions
         return output;
     }
 
-
     public static int[] ToArray(this Vector2Int input)
     {
         return new int[2] { input.x, input.y };
+    }
+
+    public static bool isType<T>(this RaycastHit hit)
+    {
+        return hit.transform.GetComponent<T>() != null;
     }
 }

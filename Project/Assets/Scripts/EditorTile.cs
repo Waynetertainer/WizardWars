@@ -17,7 +17,7 @@ public class EditorTile : Tile
 
     protected override void OnMouseEnter()
     {
-        mColor = GetComponent<Renderer>().material.color;
+        Color = GetComponent<Renderer>().material.color;
         GetComponent<Renderer>().material.SetColor("_Color", Color.red);
         mMouseOver = true;
     }
@@ -53,7 +53,7 @@ public class EditorTile : Tile
 
     protected override void OnMouseExit()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", mColor);
+        GetComponent<Renderer>().material.SetColor("_Color", Color);
         mMouseOver = false;
     }
 
@@ -62,7 +62,7 @@ public class EditorTile : Tile
         if (pIsSpawn)
         {
             GetComponent<Renderer>().material.SetColor("_Color", Color.green);
-            mColor = Color.green;
+            Color = Color.green;
             return;
         }
 
@@ -73,11 +73,11 @@ public class EditorTile : Tile
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.gray);
-                        mColor = Color.gray;
+                        Color = Color.gray;
                         break;
                     case eVisibility.Seethrough:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.white);
-                        mColor = Color.white;
+                        Color = Color.white;
                         break;
                 }
                 break;
@@ -86,11 +86,11 @@ public class EditorTile : Tile
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.black);
-                        mColor = Color.black;
+                        Color = Color.black;
                         break;
                     case eVisibility.Seethrough:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-                        mColor = Color.blue;
+                        Color = Color.blue;
                         break;
                 }
                 break;
@@ -99,11 +99,11 @@ public class EditorTile : Tile
                 {
                     case eVisibility.Opaque:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.yellow);
-                        mColor = Color.yellow;
+                        Color = Color.yellow;
                         break;
                     case eVisibility.Seethrough:
                         GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
-                        mColor = Color.cyan;
+                        Color = Color.cyan;
                         break;
                 }
                 break;

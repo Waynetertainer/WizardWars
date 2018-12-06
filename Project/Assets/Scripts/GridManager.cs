@@ -10,8 +10,6 @@ public class GridManager : MonoBehaviour
     public static GridManager pInstance;
 
     public GameObject pTilePrefab;
-    public GameObject pCharacterPrefab;
-    public Vector2Int[,] pSpawnPoints = new Vector2Int[2, 3];
     public Level pCurrentLevel;
     public Material pDefaultMaterial;
     public Material pCollisionMaterial;

@@ -19,6 +19,21 @@ public class HealSpell : IUniqueSpell
 
     public void CastUnique(Tile t)
     {
-        Debug.Log("Healed");
+        if (t.pCharacterId != -1)
+        {
+            EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(-2);
+        }
+    }
+
+    public void ShowUniquePreview(Tile tile)
+    {
+        tile.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+        ;
+    }
+
+    public void HideUniquePreview(Tile tile)
+    {
+        tile.GetComponent<Renderer>().material.SetColor("_Color", tile.Color);
+        ;
     }
 }

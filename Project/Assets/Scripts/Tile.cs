@@ -10,8 +10,8 @@ public class Tile : MonoBehaviour
     public int pCharacterId = -1;
     public eBlockType pBlockType;
     public eVisibility eVisibility;
+    public Color Color;
 
-    protected Color mColor;
     protected bool mMouseOver;
     private LineRenderer mLine;
 
@@ -83,26 +83,13 @@ public class Tile : MonoBehaviour
                 mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
                 mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0)); break;
             case eGameState.FireSkill:
-                mColor = GetComponent<Renderer>().material.color;
+                Color = GetComponent<Renderer>().material.color;
                 GetComponent<Renderer>().material.SetColor("_Color", Color.red);
                 break;
             case eGameState.FireUnique:
-                mColor = GetComponent<Renderer>().material.color;
-                GetComponent<Renderer>().material.SetColor("_Color", Color.red);
-                for (int i = 0; i < 6; ++i)
-                {
-                    Tile t = GridManager.pInstance.GetNeighbour(this, i);
-                    if (t != null)
-                        t.GetComponent<Renderer>().material.SetColor("_Color", Color.red); ;
-                }
+                Color = GetComponent<Renderer>().material.color;
+                GameManager.pInstance.pActiveCharacter.ShowUniquePreview(this);
                 break;
-        }
-        if (GameManager.pInstance.pGameState == eGameState.Move)
-        {
-            mMouseOver = true;
-            mLine.gameObject.SetActive(true);
-            mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
-            mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0));
         }
     }
 
@@ -115,16 +102,10 @@ public class Tile : MonoBehaviour
                 mMouseOver = false;
                 break;
             case eGameState.FireSkill:
-                GetComponent<Renderer>().material.SetColor("_Color", mColor);
+                GetComponent<Renderer>().material.SetColor("_Color", Color);
                 break;
             case eGameState.FireUnique:
-                GetComponent<Renderer>().material.SetColor("_Color", mColor);
-                for (int i = 0; i < 6; ++i)
-                {
-                    Tile t = GridManager.pInstance.GetNeighbour(this, i);
-                    if (t != null)
-                        t.GetComponent<Renderer>().material.SetColor("_Color", mColor); ;
-                }
+                GameManager.pInstance.pActiveCharacter.HideUniquePreview(this);
                 break;
         }
 

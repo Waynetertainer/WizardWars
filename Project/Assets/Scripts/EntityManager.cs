@@ -10,14 +10,6 @@ public class EntityManager : MonoBehaviour
 {
     public static EntityManager pInstance = null;
 
-    public bool pRoundEnd
-    {
-        get
-        {
-            return mCurrentEntities.Count == 0;
-        }
-    }
-
     public List<Character> pCurrentPCPlayers
     {
         get { return mCurrentEntities.FindAll(T => T.pFraction == eFraction.PC); }
@@ -59,7 +51,7 @@ public class EntityManager : MonoBehaviour
     public void SpawnCharacters(Vector2Int[] playerSpawns, Vector2Int[] pcSpawns)
     {
         int x = 0;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 2; i++)
         {
             Character e = Character.CreateCharacter(eFraction.Player, GridManager.pInstance.GetTileAt(playerSpawns[x]), mPlayerPrefab, new AOE());
             mAllEntities.Add(e);
@@ -67,6 +59,11 @@ public class EntityManager : MonoBehaviour
             mCurrentEntities.Add(e);
             x++;
         }
+        Character c = Character.CreateCharacter(eFraction.Player, GridManager.pInstance.GetTileAt(playerSpawns[x]), mPlayerPrefab, new HealSpell());
+        mAllEntities.Add(c);
+        c.pTile.pCharacterId = GetIdForCharacter(c);
+        mCurrentEntities.Add(c);
+        x++;
 
         x = 0;
         for (int i = 0; i < 3; i++)
@@ -85,6 +82,7 @@ public class EntityManager : MonoBehaviour
         mCurrentEntities.Remove(c);
         Destroy(c.gameObject);
     }
+
     public Character GetCharacterForId(int id)
     {
         try
@@ -97,24 +95,22 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-
-
-    public int GetIdForCharacter(Character c)
+    public int GetIdForCharacter(Character character)
     {
-        return mAllEntities.IndexOf(c);
+        return mAllEntities.IndexOf(character);
     }
 
-    public void EndRound(Character c)
+    public void EndRound(Character character)
     {
-        mCurrentEntities.Remove(c);
+        mCurrentEntities.Remove(character);
 
-        if (pRoundEnd)
-            ResetCharacters();
+        if (mCurrentEntities.Find(T => T.pFraction == character.pFraction) != null)
+            ResetCharacters(character.pFraction);
     }
 
-    public void ResetCharacters()
+    private void ResetCharacters(eFraction fraction)
     {
-        foreach (var e in mAllEntities)
+        foreach (var e in mAllEntities.FindAll(T => T.pFraction == fraction))
         {
             e.pMoved = false;
             e.pFired = false;

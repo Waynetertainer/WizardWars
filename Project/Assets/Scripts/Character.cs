@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -66,23 +67,42 @@ public class Character : Occupant, IUniqueSpell
     {
         pFired = true;
 
-        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(1);
-    }
+        if (t.pCharacterId == -1)
+            return;
 
+        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(1);
+        t.GetComponent<Renderer>().material.SetColor("_Color", t.Color);
+    }
 
     public void CastUnique(Tile t)
     {
         if (pUniqueSpell != null)
         {
+            pUniqueSpell.HideUniquePreview(t);
             pUniqueSpell.CastUnique(t);
             pFired = true;
+        }
+    }
+
+    public void ShowUniquePreview(Tile t)
+    {
+        if (pUniqueSpell != null)
+        {
+            pUniqueSpell.ShowUniquePreview(t);
+        }
+    }
+
+    public void HideUniquePreview(Tile t)
+    {
+        if (pUniqueSpell != null)
+        {
+            pUniqueSpell.HideUniquePreview(t);
         }
     }
 
     public void DealDamage(int damage)
     {
         pHp -= damage;
-
         if (pHp <= 0)
             EntityManager.pInstance.KillCharacter(this);
     }

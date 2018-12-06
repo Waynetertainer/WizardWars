@@ -45,6 +45,11 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        CheckInput();
+    }
+
+    private void CheckInput()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -57,14 +62,14 @@ public class GameManager : MonoBehaviour
                 switch (pGameState)
                 {
                     case eGameState.Select:
-                        if (hit.transform.GetComponent<Character>() != null && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
                         {
                             hit.transform.GetComponent<Character>().Select();
                             ChangeState(eGameState.Selected);
                         }
                         break;
                     case eGameState.Selected:
-                        if (hit.transform.GetComponent<Character>() != null && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
                         {
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
@@ -77,7 +82,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        if (hit.transform.GetComponent<Tile>() != null)
+                        if (hit.isType<Tile>())
                         {
                             if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
@@ -85,7 +90,7 @@ public class GameManager : MonoBehaviour
                                 ChangeState(eGameState.Move);
                             }
                         }
-                        else if (hit.transform.GetComponent<Character>() != null && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        else if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
                         {
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
@@ -97,7 +102,7 @@ public class GameManager : MonoBehaviour
                     case eGameState.WaitForInput:
                         break;
                     case eGameState.FireSkill:
-                        if (hit.transform.GetComponent<Tile>() != null)
+                        if (hit.isType<Tile>())
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
@@ -105,7 +110,7 @@ public class GameManager : MonoBehaviour
                                 ChangeState(eGameState.WaitForInput);
                             }
                         }
-                        else if (hit.transform.GetComponent<Character>() != null)
+                        else if (hit.isType<Character>())
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
                             {
@@ -115,7 +120,15 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.FireUnique:
-                        if (hit.transform.GetComponent<Tile>() != null)
+                        if (hit.isType<Tile>())
+                        {
+                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            {
+                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
+                                ChangeState(eGameState.WaitForInput);
+                            }
+                        }
+                        else if (hit.isType<Character>())
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {

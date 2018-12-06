@@ -25,4 +25,26 @@ public class AOE : IUniqueSpell
                 EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(5);
         }
     }
+
+    public void ShowUniquePreview(Tile tile)
+    {
+        tile.GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+        for (int i = 0; i < 6; ++i)
+        {
+            Tile t = GridManager.pInstance.GetNeighbour(tile, i);
+            if (t != null)
+                t.GetComponent<Renderer>().material.SetColor("_Color", Color.red); ;
+        }
+    }
+
+    public void HideUniquePreview(Tile tile)
+    {
+        tile.GetComponent<Renderer>().material.SetColor("_Color", tile.Color);
+        for (int i = 0; i < 6; ++i)
+        {
+            Tile t = GridManager.pInstance.GetNeighbour(tile, i);
+            if (t != null)
+                t.GetComponent<Renderer>().material.SetColor("_Color", tile.Color); ;
+        }
+    }
 }

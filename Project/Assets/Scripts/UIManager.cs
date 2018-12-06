@@ -31,12 +31,6 @@ public class UIManager : MonoBehaviour
         pUniqueButton.onClick.AddListener(delegate { SetState(eGameState.FireUnique); });
     }
 
-    private void OnDisable()
-    {
-        pMoveToggle.onValueChanged.RemoveAllListeners();
-        pFireToggle.onValueChanged.RemoveAllListeners();
-    }
-
     public void CloseAllWindows()
     {
         pStatScreen.Hide();
@@ -70,29 +64,12 @@ public class UIManager : MonoBehaviour
         screen.pVisionRangeText.text = "Vision Range: " + character.pVisionRange;
     }
 
-    //public void SwitchToMove()
-    //{
-    //    pFireToggle.onValueChanged.RemoveAllListeners();
-    //    pMoveToggle.isOn = true;
-    //    pFireToggle.isOn = !pMoveToggle.isOn;
-    //    GameManager.pInstance.pGameState = eGameState.Move;
-    //    pFireToggle.onValueChanged.AddListener(delegate { SwitchToFire(); });
-    //}
-
-    //public void SwitchToFireball()
-    //{
-    //    pMoveToggle.onValueChanged.RemoveAllListeners();
-    //    pFireToggle.isOn = true;
-    //    pMoveToggle.isOn = !pFireToggle.isOn;
-    //    GameManager.pInstance.pGameState = eGameState.Fire;
-    //    pMoveToggle.onValueChanged.AddListener(delegate { SwitchToMove(); });
-    //}
-
     public void SetState(string state)
     {
         eGameState s = (eGameState)Enum.Parse(typeof(eGameState), state);
         GameManager.pInstance.ChangeState(s);
     }
+
     public void SetState(eGameState state)
     {
         GameManager.pInstance.ChangeState(state);

@@ -17,7 +17,6 @@ public class GridEditor : Editor
         
         if (GUILayout.Button("Spawn Level"))
         {
-            myScript.DestroyGrid();
             myScript.CreateGrid();
         }
         if (GUILayout.Button("Clear Level"))
