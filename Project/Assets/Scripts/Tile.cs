@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -79,9 +80,13 @@ public class Tile : MonoBehaviour
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
-                mLine.gameObject.SetActive(true);
-                mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
-                mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0)); break;
+            mMouseOver = true;
+            mLine.gameObject.SetActive(true);
+            mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
+            mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0));
+
+            GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+            break;
             case eGameState.FireSkill:
                 Color = GetComponent<Renderer>().material.color;
                 GetComponent<Renderer>().material.SetColor("_Color", Color.red);
@@ -95,11 +100,16 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseExit()
     {
-        mLine.gameObject.SetActive(false);
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
+        mLine.gameObject.SetActive(false);
                 mMouseOver = false;
+                for (int i = 0; i < GridManager.pInstance.pPathPainter.transform.childCount; i++)
+        {
+            GridManager.pInstance.pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
                 break;
             case eGameState.FireSkill:
                 GetComponent<Renderer>().material.SetColor("_Color", Color);
@@ -117,15 +127,17 @@ public class Tile : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                int distance = Tile.Distance(GameManager.pInstance.pActiveCharacter.pTile, this);
-                for (int k = 1; k <= distance; k++)
-                {
-                    float Xf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.x + ((float)(this.pPosition.x - GameManager.pInstance.pActiveCharacter.pTile.pPosition.x) / distance) * k));
-                    float Yf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.y + ((float)(this.pPosition.y - GameManager.pInstance.pActiveCharacter.pTile.pPosition.y) / distance) * k));
-                    int y = Mathf.RoundToInt(Yf);
-                    int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
-                    Debug.Log("Knoten " + k + " | FloatX = " + Xf + " FloatY = " + Yf + " | RoundedX= " + "NI" + " | IntX = " + x + " IntY = " + y);
-                }
+                //int distance = Tile.Distance(GameManager.pInstance.pActiveCharacter.pTile, this);
+                //for (int k = 1; k <= distance; k++)
+                //{
+                //    float Xf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.x + ((float)(this.pPosition.x - GameManager.pInstance.pActiveCharacter.pTile.pPosition.x) / distance) * k));
+                //    float Yf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.y + ((float)(this.pPosition.y - GameManager.pInstance.pActiveCharacter.pTile.pPosition.y) / distance) * k));
+                //    int y = Mathf.RoundToInt(Yf);
+                //    int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
+                //    Debug.Log("Knoten " + k + " | FloatX = " + Xf + " FloatY = " + Yf + " | RoundedX= " + "NI" + " | IntX = " + x + " IntY = " + y);
+                //}
+
+
             }
         }
     }

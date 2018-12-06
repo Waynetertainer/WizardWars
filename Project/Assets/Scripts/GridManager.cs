@@ -13,6 +13,7 @@ public class GridManager : MonoBehaviour
     public Level pCurrentLevel;
     public Material pDefaultMaterial;
     public Material pCollisionMaterial;
+    public GameObject pPathPainter;
     private Tile[,] mGrid;
 
     private void Awake()
@@ -269,6 +270,93 @@ public class GridManager : MonoBehaviour
             }
         }
         return allTiles;
+    }
+
+
+
+    public List<Tile> GetPathTo(Tile startTile, Tile endTile)
+    {
+        LinkedList<TilePriority> openToCheck = new LinkedList<TilePriority>();
+        Dictionary<Tile, Tile> origins = new Dictionary<Tile, Tile>();
+        Dictionary<Tile, int> totalCosts = new Dictionary<Tile, int>();
+        openToCheck.AddFirst(new TilePriority(startTile, Tile.Distance(startTile, endTile)));
+        origins.Add(startTile, null);
+        totalCosts.Add(startTile, 0);
+
+
+        while (openToCheck.Count > 0)
+        {
+            Tile activeTile = openToCheck.First.Value.tile;
+            openToCheck.RemoveFirst();
+
+            if (activeTile == endTile)
+            {
+                List<Tile> result = new List<Tile>();
+                while (activeTile != startTile)
+                {
+                    result.Add(activeTile);
+                    activeTile = origins[activeTile];
+                }
+                return result;
+            }
+
+            foreach (Tile neighbour in activeTile.GetNeighbours())
+            {
+                if (neighbour == null || neighbour.pOccupant != null) continue;
+                int newCost = totalCosts[activeTile] + 1;
+                if (!totalCosts.ContainsKey(neighbour) || totalCosts[neighbour] >= newCost)
+                {
+                    totalCosts[neighbour] = newCost;
+                    TilePriority temp = new TilePriority(neighbour, newCost + Tile.Distance(neighbour, endTile));
+                    if (openToCheck.Count > 0)
+                    {
+                        for (LinkedListNode<TilePriority> recentNode = openToCheck.First; recentNode != null; recentNode = recentNode.Next)
+                        {
+                            if (recentNode.Value.priority > temp.priority)
+                            {
+                                openToCheck.AddBefore(recentNode, temp);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        openToCheck.AddFirst(temp);
+                    }
+                    origins[neighbour] = activeTile;
+                }
+            }
+        }
+        return null;
+    }
+
+    public void DrawPath(List<Tile> tileList)
+    {
+        if (tileList.Count >= 20)
+        {
+            throw new ArgumentOutOfRangeException();
+        }
+        for (int i = 1; i < tileList.Count; i++)
+        {
+            GameObject lineObject = pPathPainter.transform.GetChild(i).gameObject;
+            LineRenderer lineRenderer = lineObject.GetComponent<LineRenderer>();
+
+            lineObject.SetActive(true);
+            lineRenderer.SetPosition(0, tileList[i - 1].transform.position);
+            lineRenderer.SetPosition(1, tileList[i].transform.position);
+        }
+    }
+
+    private struct TilePriority
+    {
+        public Tile tile;
+        public int priority;
+
+        public TilePriority(Tile inTile, int inPriority)
+        {
+            tile = inTile;
+            priority = inPriority;
+        }
     }
 
     public Tile GetCenter()
