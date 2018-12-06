@@ -179,15 +179,19 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.FireSkill:
                 pActiveCharacter.HideRange();
+                pActiveCharacter.HideView();
                 pActiveCharacter.ShowView();
                 pGridGameObject.SetActive(true);
                 break;
             case eGameState.FireUnique:
                 pActiveCharacter.HideRange();
+                pActiveCharacter.HideView();
                 pActiveCharacter.ShowView();
                 pGridGameObject.SetActive(true);
                 break;
             case eGameState.End:
+                pActiveCharacter.HideRange();
+                pActiveCharacter.HideView();
                 EntityManager.pInstance.EndRound(pActiveCharacter);
                 pActiveCharacter.Deselect();
 

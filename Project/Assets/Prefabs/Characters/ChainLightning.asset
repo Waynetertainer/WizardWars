@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe0c820fa642ae44ba89e0130a4436cb, type: 3}
+  m_Name: ChainLightning
+  m_EditorClassIdentifier: 
+  _SpellName: Chain Lightning
+  _Damage: 4
+  _Cost: 5
+  _Range: 4

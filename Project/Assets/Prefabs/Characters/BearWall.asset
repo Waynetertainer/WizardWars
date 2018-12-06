@@ -8,6 +8,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef90ab885a1c4445a3c563967364ff7, type: 3}
-  m_Name: New Heal Spell
+  m_Script: {fileID: 11500000, guid: 350f9150a7781b9459f0bdbb68c0ae79, type: 3}
+  m_Name: BearWall
   m_EditorClassIdentifier: 
+  _SpellName: Bear Wall Thingy
+  _Damage: 0
+  _Cost: 4
+  _Range: 5

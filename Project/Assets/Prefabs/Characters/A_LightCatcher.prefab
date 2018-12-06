@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 114994111579446146}
   - component: {fileID: 65433775628833368}
   m_Layer: 0
-  m_Name: Character 1
+  m_Name: A_LightCatcher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -404,15 +404,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
   pFraction: 1
-  pHp: 10
+  pName: Lightcatcher
+  pHp: 12
   pAp: 10
-  pCurrentAp: 0
   pVisionRange: 8
   pWalkRange: 5
+  pWalkCost: 1
+  pCurrentAp: 0
   pReachableTiles: []
   pVisibleTiles: []
   pMoved: 0
   pFired: 0
+  _SpellName: Fireball
+  _Damage: 2
+  _Cost: 2
+  _Range: 4
+  pUniqueSpellScriptable: {fileID: 11400000, guid: 86c84cab82bf0a743816176c2882e727,
+    type: 2}
 --- !u!222 &222000174177262214
 CanvasRenderer:
   m_ObjectHideFlags: 1

@@ -7,7 +7,7 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class HealSpell : ScriptableObject, IUniqueSpell
+public class DamageSpell : ScriptableObject, IUniqueSpell
 {
     [SerializeField]private string _SpellName;
     [SerializeField]private int _Damage;
@@ -41,7 +41,7 @@ public class HealSpell : ScriptableObject, IUniqueSpell
 
     public void ShowUniquePreview(Tile tile)
     {
-        tile.GetComponent<Renderer>().material.SetColor("_Color", Color.green);
+        tile.GetComponent<Renderer>().material.SetColor("_Color", Color.magenta);
     }
 
     public void HideUniquePreview(Tile tile)

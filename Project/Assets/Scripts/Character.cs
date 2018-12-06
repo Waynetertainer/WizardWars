@@ -5,21 +5,52 @@ using System.Collections.Generic;
 
 public class Character : Occupant, IUniqueSpell
 {
+    public string pName;
     public int pHp = 10;
     public int pAp = 10;
-    public int pCurrentAp;
     public int pVisionRange;
     public int pWalkRange;
-    private bool mIsActiveCharacter;
-    public List<Tile> pReachableTiles;
-    public List<Tile> pVisibleTiles;
+    public int pWalkCost;
+    public string SpellName
+    {
+        get { return _SpellName; }
+    }
+    public int Damage
+    {
+        get { return _Damage; }
+    }
+    public int Cost
+    {
+        get { return _Cost; }
+    }
+    public int Range
+    {
+        get { return _Range; }
+    }
+
+    [HideInInspector] public int pCurrentAp;
+    [HideInInspector] public List<Tile> pReachableTiles;
+    [HideInInspector] public List<Tile> pVisibleTiles;
+    [HideInInspector] public bool pMoved;
+    [HideInInspector] public bool pFired;
+
+    [SerializeField] private string _SpellName = "Fireball";
+    [SerializeField] private int _Damage = 2;
+    [SerializeField] private int _Cost = 2;
+    [SerializeField] private int _Range = 4;
+
+    public ScriptableObject pUniqueSpellScriptable;
+
     public IUniqueSpell pUniqueSpell;
-    public string SpellName { get; private set; }
 
-    public bool pMoved;
-    public bool pFired;
+    private bool mIsActiveCharacter;
 
-    public static Character CreateCharacter(eFraction fraction, Tile spawnTile, Character prefab, IUniqueSpell uniqueSpell)
+    private void Start()
+    {
+        pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
+    }
+
+    public static Character CreateCharacter(eFraction fraction, Tile spawnTile, Character prefab, ScriptableObject uniqueSpell)
     {
         Character e = Instantiate(prefab, new Vector3(
             spawnTile.transform.position.x,
@@ -28,7 +59,7 @@ public class Character : Occupant, IUniqueSpell
             , prefab.transform.rotation);
 
         e.pFraction = fraction;
-        e.pUniqueSpell = uniqueSpell;
+        e.pUniqueSpell = uniqueSpell as IUniqueSpell;
         e.pTile = spawnTile;
         return e;
     }
@@ -64,7 +95,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pTile.pCharacterId = -1;
-        pCurrentAp -= Tile.Distance(pTile, targetTile);
+        pCurrentAp -= Tile.Distance(pTile, targetTile) * pWalkCost;
         pTile = targetTile;
         targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
@@ -84,10 +115,10 @@ public class Character : Occupant, IUniqueSpell
 
     public void StandardAttack(Tile t)
     {
-        pFired = true;
-
         if (t.pCharacterId == -1)
             return;
+
+        pCurrentAp -= Cost;
 
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(1);
         t.GetComponent<Renderer>().material.SetColor("_Color", t.Color);
@@ -98,6 +129,7 @@ public class Character : Occupant, IUniqueSpell
         if (pUniqueSpell != null)
         {
             pUniqueSpell.HideUniquePreview(t);
+            pCurrentAp -= pUniqueSpell.Cost;
             pUniqueSpell.CastUnique(t);
             pFired = true;
         }
@@ -130,8 +162,6 @@ public class Character : Occupant, IUniqueSpell
     {
         GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
                                                                 pFraction == eFraction.PC ? Color.blue : Color.red);
-
-
     }
 
     public void Select()
@@ -152,7 +182,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange ? pCurrentAp : pWalkRange);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange * pWalkCost ? pCurrentAp : pWalkRange * pWalkCost);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
@@ -168,7 +198,14 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowView()
     {
-        pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange);
+        if (GameManager.pInstance.pGameState == eGameState.FireSkill)
+        {
+            pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange > Range ? Range : pVisionRange);
+        }
+        else
+        {
+            pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange > pUniqueSpell.Range ? pUniqueSpell.Range : pVisionRange);
+        }
         foreach (Tile tile in pVisibleTiles)
         {
             tile.IsVisible();
@@ -176,6 +213,7 @@ public class Character : Occupant, IUniqueSpell
     }
     public void HideView()
     {
+        pVisibleTiles = GridManager.pInstance.GetVisibleTiles(pTile, pVisionRange);
         foreach (Tile tile in pVisibleTiles)
         {
             tile.ResetVisibility();

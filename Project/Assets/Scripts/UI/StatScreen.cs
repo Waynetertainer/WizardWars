@@ -10,6 +10,7 @@ namespace UI
 {
     public class StatScreen : Window
     {
+        public Text pNameText;
         public Text pHpText;
         public Text pApText;
         public Text pMoveRangeText;

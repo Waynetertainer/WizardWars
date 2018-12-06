@@ -42,15 +42,16 @@ public class UIManager : MonoBehaviour
         pStatScreen.Show();
         Character character = GameManager.pInstance.pActiveCharacter;
         StatScreen screen = (StatScreen)pStatScreen;
+        screen.pNameText.text = character.pName;
         screen.pHpText.text = "Health: " + character.pHp;
-        screen.pApText.text = "Action Points: " + character.pCurrentAp;
+        screen.pApText.text = "Action Points: " + character.pCurrentAp + "/" + character.pAp;
         screen.pMoveRangeText.text = "Move Range: " + character.pWalkRange;
         screen.pVisionRangeText.text = "Vision Range: " + character.pVisionRange;
 
-        pMoveButton.interactable = !character.pMoved || (character.pMoved && !character.pFired);
-        pSkillButton.interactable = !character.pFired;
+        pMoveButton.interactable = character.pCurrentAp >= character.Cost;
+        pSkillButton.interactable = character.pCurrentAp >= character.Cost;
         pUniqueButton.GetComponentInChildren<Text>().text = character.pUniqueSpell.SpellName;
-        pUniqueButton.interactable = !character.pFired;
+        pUniqueButton.interactable = !character.pFired && character.pCurrentAp >= character.pUniqueSpell.Cost;
     }
 
     public void ShowSelectionScreen()
@@ -58,6 +59,7 @@ public class UIManager : MonoBehaviour
         Character character = GameManager.pInstance.pActiveCharacter;
         pSelectionScreen.Show(character);
         StatScreen screen = (StatScreen)pSelectionScreen;
+        screen.pNameText.text = character.pName;
         screen.pHpText.text = "Health: " + character.pHp;
         screen.pApText.text = "Action Points: " + character.pCurrentAp;
         screen.pMoveRangeText.text = "Move Range: " + character.pWalkRange;

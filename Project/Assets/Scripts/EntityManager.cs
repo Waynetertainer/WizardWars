@@ -28,12 +28,14 @@ public class EntityManager : MonoBehaviour
     }
 
     [SerializeField]
-    private Character mPlayerPrefab;
+    private List<Character> mPlayerPrefabs = new List<Character>();
     [SerializeField]
-    private Character mAIPrefab;
+    private List<Character> mAIPrefabs = new List<Character>();
 
     private List<Character> mAllEntities = new List<Character>();
     private List<Character> mCurrentEntities = new List<Character>();
+
+    public List<ScriptableObject> DBG_Spells = new List<ScriptableObject>();
 
     private void Awake()
     {
@@ -50,29 +52,25 @@ public class EntityManager : MonoBehaviour
 
     public void SpawnCharacters(Vector2Int[] playerSpawns, Vector2Int[] pcSpawns)
     {
-        int x = 0;
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < mPlayerPrefabs.Count; i++)
         {
-            Character e = Character.CreateCharacter(eFraction.Player, GridManager.pInstance.GetTileAt(playerSpawns[x]), mPlayerPrefab, new AOE());
+            Character e = Instantiate(mPlayerPrefabs[i], GridManager.pInstance.GetTileAt(playerSpawns[i]).transform.position,
+                mPlayerPrefabs[i].transform.rotation);
             mAllEntities.Add(e);
+            e.pTile = GridManager.pInstance.GetTileAt(playerSpawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);
-            x++;
         }
-        Character c = Character.CreateCharacter(eFraction.Player, GridManager.pInstance.GetTileAt(playerSpawns[x]), mPlayerPrefab, new HealSpell());
-        mAllEntities.Add(c);
-        c.pTile.pCharacterId = GetIdForCharacter(c);
-        mCurrentEntities.Add(c);
-        x++;
 
-        x = 0;
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < mAIPrefabs.Count; i++)
         {
-            Character e = Character.CreateCharacter(eFraction.PC, GridManager.pInstance.GetTileAt(pcSpawns[x]), mAIPrefab, new HealSpell());
+            Character e = Instantiate(mAIPrefabs[i], GridManager.pInstance.GetTileAt(pcSpawns[i]).transform.position,
+                mAIPrefabs[i].transform.rotation);
             mAllEntities.Add(e);
+            e.pFraction = eFraction.PC;
+            e.pTile = GridManager.pInstance.GetTileAt(pcSpawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);
-            x++;
         }
     }
 

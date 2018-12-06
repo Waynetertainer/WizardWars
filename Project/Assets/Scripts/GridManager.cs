@@ -330,7 +330,7 @@ public class GridManager : MonoBehaviour
 
     public void HidePath()
     {
-        for (int i = 0; i < pPathPainter.transform.childCount-1; ++i)
+        for (int i = 0; i < pPathPainter.transform.childCount - 1; ++i)
         {
             pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
         }
@@ -352,6 +352,33 @@ public class GridManager : MonoBehaviour
             lineRenderer.SetPosition(0, tileList[i - 1].transform.position);
             lineRenderer.SetPosition(1, tileList[i].transform.position);
         }
+    }
+
+    public List<Tile> GetRing(Tile startTile, int radius)
+    {
+        List<Tile> result = new List<Tile>();
+
+        for (int i = 0; i < 6; ++i)
+        {
+            for (int j = 0; j < radius; ++j)
+            {
+
+            }
+        }
+
+        return result;
+
+        //TODO Heres pseudocode for it i don't undrstand...
+        //        function cube_ring(center, radius):
+        //        var results = []
+        //# this code doesn't work for radius == 0; can you see why?
+        //        var cube = cube_add(center,
+        //            cube_scale(cube_direction(4), radius))
+        //        for each 0 ≤ i < 6:
+        //        for each 0 ≤ j < radius:
+        //        results.append(cube)
+        //        cube = cube_neighbor(cube, i)
+        //        return results
     }
 
     private struct TilePriority
