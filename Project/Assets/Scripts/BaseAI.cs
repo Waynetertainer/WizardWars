@@ -12,7 +12,7 @@ public class BaseAI
 {
     static void Move(Character c)
     {
-        List<Tile> reachableTiles = GridManager.pInstance.GetReachableTiles(c.pTile, c.pAp < c.pWalkRange ? c.pAp : c.pWalkRange);
+        List<Tile> reachableTiles = GridManager.pInstance.GetReachableTiles(c.pTile, c.pWalkRange);
         reachableTiles = reachableTiles.FindAll(T => T.pCharacterId == -1);
         Tile target = reachableTiles[Random.Range(0, reachableTiles.Count)];
 

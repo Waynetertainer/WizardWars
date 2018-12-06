@@ -44,7 +44,6 @@ public class Character : Occupant, IUniqueSpell
             tile.ResetVisibility();
         }
         transform.position = targetTile.transform.position;
-        transform.position += Vector3.up;
         pTile.pCharacterId = -1;
         pCurrentAp -= Tile.Distance(pTile, targetTile);
         pTile = targetTile;

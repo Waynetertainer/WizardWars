@@ -31,7 +31,10 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
+        DestroyGrid();
         CreateGrid();
+        CreateNavigation();
+
 
         //int i = 0;
         //foreach (Vector2Int position in pSpawnPoints)
@@ -113,7 +116,6 @@ public class GridManager : MonoBehaviour
         //TODO: Is a NULL-Check needed?
         //if (mGrid == null)
         //    return;
-
 
         Debug.Log("Deleting " + transform.childCount + " Tiles");
 
@@ -325,7 +327,7 @@ public class GridManager : MonoBehaviour
             Renderer pRend = pTile.GetComponent<Renderer>();
             if (tile.pBlockType == eBlockType.HalfBlocked || tile.pBlockType == eBlockType.Blocked)
             {
-                
+
                 pRend.material = pCollisionMaterial;
             }
             else

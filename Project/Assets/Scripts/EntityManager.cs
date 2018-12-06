@@ -104,7 +104,7 @@ public class EntityManager : MonoBehaviour
     {
         mCurrentEntities.Remove(character);
 
-        if (mCurrentEntities.Find(T => T.pFraction == character.pFraction) != null)
+        if (mCurrentEntities.Find(T => T.pFraction == character.pFraction) == null)
             ResetCharacters(character.pFraction);
     }
 

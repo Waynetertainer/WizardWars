@@ -9,6 +9,7 @@ public class EditorAssetSettings : MonoBehaviour
 
     public void Awake()
     {
-        GetComponent<BoxCollider>().enabled = false;
+        ////TODO Re-enable when levels generate navigation themselves
+        //GetComponent<BoxCollider>().enabled = false;
     }
 }

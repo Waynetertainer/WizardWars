@@ -82,6 +82,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
+                        Debug.Log("Hit: " + hit.transform.gameObject.name);
                         if (hit.isType<Tile>())
                         {
                             if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
