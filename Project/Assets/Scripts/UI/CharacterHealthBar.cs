@@ -23,7 +23,6 @@ public class CharacterHealthBar : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(-Camera.main.transform.position);
         mHealthBar.value = Mathf.Lerp(mHealthBar.value, mCharacter.pHp, Time.deltaTime);
     }
 }

@@ -11171,9 +11171,9 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   pPlayerSpawns:
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
-  - {x: 0, y: 0}
+  - {x: 82, y: 40}
+  - {x: 83, y: 39}
+  - {x: 82, y: 38}
   pPCSpawns:
   - {x: 0, y: 0}
   - {x: 0, y: 0}

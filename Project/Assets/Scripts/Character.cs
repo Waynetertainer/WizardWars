@@ -22,9 +22,9 @@ public class Character : Occupant, IUniqueSpell
     {
         Character e = Instantiate(prefab, new Vector3(
             spawnTile.transform.position.x,
-            spawnTile.transform.position.y + 1.2f,
+            spawnTile.transform.position.y,
             spawnTile.transform.position.z)
-            , Quaternion.identity);
+            , prefab.transform.rotation);
 
         e.pFraction = fraction;
         e.pUniqueSpell = uniqueSpell;
