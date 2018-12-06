@@ -74,19 +74,28 @@ public class Tile : MonoBehaviour
         int dy = Mathf.Abs(a.pPosition.y - b.pPosition.y);
         return dy + Mathf.Max(0, (dx - dy) / 2);
     }
+    public List<Tile> GetNeighbours()
+    {
+        List<Tile> neighbours = new List<Tile>();
+        for (int j = 0; j < 6; j++)
+        {
+            Tile tempTile = GridManager.pInstance.GetNeighbour(this, j);
+            if (tempTile != null)
+            {
+                neighbours.Add(tempTile);
+            }
+        }
+        return neighbours;
+    }
 
     protected virtual void OnMouseEnter()
     {
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
-            mMouseOver = true;
-            mLine.gameObject.SetActive(true);
-            mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
-            mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0));
-
-            GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
-            break;
+                mMouseOver = true;
+                GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+                break;
             case eGameState.FireSkill:
                 Color = GetComponent<Renderer>().material.color;
                 GetComponent<Renderer>().material.SetColor("_Color", Color.red);
@@ -103,13 +112,12 @@ public class Tile : MonoBehaviour
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
-        mLine.gameObject.SetActive(false);
+                mLine.gameObject.SetActive(false);
                 mMouseOver = false;
                 for (int i = 0; i < GridManager.pInstance.pPathPainter.transform.childCount; i++)
-        {
-            GridManager.pInstance.pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
-        }
-    }
+                {
+                    GridManager.pInstance.pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
+                }
                 break;
             case eGameState.FireSkill:
                 GetComponent<Renderer>().material.SetColor("_Color", Color);

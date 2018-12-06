@@ -82,13 +82,12 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        Debug.Log("Hit: " + hit.transform.gameObject.name);
                         if (hit.isType<Tile>())
                         {
                             if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.Move);
+                                ChangeState(eGameState.Moving);
                             }
                         }
                         else if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
@@ -141,6 +140,12 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (pActiveCharacter != null)
+                CameraMovement.SetTarget(pActiveCharacter.transform);
+        }
     }
 
     public void ChangeState(eGameState state)
@@ -168,6 +173,7 @@ public class GameManager : MonoBehaviour
             case eGameState.Moving:
                 break;
             case eGameState.WaitForInput:
+                GridManager.pInstance.HidePath();
                 pActiveCharacter.HideView();
                 pActiveCharacter.HideRange();
                 break;
@@ -187,6 +193,7 @@ public class GameManager : MonoBehaviour
 
                 Character ai = EntityManager.pInstance.pCurrentPCPlayers[
                     Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
+                CameraMovement.SetTarget(ai.transform);
                 StartCoroutine(BaseAI.AIBehaviour(ai));
 
                 EntityManager.pInstance.EndRound(ai);

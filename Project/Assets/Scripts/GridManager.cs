@@ -272,8 +272,6 @@ public class GridManager : MonoBehaviour
         return allTiles;
     }
 
-
-
     public List<Tile> GetPathTo(Tile startTile, Tile endTile)
     {
         LinkedList<TilePriority> openToCheck = new LinkedList<TilePriority>();
@@ -302,7 +300,7 @@ public class GridManager : MonoBehaviour
 
             foreach (Tile neighbour in activeTile.GetNeighbours())
             {
-                if (neighbour == null || neighbour.pOccupant != null) continue;
+                if (neighbour == null || neighbour.pBlockType != eBlockType.Empty) continue;
                 int newCost = totalCosts[activeTile] + 1;
                 if (!totalCosts.ContainsKey(neighbour) || totalCosts[neighbour] >= newCost)
                 {
@@ -330,11 +328,20 @@ public class GridManager : MonoBehaviour
         return null;
     }
 
+    public void HidePath()
+    {
+        for (int i = 0; i < pPathPainter.transform.childCount-1; ++i)
+        {
+            pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
     public void DrawPath(List<Tile> tileList)
     {
-        if (tileList.Count >= 20)
+        if (tileList.Count >= pPathPainter.transform.childCount)
         {
-            throw new ArgumentOutOfRangeException();
+            Debug.LogWarning("Here be dragons...");
+            return;
         }
         for (int i = 1; i < tileList.Count; i++)
         {

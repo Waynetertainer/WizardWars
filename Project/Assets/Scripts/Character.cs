@@ -35,6 +35,11 @@ public class Character : Occupant, IUniqueSpell
 
     public void Move(Tile targetTile)
     {
+        StartCoroutine(MoveEnumerator(targetTile));
+    }
+
+    public IEnumerator MoveEnumerator(Tile targetTile)
+    {
         foreach (Tile tile in pReachableTiles)
         {
             tile.ResetReachable();
@@ -43,7 +48,21 @@ public class Character : Occupant, IUniqueSpell
         {
             tile.ResetVisibility();
         }
-        transform.position = targetTile.transform.position;
+
+        List<Tile> path = GridManager.pInstance.GetPathTo(pTile, targetTile);
+
+        for (int i = path.Count - 1; i >= 0; i--)
+        {
+            var tile = path[i];
+
+            while (Vector3.Distance(transform.position, tile.transform.position) >= 0.1f)
+            {
+                transform.position = Vector3.Lerp(transform.position, tile.transform.position, Time.deltaTime * 5);
+                yield return null;
+            }
+            yield return new WaitForSeconds(0.2f);
+        }
+
         pTile.pCharacterId = -1;
         pCurrentAp -= Tile.Distance(pTile, targetTile);
         pTile = targetTile;
@@ -60,6 +79,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
+        GameManager.pInstance.ChangeState(eGameState.Move);
     }
 
     public void StandardAttack(Tile t)
@@ -110,10 +130,13 @@ public class Character : Occupant, IUniqueSpell
     {
         GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
                                                                 pFraction == eFraction.PC ? Color.blue : Color.red);
+
+
     }
 
     public void Select()
     {
+        CameraMovement.SetTarget(transform);
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
         pCurrentAp = pAp;
