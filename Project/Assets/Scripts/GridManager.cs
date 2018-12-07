@@ -338,6 +338,12 @@ public class GridManager : MonoBehaviour
 
     public void DrawPath(List<Tile> tileList)
     {
+        if (tileList == null)
+        {
+            Debug.Log("Could not find path");
+            return;
+        }
+
         if (tileList.Count >= pPathPainter.transform.childCount)
         {
             Debug.LogWarning("Here be dragons...");

@@ -8,9 +8,10 @@ public class Character : Occupant, IUniqueSpell
     public string pName;
     public int pHp = 10;
     public int pAp = 10;
-    public int pVisionRange;
-    public int pWalkRange;
-    public int pWalkCost;
+    public int pVisionRange = 10;
+    public int pWalkRange = 10;
+    public int pWalkCost = 1;
+
     public string SpellName
     {
         get { return _SpellName; }
@@ -182,7 +183,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange * pWalkCost ? pCurrentAp : pWalkRange * pWalkCost);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange / pWalkCost ? pCurrentAp : pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
