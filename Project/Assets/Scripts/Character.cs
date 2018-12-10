@@ -183,7 +183,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange / pWalkCost ? pCurrentAp : pWalkRange);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange / pWalkCost ? pCurrentAp : pWalkRange); //TODO: Possible division by zero
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
