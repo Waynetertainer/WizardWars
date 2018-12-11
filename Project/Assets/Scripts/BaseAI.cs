@@ -39,4 +39,10 @@ public class BaseAI
         EntityManager.pInstance.pCurrentPlayers[Random.Range(0, EntityManager.pInstance.pCurrentPlayers.Count)].Select();
         GameManager.pInstance.ChangeState(eGameState.Selected);
     }
+
+    private void EvaluateAI()
+    {
+
+
+    }
 }

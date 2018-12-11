@@ -420,7 +420,7 @@ public class GridManager : MonoBehaviour
         {
 
             //Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
-            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.3f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
+            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.5f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
             Tile tile = pTile.GetComponent<Tile>();
 
             tile.pBlockType = eBlockType.Empty; // resetting tile settings

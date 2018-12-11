@@ -7,7 +7,9 @@ public class Character : Occupant, IUniqueSpell
 {
     public string pName;
     public int pHp = 10;
+    [HideInInspector] public int pHpCurrent;
     public int pAp = 10;
+    [HideInInspector] public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
     public int pWalkCost = 1;
@@ -35,10 +37,10 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
 
-    [SerializeField] private string _SpellName = "Fireball";
-    [SerializeField] private int _Damage = 2;
-    [SerializeField] private int _Cost = 2;
-    [SerializeField] private int _Range = 4;
+    [SerializeField] public string _SpellName = "Fireball";
+    [SerializeField] public int _Damage = 2;
+    [SerializeField] public int _Cost = 2;
+    [SerializeField] public int _Range = 4;
 
     public ScriptableObject pUniqueSpellScriptable;
 
@@ -49,6 +51,7 @@ public class Character : Occupant, IUniqueSpell
     private void Start()
     {
         pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
+        pHpCurrent = pHp;
     }
 
     public static Character CreateCharacter(eFraction fraction, Tile spawnTile, Character prefab, ScriptableObject uniqueSpell)
@@ -154,8 +157,8 @@ public class Character : Occupant, IUniqueSpell
 
     public void DealDamage(int damage)
     {
-        pHp -= damage;
-        if (pHp <= 0)
+        pHpCurrent -= damage;
+        if (pHpCurrent <= 0)
             EntityManager.pInstance.KillCharacter(this);
     }
 
