@@ -1,0 +1,211 @@
+fileFormatVersion: 2
+guid: 465ee811df11f8348a8530a682ce19d6
+ScriptedImporter:
+  fileIDToRecycleName:
+    100000: Wall/Wall
+    400000: Wall/Wall/Transform
+    2100000: mat.Wall
+    2100002: mat.Wall_1
+    2100004: mat.Wall_2
+    2100006: mat.Wall_3
+    2300000: Wall/Wall/MeshRenderer
+    2800032: Wall_Base Color
+    2800034: Wall_Normal
+    2800036: Wall_output
+    2800038: Wall_Metal
+    2800040: Wall_1_Base Color
+    2800042: Wall_1_Normal
+    2800044: Wall_1_output
+    2800046: Wall_1_Metal
+    2800048: Wall_2_Base Color
+    2800050: Wall_2_Normal
+    2800052: Wall_2_output
+    2800054: Wall_2_Metal
+    2800056: Wall_3_Base Color
+    2800058: Wall_3_Normal
+    2800060: Wall_3_output
+    2800062: Wall_3_Metal
+    3300000: Wall/Wall/MeshFilter
+    11400000: sbsar
+    11400002: graph0
+    11400004: graph1
+    11400006: graph2
+    11400008: graph3
+    13500000: Wall/Wall/SphereCollider
+    100100000: Wall
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 232528478, guid: 43a8bbf65be290d44ba52b94476242b9, type: 3}
+  mGraphInstanceData:
+  - graphLabel: Wall
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://Wall\" label=\"\" >\n  <presetinput identifier=\"DamageAmount\"
+      uid=\"1973457343\" type=\"0\" value=\"0.376\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Normal,output,Metal
+    texturePackingList:
+    - outputName: baseColor
+      alphaSource: baseColor
+    - outputName: normal
+      alphaSource: normal
+    - outputName: roughness
+      alphaSource: roughness
+    - outputName: height
+      alphaSource: height
+    - outputName: metallic
+      alphaSource: smoothness
+    colorSpaceList:
+    - outputName: baseColor
+      bLinear: 0
+    - outputName: normal
+      bLinear: 1
+    - outputName: roughness
+      bLinear: 1
+    - outputName: height
+      bLinear: 1
+    - outputName: metallic
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: 
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 0
+      textureHeight: 0
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100000, guid: 465ee811df11f8348a8530a682ce19d6, type: 3}
+  - graphLabel: Wall_1
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://Wall\" label=\"\" >\n  <presetinput identifier=\"Trim\"
+      uid=\"1968752361\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"DamageAmount\"
+      uid=\"1973457343\" type=\"0\" value=\"0.358\" />\n </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Normal,output,Metal
+    texturePackingList:
+    - outputName: baseColor
+      alphaSource: baseColor
+    - outputName: normal
+      alphaSource: normal
+    - outputName: roughness
+      alphaSource: roughness
+    - outputName: height
+      alphaSource: height
+    - outputName: metallic
+      alphaSource: smoothness
+    colorSpaceList:
+    - outputName: baseColor
+      bLinear: 0
+    - outputName: normal
+      bLinear: 1
+    - outputName: roughness
+      bLinear: 1
+    - outputName: height
+      bLinear: 1
+    - outputName: metallic
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: 
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 0
+      textureHeight: 0
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100002, guid: 465ee811df11f8348a8530a682ce19d6, type: 3}
+  - graphLabel: Wall_2
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://Wall\" label=\"\" >\n  <presetinput identifier=\"Wall_BaseColor\"
+      uid=\"1968777318\" type=\"3\" value=\"0.320755,0.320755,0.320755,1\" />\n  <presetinput
+      identifier=\"DamageAmount\" uid=\"1973457343\" type=\"0\" value=\"0.376\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Normal,output,Metal
+    texturePackingList:
+    - outputName: baseColor
+      alphaSource: baseColor
+    - outputName: normal
+      alphaSource: normal
+    - outputName: roughness
+      alphaSource: roughness
+    - outputName: height
+      alphaSource: height
+    - outputName: metallic
+      alphaSource: smoothness
+    colorSpaceList:
+    - outputName: baseColor
+      bLinear: 0
+    - outputName: normal
+      bLinear: 1
+    - outputName: roughness
+      bLinear: 1
+    - outputName: height
+      bLinear: 1
+    - outputName: metallic
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: 
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 256
+      textureHeight: 256
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100004, guid: 465ee811df11f8348a8530a682ce19d6, type: 3}
+  - graphLabel: Wall_3
+    graphDescIndex: 0
+    generateAllOutputs: 0
+    generateMipMaps: 1
+    preset: " <sbspreset pkgurl=\"pkg://Wall\" label=\"\" >\n  <presetinput identifier=\"Trim\"
+      uid=\"1968752361\" type=\"4\" value=\"1\" />\n  <presetinput identifier=\"Wall_BaseColor\"
+      uid=\"1968777318\" type=\"3\" value=\"0.321569,0.321569,0.321569,1\" />\n  <presetinput
+      identifier=\"DamageAmount\" uid=\"1973457343\" type=\"0\" value=\"0.376\" />\n
+      </sbspreset>\n"
+    shaderName: Standard
+    outputNames: Base Color,Normal,output,Metal
+    texturePackingList:
+    - outputName: baseColor
+      alphaSource: baseColor
+    - outputName: normal
+      alphaSource: normal
+    - outputName: roughness
+      alphaSource: roughness
+    - outputName: height
+      alphaSource: height
+    - outputName: metallic
+      alphaSource: smoothness
+    colorSpaceList:
+    - outputName: baseColor
+      bLinear: 0
+    - outputName: normal
+      bLinear: 1
+    - outputName: roughness
+      bLinear: 1
+    - outputName: height
+      bLinear: 1
+    - outputName: metallic
+      bLinear: 1
+    inputTextureMap: []
+    targetSettingList:
+    - label: 
+      bOverride: 0
+      bLockRatio: 1
+      bHighQuality: 0
+      textureWidth: 0
+      textureHeight: 0
+      textureFormat: 0
+      loadBehavior: 0
+    material: {fileID: 2100006, guid: 465ee811df11f8348a8530a682ce19d6, type: 3}

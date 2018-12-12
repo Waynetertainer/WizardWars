@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,10 +8,13 @@ using UnityEngine.UI;
 public class Tile : MonoBehaviour
 {
     public Vector2Int pPosition;
-    public Occupant pOccupant;
+    public int pCharacterId = -1;
+    public eBlockType pBlockType;
+    public eVisibility eVisibility;
+    public Color Color;
 
+    protected bool mMouseOver;
     private LineRenderer mLine;
-    private bool mMouseOver;
 
     private void Start()
     {
@@ -35,10 +37,10 @@ public class Tile : MonoBehaviour
         {
             trans.gameObject.layer = 9;
         }
-        if (pOccupant != null)
-        {
-            pOccupant.GetComponent<MeshRenderer>().enabled = false;
-        }
+        //if (pOccupant != null)
+        //{
+        //    pOccupant.GetComponent<MeshRenderer>().enabled = false;
+        //}
     }
 
     public void IsVisible()
@@ -48,15 +50,14 @@ public class Tile : MonoBehaviour
             trans.gameObject.layer = 0;
         }
 
-        if (pOccupant != null)
+        if (pCharacterId != -1)
         {
-            pOccupant.GetComponent<MeshRenderer>().enabled = true;
+            EntityManager.pInstance.GetCharacterForId(pCharacterId).GetComponent<MeshRenderer>().enabled = true;
         }
     }
 
     public void IsReachable(Character character)
     {
-
         for (int j = 0; j < 6; j++)
         {
             Tile tempTile = GridManager.pInstance.GetNeighbour(this, j);
@@ -73,7 +74,6 @@ public class Tile : MonoBehaviour
         int dy = Mathf.Abs(a.pPosition.y - b.pPosition.y);
         return dy + Mathf.Max(0, (dx - dy) / 2);
     }
-
     public List<Tile> GetNeighbours()
     {
         List<Tile> neighbours = new List<Tile>();
@@ -88,39 +88,45 @@ public class Tile : MonoBehaviour
         return neighbours;
     }
 
-    private void OnMouseEnter()
+    protected virtual void OnMouseEnter()
     {
-
-        if (GameManager.pInstance.pActiveCharacter != null)
+        switch (GameManager.pInstance.pGameState)
         {
-            mMouseOver = true;
-            mLine.gameObject.SetActive(true);
-            mLine.SetPosition(0, transform.position + new Vector3(0, 0.1f, 0));
-            mLine.SetPosition(1, GameManager.pInstance.pActiveCharacter.pTile.transform.position + new Vector3(0, 0.1f, 0));
+            case eGameState.Move:
+                mMouseOver = true;
+                GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+                break;
+            case eGameState.FireSkill:
+                Color = GetComponent<Renderer>().material.color;
+                GetComponent<Renderer>().material.SetColor("_Color", Color.red);
+                break;
+            case eGameState.FireUnique:
+                Color = GetComponent<Renderer>().material.color;
+                GameManager.pInstance.pActiveCharacter.ShowUniquePreview(this);
+                break;
+        }
+    }
 
-            GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+    protected virtual void OnMouseExit()
+    {
+        switch (GameManager.pInstance.pGameState)
+        {
+            case eGameState.Move:
+                mLine.gameObject.SetActive(false);
+                mMouseOver = false;
+                for (int i = 0; i < GridManager.pInstance.pPathPainter.transform.childCount; i++)
+                {
+                    GridManager.pInstance.pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
+                }
+                break;
+            case eGameState.FireSkill:
+                GetComponent<Renderer>().material.SetColor("_Color", Color);
+                break;
+            case eGameState.FireUnique:
+                GameManager.pInstance.pActiveCharacter.HideUniquePreview(this);
+                break;
         }
 
-    }
-
-    private void MoveUp()
-    {
-        transform.position += Vector3.up;
-    }
-
-    private void MoveDown()
-    {
-        transform.position -= Vector3.up;
-    }
-
-    private void OnMouseExit()
-    {
-        mMouseOver = false;
-        mLine.gameObject.SetActive(false);
-        for (int i = 0; i < GridManager.pInstance.pPathPainter.transform.childCount; i++)
-        {
-            GridManager.pInstance.pPathPainter.transform.GetChild(i).gameObject.SetActive(false);
-        }
     }
 
     private void Update()
@@ -143,4 +149,12 @@ public class Tile : MonoBehaviour
             }
         }
     }
+}
+
+[Serializable]
+public struct TileStruct
+{
+    public Vector2Int pPosition;
+    public eBlockType pBlockType;
+    public eVisibility pVisibilty;
 }
