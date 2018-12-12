@@ -360,15 +360,27 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public List<Tile> GetRing(Tile startTile, int radius)
+    public List<Tile> GetRing(Tile startTile, int radius, bool includeBlocked)
     {
         List<Tile> result = new List<Tile>();
+        Tile temp = mGrid[startTile.pPosition.x - 2 * (radius-1), startTile.pPosition.y ];
 
         for (int i = 0; i < 6; ++i)
         {
-            for (int j = 0; j < radius; ++j)
+            for (int j = 0; j < radius-1; ++j)
             {
-
+                if (temp!=null)
+                {
+                    if (includeBlocked)                             //if check for blocked tiles not needed, remove all lines with // after it
+                    {                                               //
+                        result.Add(temp);
+                    }                                               //
+                    else if(temp.pBlockType==eBlockType.Empty)      //
+                    {                                               //
+                        result.Add(temp);                           //
+                    }                                               //
+                }
+                temp = GetNeighbour(temp, i);
             }
         }
 
