@@ -2,32 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum AIState
+public class AIevaluator
 {
-    ePatrouille,
-    eFight,
-    eHunt
-};
 
-public class AIevaluator : MonoBehaviour
-{
-    public AIState pAIState = AIState.ePatrouille;
-    public List<Tile> pPatrouillePoints = new List<Tile>();
-    public Character pActiveTarget;
-
-    private Character mCharacter;
-    private int mCoverRoundCount = 0;
-    private int mPatWaypointID = 0;
-    private List<Tile> pSteps = new List<Tile>();
-
-    void Start()
+    public static IEnumerator EvaluateAI(Character mCharacter)
     {
-        mCharacter = GetComponent<Character>();//connect to parent player
-    }
+        eAIState pAIState = eAIState.Patrouille;
+        Character pActiveTarget = null;
+        Tile pHuntingTarget = null;
+        //int mCoverRoundCount = 0; //TODO: Implement Cover Count
+        int mPatWaypointID = 0;
+        List<Tile> pSteps = new List<Tile>();
+         
 
-
-    private void EvaluateAI()
-    {
         #region AI v1
         /*
 
@@ -83,59 +70,71 @@ public class AIevaluator : MonoBehaviour
         #endregion
 
         #region AI v2
-        while (mCharacter.pApCurrent == 0) // do stuff until AP are spend
+        while (mCharacter.pApCurrent > 0) // TODO: do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
-
             switch (pAIState)
             {
-                case AIState.ePatrouille: // totally broken!
-                    if (pSteps.Count == 0) // if no path exists get a new one
+                case eAIState.Patrouille:
+                    if (mCharacter.pAIPatrouillePoints.Count != 0) // wenn statischer gegner ohne wegpunkte
                     {
-                        ++mPatWaypointID;
-                        
-                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, pPatrouillePoints[mPatWaypointID]);
-                    }
-                    
-                    while (mCharacter.pApCurrent > 0 && mPatWaypointID < pSteps.Count)
-                    {
-                        findTarget();
-                        mCharacter.Move(pSteps[mPatWaypointID]);
-                        ++mPatWaypointID;
-                    }
-
-
-                    break;
-                case AIState.eFight:
-                    // find better cover
-                    // if ap-cost to next cover < remaining AP
-                    // move to new cover
-                    if (mCharacter.pApCurrent > mCharacter._Cost)
-                    {
-                        //fire signature spell against active target
-                    }
-                    if (pActiveTarget.pHpCurrent <= 0) // Ziel erlegt
-                    {
-                        findTarget();
-                        break;
-                    }
-                    while (mCharacter.pApCurrent > 0)
-                    {
-                        // shoot normal spell at target
-                        if (pActiveTarget.pHpCurrent <= 0)
+                        pActiveTarget = AIfindTarget(mCharacter);
+                        if (pActiveTarget != null)
                         {
-                            findTarget();
+                            pAIState = eAIState.Fight;
+                            break;
+                        }
+                        else
+                        {
+                            mCharacter.pApCurrent = 0;
                             break;
                         }
                     }
 
+                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mPatWaypointID]);
+
+                    if (pSteps.Count == 0) //wenn pat-zielpunkt erreicht zum nächsten wechseln
+                    {
+                        mPatWaypointID = (mPatWaypointID + 1) % mCharacter.pAIPatrouillePoints.Count;
+                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mPatWaypointID]);
+                    }
+
+                    mCharacter.Move(pSteps[0]); // make one single step and check for targets
+                    pActiveTarget = AIfindTarget(mCharacter);
+                    if (pActiveTarget != null)
+                        pAIState = eAIState.Fight;
+
                     break;
-                case AIState.eHunt:
-                    //find route to last known position of active target
-                    //do
-                    findTarget();
+                case eAIState.Fight:
+                    // find better cover
+                    // if ap-cost to next cover < remaining AP
+                    // move to new cover
+                    // Visibility check
+                    if (mCharacter.pApCurrent > mCharacter.pUniqueSpell.Cost) //TODO: Special cooldown? Sanity check?
+                    {
+                        mCharacter.CastUnique(pActiveTarget.pTile); //fire signature spell against active target
+
+                        pActiveTarget = AIfindTarget(mCharacter); // check if target survived
+                        if (pActiveTarget == null)
+                            pAIState = eAIState.Patrouille;
+                        break;
+                    }
+
+                    if (mCharacter.pApCurrent > mCharacter.Cost)
+                    {
+                        mCharacter.StandardAttack(pActiveTarget.pTile);// shoot normal spell at target
+                        pActiveTarget= AIfindTarget(mCharacter); //check for survivors
+                        if (pActiveTarget == null)
+                            pAIState = eAIState.Patrouille;
+                    }
+                    
+                    break;
+                case eAIState.Hunt: //TODO: Hunting targets
+                                    //find route to last known position of active target if it has not been killed and is out of sight
+                                    //do
+                    AIfindTarget(mCharacter);
                     // select closest enemy as active target
                     // switch state to eFight
-                    //early brake
+                    //early brake,
                     //move to next tile in route
                     //while list of steps to pat-point != empty
 
@@ -144,22 +143,41 @@ public class AIevaluator : MonoBehaviour
                     Debug.LogError("AI in unknown state");
                     break;
             }
-        }
-        // return if char has still points to use
+        }// loop if char has still points to use
+
         #endregion
+
+        GameManager.pInstance.ChangeState(eGameState.Selected); // end AI turn
+        yield break;
     }
 
-    private void findTarget()
+    /// <summary>
+    /// Searches for new targets for the AI and returns a visible Target or null.
+    /// </summary>
+    /// <param name="mCharacter">AI-Character to process</param>
+    /// <returns>Returns the closest visible player character or null.</returns>
+    public static Character AIfindTarget(Character mCharacter)
     {
+        List<Character> visibleCharaters = new List<Character>();
 
-        if (true) // if new target is available
+        foreach (var playerChar in EntityManager.pInstance.pCurrentPlayers) //find visible players
+            if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough)
+                visibleCharaters.Add(playerChar);
+
+        // find closest enemy
+
+        float targetDistance = float.MaxValue;
+        Character returnCharacter = null;
+        foreach (Character playerChar in visibleCharaters)
         {
-            //pActive target = newly found target
-            pAIState = AIState.eFight;
+            float currentDistance = Vector3.Distance(mCharacter.transform.position, playerChar.transform.position); //TODO: Tile.Distance may be better here
+            if (currentDistance < targetDistance)
+            {
+                targetDistance = currentDistance;
+                returnCharacter = playerChar;
+            }
         }
-        else
-        {
-            pAIState = AIState.ePatrouille;
-        }
+
+        return returnCharacter;
     }
 }

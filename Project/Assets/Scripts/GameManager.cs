@@ -148,7 +148,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ChangeState(eGameState state)
+    public void ChangeState(eGameState state) //TODO: Replace with setter
     {
         pGameState = state;
 

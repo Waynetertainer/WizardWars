@@ -36,6 +36,7 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public List<Tile> pVisibleTiles;
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
+    public List<Tile> pAIPatrouillePoints = new List<Tile>();
 
     [SerializeField] public string _SpellName = "Fireball";
     [SerializeField] public int _Damage = 2;
@@ -114,7 +115,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
-        GameManager.pInstance.ChangeState(eGameState.Move);
+        GameManager.pInstance.ChangeState(eGameState.Move); //TODO: may be better in game manager just after call of move, might interfere with AI
     }
 
     public void StandardAttack(Tile t)
