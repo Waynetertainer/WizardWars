@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -332,6 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f35f2d9363f85418ed0c7a5a129a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pNameText: {fileID: 0}
   pHpText: {fileID: 1136432143}
   pApText: {fileID: 270181901}
   pMoveRangeText: {fileID: 278104145}
@@ -1449,10 +1450,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8741bc6b903e5408eac387a67ff14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mPlayerPrefab: {fileID: 114364996531758994, guid: df6c11349548bdb43987bb14a7d8937d,
-    type: 2}
-  mAIPrefab: {fileID: 114364996531758994, guid: df6c11349548bdb43987bb14a7d8937d,
-    type: 2}
+  mPlayerPrefabs: []
+  mAIPrefabs: []
+  DBG_Spells: []
 --- !u!4 &945799047
 Transform:
   m_ObjectHideFlags: 0
@@ -1721,6 +1721,10 @@ MonoBehaviour:
   pTilePrefab: {fileID: 1450335262849980, guid: e5504def2bce7c94ba1d98a9f479b03c,
     type: 2}
   pCurrentLevel: {fileID: 11400000, guid: aab76b183791d1549bb207546474899e, type: 2}
+  pDefaultMaterial: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  pCollisionMaterial: {fileID: 2100000, guid: e833344799996ee4592ebc15a4671ad4, type: 2}
+  pPathPainter: {fileID: 1608191347822880, guid: cafac2b69593fc945942194a5dcd7756,
+    type: 2}
 --- !u!4 &1190286478
 Transform:
   m_ObjectHideFlags: 0
@@ -1783,6 +1787,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88f35f2d9363f85418ed0c7a5a129a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pNameText: {fileID: 0}
   pHpText: {fileID: 1798262374}
   pApText: {fileID: 665155421}
   pMoveRangeText: {fileID: 1165051635}

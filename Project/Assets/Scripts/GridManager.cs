@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering;
 
 
 public class GridManager : MonoBehaviour
@@ -360,31 +361,45 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public List<Tile> GetRing(Tile startTile, int radius)
+    public List<Tile> GetRing(Tile startTile, int radius, bool includeBlocked)
     {
         List<Tile> result = new List<Tile>();
+        Tile temp = mGrid[startTile.pPosition.x - 2 * (radius), startTile.pPosition.y ];
 
         for (int i = 0; i < 6; ++i)
         {
             for (int j = 0; j < radius; ++j)
             {
-
+                if (temp!=null)
+                {
+                    if (includeBlocked)                             //if check for blocked tiles not needed, remove all lines with // after it
+                    {                                               //
+                        result.Add(temp);
+                    }                                               //
+                    else if(temp.pBlockType==eBlockType.Empty)      //
+                    {                                               //
+                        result.Add(temp);                           //
+                    }                                               //
+                }
+                temp = GetNeighbour(temp, i);
             }
         }
 
         return result;
+    }
 
-        //TODO Heres pseudocode for it i don't undrstand...
-        //        function cube_ring(center, radius):
-        //        var results = []
-        //# this code doesn't work for radius == 0; can you see why?
-        //        var cube = cube_add(center,
-        //            cube_scale(cube_direction(4), radius))
-        //        for each 0 ≤ i < 6:
-        //        for each 0 ≤ j < radius:
-        //        results.append(cube)
-        //        cube = cube_neighbor(cube, i)
-        //        return results
+    /// <summary>
+    /// Returns all tiles around a center with given radius
+    /// </summary>
+    public List<Tile> GetCircle(Tile startTile, int radius, bool includeBlocked)
+    {
+        List<Tile> result = new List<Tile>();
+        result.Add(startTile);
+        for (int i = 1; i <= radius; i++)
+        {
+            result.AddRange(GetRing(startTile,i,includeBlocked));
+        }
+        return result;
     }
 
     private struct TilePriority
@@ -420,7 +435,7 @@ public class GridManager : MonoBehaviour
         {
 
             //Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
-            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.3f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
+            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.5f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
             Tile tile = pTile.GetComponent<Tile>();
 
             tile.pBlockType = eBlockType.Empty; // resetting tile settings

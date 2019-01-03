@@ -90,6 +90,15 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseEnter()
     {
+        //begin test
+        Color = GetComponent<Renderer>().material.color;
+        GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
+        foreach (Tile tile in GridManager.pInstance.GetRing(this, 3, false))
+        {
+            tile.Color = tile.GetComponent<Renderer>().material.color;
+            tile.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
+        }
+        //end test
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
@@ -109,6 +118,13 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseExit()
     {
+        //begin test
+        GetComponent<Renderer>().material.SetColor("_Color", Color);
+        foreach (Tile tile in GridManager.pInstance.GetRing(this, 3, false))
+        {
+            tile.GetComponent<Renderer>().material.SetColor("_Color", Color);
+        }
+        //end test
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
@@ -135,16 +151,6 @@ public class Tile : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-                //int distance = Tile.Distance(GameManager.pInstance.pActiveCharacter.pTile, this);
-                //for (int k = 1; k <= distance; k++)
-                //{
-                //    float Xf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.x + ((float)(this.pPosition.x - GameManager.pInstance.pActiveCharacter.pTile.pPosition.x) / distance) * k));
-                //    float Yf = ((GameManager.pInstance.pActiveCharacter.pTile.pPosition.y + ((float)(this.pPosition.y - GameManager.pInstance.pActiveCharacter.pTile.pPosition.y) / distance) * k));
-                //    int y = Mathf.RoundToInt(Yf);
-                //    int x = ((int)(Xf)) + ((y + ((int)Xf) % 2) % 2);
-                //    Debug.Log("Knoten " + k + " | FloatX = " + Xf + " FloatY = " + Yf + " | RoundedX= " + "NI" + " | IntX = " + x + " IntY = " + y);
-                //}
-
 
             }
         }
