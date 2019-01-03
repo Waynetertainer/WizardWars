@@ -54,7 +54,6 @@ public class BearWall : ScriptableObject, IUniqueSpell
         t.GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
         mLeft.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
         mRight.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
-
     }
 
     public void HideUniquePreview(Tile t)

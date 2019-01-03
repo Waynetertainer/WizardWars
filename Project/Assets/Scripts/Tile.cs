@@ -90,15 +90,6 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseEnter()
     {
-        //begin test
-        Color = GetComponent<Renderer>().material.color;
-        GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
-        foreach (Tile tile in GridManager.pInstance.GetRing(this, 3, false))
-        {
-            tile.Color = tile.GetComponent<Renderer>().material.color;
-            tile.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
-        }
-        //end test
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
@@ -118,13 +109,6 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseExit()
     {
-        //begin test
-        GetComponent<Renderer>().material.SetColor("_Color", Color);
-        foreach (Tile tile in GridManager.pInstance.GetRing(this, 3, false))
-        {
-            tile.GetComponent<Renderer>().material.SetColor("_Color", Color);
-        }
-        //end test
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
