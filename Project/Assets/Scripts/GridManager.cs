@@ -249,7 +249,7 @@ public class GridManager : MonoBehaviour
     public eVisibility GetVisibilityToTarget(Tile startTile, Tile targetTile, int visionRange)
     {
         //TODO: needs implementation
-        // spherecast on tile-layer from start to target
+        // spherecast on tile-layer from start to target or pathfinding witch will ignore blocked tiles
         // foreach hit get opacity value and return highest opacity
         return eVisibility.Seethrough;
     }

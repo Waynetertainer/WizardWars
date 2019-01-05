@@ -198,9 +198,10 @@ public class GameManager : MonoBehaviour
                 Character ai = EntityManager.pInstance.pCurrentPCPlayers[
                     Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
                 CameraMovement.SetTarget(ai.transform);
-                StartCoroutine(BaseAI.AIBehaviour(ai));
 
-                EntityManager.pInstance.EndRound(ai);
+                //StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
+                StartCoroutine(AIevaluator.EvaluateAI(ai));
+
                 break;
         }
         pUiManager.Refresh();

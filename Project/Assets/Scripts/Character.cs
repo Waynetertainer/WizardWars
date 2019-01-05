@@ -7,9 +7,11 @@ public class Character : Occupant, IUniqueSpell
 {
     public string pName;
     public int pHp = 10;
-    [HideInInspector] public int pHpCurrent;
+    //[HideInInspector] 
+    public int pHpCurrent;
     public int pAp = 10;
-    [HideInInspector] public int pApCurrent;
+    //[HideInInspector] 
+    public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
     public int pWalkCost = 1;
@@ -31,12 +33,12 @@ public class Character : Occupant, IUniqueSpell
         get { return _Range; }
     }
 
-    [HideInInspector] public int pCurrentAp;
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
-    public List<Tile> pAIPatrouillePoints = new List<Tile>();
+    public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
+    [HideInInspector] public int mPatWaypointID = 0; // used for AI
 
     [SerializeField] public string _SpellName = "Fireball";
     [SerializeField] public int _Damage = 2;
@@ -100,7 +102,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pTile.pCharacterId = -1;
-        pCurrentAp -= Tile.Distance(pTile, targetTile) * pWalkCost;
+        pApCurrent -= Tile.Distance(pTile, targetTile) * pWalkCost;
         pTile = targetTile;
         targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
@@ -115,7 +117,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
-        GameManager.pInstance.ChangeState(eGameState.Move); //TODO: may be better in game manager just after call of move, might interfere with AI
+        GameManager.pInstance.ChangeState(eGameState.Move);
     }
 
     public void StandardAttack(Tile t)
@@ -123,9 +125,10 @@ public class Character : Occupant, IUniqueSpell
         if (t.pCharacterId == -1)
             return;
 
-        pCurrentAp -= Cost;
+        pApCurrent -= Cost;
 
-        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(1);
+        Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
+        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
         t.GetComponent<Renderer>().material.SetColor("_Color", t.Color);
     }
 
@@ -134,7 +137,7 @@ public class Character : Occupant, IUniqueSpell
         if (pUniqueSpell != null)
         {
             pUniqueSpell.HideUniquePreview(t);
-            pCurrentAp -= pUniqueSpell.Cost;
+            pApCurrent -= pUniqueSpell.Cost;
             pUniqueSpell.CastUnique(t);
             pFired = true;
         }
@@ -174,7 +177,7 @@ public class Character : Occupant, IUniqueSpell
         CameraMovement.SetTarget(transform);
         GameManager.pInstance.pActiveCharacter = this;
         mIsActiveCharacter = true;
-        pCurrentAp = pAp;
+        pApCurrent = pAp;
     }
     public void Deselect()
     {
@@ -187,7 +190,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pCurrentAp < pWalkRange / pWalkCost ? pCurrentAp : pWalkRange); //TODO: Possible division by zero
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pApCurrent < pWalkRange / pWalkCost ? pApCurrent : pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
