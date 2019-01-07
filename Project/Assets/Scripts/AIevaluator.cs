@@ -74,7 +74,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            //yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove in nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
@@ -128,8 +128,9 @@ public class AIevaluator
                     */
                     if (mCharacter.pApCurrent >= mCharacter.Cost)
                     {
-                        mCharacter.StandardAttack(pActiveTarget.pTile);// shoot normal spell at target
                         Debug.Log("AI shooting Normal spell at " + pActiveTarget.pName + " for " + mCharacter.Cost.ToString());
+                        mCharacter.StandardAttack(pActiveTarget.pTile);// shoot normal spell at target
+                        
                         pActiveTarget = AIfindTarget(mCharacter); //check for survivors
                         if (pActiveTarget == null)
                             pAIState = eAIState.Patrouille;
@@ -208,7 +209,7 @@ public class AIevaluator
         Debug.Log(mCharacter.pName + " is searching for targets ");
         List<Character> visibleCharaters = new List<Character>();
 
-        foreach (var playerChar in EntityManager.pInstance.pCurrentPlayers) //find visible players
+        foreach (var playerChar in EntityManager.pInstance.pPlayers) //find visible players
             if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough)
                 visibleCharaters.Add(playerChar);
 
@@ -233,7 +234,7 @@ public class AIevaluator
         }
         else
         {
-            Debug.Log("Found Enemy none");
+            Debug.Log("Found no Enemy");
         }
         return returnCharacter;
     }

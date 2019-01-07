@@ -39,6 +39,7 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public bool pFired;
     public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
     [HideInInspector] public int mPatWaypointID = 0; // used for AI
+    public CharacterHealthBar pHealthBarScript;
 
     [SerializeField] public string _SpellName = "Fireball";
     [SerializeField] public int _Damage = 2;
@@ -162,6 +163,7 @@ public class Character : Occupant, IUniqueSpell
     public void DealDamage(int damage)
     {
         pHpCurrent -= damage;
+
         if (pHpCurrent <= 0)
             EntityManager.pInstance.KillCharacter(this);
     }

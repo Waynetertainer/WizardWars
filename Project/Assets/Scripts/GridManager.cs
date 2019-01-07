@@ -248,9 +248,21 @@ public class GridManager : MonoBehaviour
     /// <returns>Returns the opacity rating of the tiles between start (exclusive) and target (inclusive). If the target is out of range return is Opaque</returns>
     public eVisibility GetVisibilityToTarget(Tile startTile, Tile targetTile, int visionRange)
     {
-        //TODO: needs implementation
-        // spherecast on tile-layer from start to target or pathfinding witch will ignore blocked tiles
-        // foreach hit get opacity value and return highest opacity
+        if (Tile.Distance(startTile, targetTile) >visionRange) // out of range = opaque
+            return eVisibility.Opaque;
+
+        RaycastHit[] mRayHits;
+        mRayHits = Physics.SphereCastAll(startTile.transform.position,0.3f,targetTile.transform.position - startTile.transform.position, Vector3.Distance(startTile.transform.position, targetTile.transform.position));
+        Debug.Log("Collisions to check for Visibility: " + mRayHits.Length.ToString());
+
+        foreach (RaycastHit hit in mRayHits) //search all tile hits for first who makes blocks visibility
+        {
+            if (hit.transform.gameObject.name.Contains("Tile") && hit.transform.gameObject.GetComponent<Tile>().eVisibility == eVisibility.Opaque) // we only check tile information for occlusion
+            {
+                return eVisibility.Opaque;
+            }
+        }
+
         return eVisibility.Seethrough;
     }
 

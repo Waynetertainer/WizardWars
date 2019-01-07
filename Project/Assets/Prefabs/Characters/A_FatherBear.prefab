@@ -456,6 +456,7 @@ MonoBehaviour:
   pFired: 0
   pAIPatrouillePoints: []
   mPatWaypointID: 0
+  pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
   _Damage: 2
   _Cost: 2
