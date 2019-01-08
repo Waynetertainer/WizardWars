@@ -127,6 +127,15 @@ public class Character : Occupant, IUniqueSpell
             return;
 
         pApCurrent -= Cost;
+        //TODO: Check for Cover between tiles to reduce damage
+        RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
+        foreach (RaycastHit hit in mHits)
+        {
+
+        }
+
+
+
 
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);

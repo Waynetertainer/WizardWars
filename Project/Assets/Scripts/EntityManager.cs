@@ -83,6 +83,15 @@ public class EntityManager : MonoBehaviour
         mAllEntities.Remove(c);
         mCurrentEntities.Remove(c);
         Destroy(c.gameObject);
+
+        if (pPlayers.Count == 0)
+        {
+            //TODO: switch to loose screen
+        }
+        else if (pPCPlayers.Count == 0)
+        {
+            //TODO: Switch to win screen
+        }
     }
 
     public Character GetCharacterForId(int id)
