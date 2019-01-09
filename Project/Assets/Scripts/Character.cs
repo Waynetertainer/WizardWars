@@ -16,6 +16,8 @@ public class Character : Occupant, IUniqueSpell
     public int pWalkRange = 10;
 
 
+    public bool pEffectHit;
+
     [Range(1, 20)] public int pWalkCost;
 
     public string SpellName
@@ -150,8 +152,9 @@ public class Character : Occupant, IUniqueSpell
         pBasicSpell.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position + new Vector3(0, 1, 0));
         pBasicSpell.SetActive(true);
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitUntil(() => pEffectHit);
 
+        pEffectHit = false;
         pAura.SetActive(false);
         pApCurrent -= Cost;
 
@@ -221,7 +224,6 @@ public class Character : Occupant, IUniqueSpell
     {
         HideRange();
         HideView();
-        pAura.SetActive(false);
         GameManager.pInstance.pActiveCharacter = null;
         GameManager.pInstance.pGridGameObject.SetActive(false);
         mIsActiveCharacter = false;

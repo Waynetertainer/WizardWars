@@ -11,14 +11,14 @@ public class RFX4_TransformMotion : MonoBehaviour
     public float MinSpeed = 1;
     public float TimeDelay = 0;
     public LayerMask CollidesWith = ~0;
-   
+
     public GameObject[] EffectsOnCollision;
     public float CollisionOffset = 0;
     public float DestroyTimeDelay = 5;
     public bool CollisionEffectInWorldSpace = true;
     public GameObject[] DeactivatedObjectsOnCollision;
     [HideInInspector] public float HUE = -1;
-    [HideInInspector] public List<GameObject> CollidedInstances; 
+    [HideInInspector] public List<GameObject> CollidedInstances;
 
     private Vector3 startPositionLocal;
     Transform t;
@@ -64,7 +64,7 @@ public class RFX4_TransformMotion : MonoBehaviour
         oldPos = t.TransformPoint(startPositionLocal);
         OnCollisionDeactivateBehaviour(true);
         dropFirstFrameForFixUnityBugWithParticles = true;
-      
+
     }
 
     void Update()
@@ -86,10 +86,10 @@ public class RFX4_TransformMotion : MonoBehaviour
         var frameMoveOffsetWorld = Vector3.zero;
         if (!isCollided && !isOutDistance)
         {
-            currentSpeed = Mathf.Clamp(currentSpeed - Speed*Dampeen*Time.deltaTime, MinSpeed, Speed);
-            var currentForwardVector = Vector3.forward*currentSpeed*Time.deltaTime;
-            frameMoveOffset = t.localRotation*currentForwardVector;
-            frameMoveOffsetWorld = startQuaternion*currentForwardVector;
+            currentSpeed = Mathf.Clamp(currentSpeed - Speed * Dampeen * Time.deltaTime, MinSpeed, Speed);
+            var currentForwardVector = Vector3.forward * currentSpeed * Time.deltaTime;
+            frameMoveOffset = t.localRotation * currentForwardVector;
+            frameMoveOffsetWorld = startQuaternion * currentForwardVector;
         }
 
         var currentDistance = (t.localPosition + frameMoveOffset - startPositionLocal).magnitude;
@@ -111,7 +111,7 @@ public class RFX4_TransformMotion : MonoBehaviour
         if (!isOutDistance && currentDistance > Distance)
         {
             isOutDistance = true;
-            t.localPosition = startPositionLocal + t.localRotation*Vector3.forward*Distance;
+            t.localPosition = startPositionLocal + t.localRotation * Vector3.forward * Distance;
             oldPos = t.position;
             return;
         }
@@ -125,15 +125,16 @@ public class RFX4_TransformMotion : MonoBehaviour
     void OnCollisionBehaviour(RaycastHit hit)
     {
         var handler = CollisionEnter;
+        GetComponent<PlayerCollisionFlag>().SetFlag();
         if (handler != null)
-            handler(this, new RFX4_CollisionInfo {Hit = hit});
+            handler(this, new RFX4_CollisionInfo { Hit = hit });
         CollidedInstances.Clear();
         foreach (var effect in EffectsOnCollision)
         {
             var instance = Instantiate(effect, hit.point + hit.normal * CollisionOffset, new Quaternion()) as GameObject;
             CollidedInstances.Add(instance);
             if (HUE > -0.9f)
-            {  
+            {
                 RFX4_ColorHelper.ChangeObjectColorByHUE(instance, HUE);
             }
             instance.transform.LookAt(hit.point + hit.normal + hit.normal * CollisionOffset);
@@ -157,7 +158,7 @@ public class RFX4_TransformMotion : MonoBehaviour
 
         t = transform;
         Gizmos.color = Color.blue;
-        Gizmos.DrawLine(t.position, t.position + t.forward*Distance);
+        Gizmos.DrawLine(t.position, t.position + t.forward * Distance);
 
     }
 
