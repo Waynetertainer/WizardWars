@@ -14,7 +14,8 @@ public class Character : Occupant, IUniqueSpell
     public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
-    public int pWalkCost = 1;
+
+    [Range(1, 20)]public int pWalkCost;
 
     public string SpellName
     {
