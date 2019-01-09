@@ -33,3 +33,9 @@ public enum eBlockType
     HalfBlocked,
 }
 
+public enum eAIState
+{
+    Patrouille,
+    Fight,
+    Hunt
+};

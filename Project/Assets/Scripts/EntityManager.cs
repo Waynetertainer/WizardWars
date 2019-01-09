@@ -26,6 +26,9 @@ public class EntityManager : MonoBehaviour
     {
         get { return mAllEntities.FindAll(T => T.pFraction == eFraction.Player); }
     }
+    
+    [HideInInspector]
+    public List<Tile> pPointsOfInterest = new List<Tile>(); //List of Tiles witch might trigger AIHunt, if in range
 
     [SerializeField]
     private List<Character> mPlayerPrefabs = new List<Character>();
@@ -76,6 +79,7 @@ public class EntityManager : MonoBehaviour
 
     public void KillCharacter(Character c)
     {
+        Debug.Log(c.pName + " has been killed");
         mAllEntities.Remove(c);
         mCurrentEntities.Remove(c);
         Destroy(c.gameObject);

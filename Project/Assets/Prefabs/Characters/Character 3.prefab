@@ -408,7 +408,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: d701b15da0809124aa7de61f6ef80ef8, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -444,17 +444,19 @@ MonoBehaviour:
   pFraction: 1
   pName: The other guy
   pHp: 10
-  pHpCurrent: 0
+  pHpCurrent: 10
   pAp: 10
-  pApCurrent: 0
+  pApCurrent: 10
   pVisionRange: 8
   pWalkRange: 5
   pWalkCost: 1
-  pCurrentAp: 0
   pReachableTiles: []
   pVisibleTiles: []
   pMoved: 0
   pFired: 0
+  pAIPatrouillePoints: []
+  mPatWaypointID: 0
+  pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
   _Damage: 2
   _Cost: 2

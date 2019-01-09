@@ -32,17 +32,11 @@ public class BaseAI
         }
 
         c.pTile.pCharacterId = -1;
-        c.pCurrentAp -= Tile.Distance(c.pTile, target);
+        c.pApCurrent -= Tile.Distance(c.pTile, target);
         c.pTile = target;
         target.pCharacterId = EntityManager.pInstance.GetIdForCharacter(c);
         yield return new WaitForSeconds(1);
         EntityManager.pInstance.pCurrentPlayers[Random.Range(0, EntityManager.pInstance.pCurrentPlayers.Count)].Select();
         GameManager.pInstance.ChangeState(eGameState.Selected);
-    }
-
-    private void EvaluateAI()
-    {
-
-
     }
 }

@@ -94,7 +94,7 @@ public class Tile : MonoBehaviour
         {
             case eGameState.Move:
                 mMouseOver = true;
-                GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+                //GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this)); //HACK: deactivated because of performance issues
                 break;
             case eGameState.FireSkill:
                 Color = GetComponent<Renderer>().material.color;
