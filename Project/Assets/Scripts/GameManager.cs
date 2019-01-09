@@ -125,17 +125,10 @@ public class GameManager : MonoBehaviour
                         }
                         else if (hit.isType<Character>())
                         {
-                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
+                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponentInParent<Character>().pTile))
                             {
-                                pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
-                                if (pActiveCharacter.pApCurrent > 0)
-                                {
-                                    ChangeState(eGameState.Move);
-                                }
-                                else
-                                {
-                                    ChangeState(eGameState.End);
-                                }
+                                pActiveCharacter.StandardAttack(hit.transform.GetComponentInParent<Character>().pTile);
+                                ChangeState(eGameState.Firing);
                             }
                         }
                         break;

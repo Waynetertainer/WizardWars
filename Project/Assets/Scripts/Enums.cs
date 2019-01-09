@@ -17,6 +17,7 @@ public enum eGameState
     WaitForInput,
     FireSkill,
     FireUnique,
+    Firing,
     End,
     EndOfMatch
 }

@@ -15,6 +15,7 @@ public class Character : Occupant, IUniqueSpell
     public int pVisionRange = 10;
     public int pWalkRange = 10;
 
+
     [Range(1, 20)] public int pWalkCost;
 
     public string SpellName
@@ -51,6 +52,10 @@ public class Character : Occupant, IUniqueSpell
 
     public IUniqueSpell pUniqueSpell;
 
+    [Header("VFX")]
+    public GameObject pAura;
+    public GameObject pBasicSpell;
+
     private bool mIsActiveCharacter;
 
     private void Start()
@@ -76,6 +81,7 @@ public class Character : Occupant, IUniqueSpell
     public void Move(Tile targetTile)
     {
         StartCoroutine(MoveEnumerator(targetTile));
+        pAura.SetActive(false);
     }
 
     public IEnumerator MoveEnumerator(Tile targetTile)
@@ -134,17 +140,39 @@ public class Character : Occupant, IUniqueSpell
         if (t.pCharacterId == -1)
             return;
 
+        StartCoroutine(StandardAttackCoroutine(t));
+
+    }
+
+    private IEnumerator StandardAttackCoroutine(Tile t)
+    {
+        pBasicSpell.SetActive(false);
+        pBasicSpell.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position + new Vector3(0, 1, 0));
+        pBasicSpell.SetActive(true);
+
+        yield return new WaitForSeconds(3);
+
+        pAura.SetActive(false);
         pApCurrent -= Cost;
 
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
-        t.GetComponent<Renderer>().material.SetColor("_Color", t.Color);
+        if (pApCurrent > 0)
+        {
+            GameManager.pInstance.ChangeState(eGameState.FireSkill);
+        }
+        else
+        {
+            GameManager.pInstance.ChangeState(eGameState.End);
+        }
+
     }
 
     public void CastUnique(Tile t)
     {
         if (pUniqueSpell != null)
         {
+            pAura.SetActive(false);
             pUniqueSpell.HideUniquePreview(t);
             pApCurrent -= pUniqueSpell.Cost;
             pUniqueSpell.CastUnique(t);
@@ -178,8 +206,8 @@ public class Character : Occupant, IUniqueSpell
 
     private void Update()
     {
-        GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
-                                                                pFraction == eFraction.PC ? Color.blue : Color.red);
+        //GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
+        //                                                        pFraction == eFraction.PC ? Color.blue : Color.red);
     }
 
     public void Select()
@@ -193,9 +221,11 @@ public class Character : Occupant, IUniqueSpell
     {
         HideRange();
         HideView();
+        pAura.SetActive(false);
         GameManager.pInstance.pActiveCharacter = null;
         GameManager.pInstance.pGridGameObject.SetActive(false);
         mIsActiveCharacter = false;
+
     }
 
     public void ShowRange()

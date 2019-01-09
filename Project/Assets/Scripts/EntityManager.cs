@@ -123,6 +123,7 @@ public class EntityManager : MonoBehaviour
         {
             e.pMoved = false;
             e.pFired = false;
+            e.pAura.SetActive(true);
             mCurrentEntities.Add(e);
         }
     }
