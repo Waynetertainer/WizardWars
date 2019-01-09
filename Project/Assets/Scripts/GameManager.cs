@@ -128,7 +128,14 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponentInParent<Character>().pTile))
                             {
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponentInParent<Character>().pTile);
-                                ChangeState(eGameState.Firing);
+                                if (pActiveCharacter.pApCurrent > 0)
+                                {
+                                    ChangeState(eGameState.FireSkill);
+                                }
+                                else
+                                {
+                                    ChangeState(eGameState.End);
+                                }
                             }
                         }
                         break;
@@ -138,7 +145,7 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.WaitForInput);
+                                ChangeState(eGameState.Firing);
                             }
                         }
                         else if (hit.isType<Character>())
@@ -146,7 +153,7 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.WaitForInput);
+                                ChangeState(eGameState.Firing);
                             }
                         }
                         break;

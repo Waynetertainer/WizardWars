@@ -37,6 +37,20 @@ public class Character : Occupant, IUniqueSpell
         get { return _Range; }
     }
 
+    public Character CurrentCharacter
+    {
+        get { return this; }
+    }
+
+    public GameObject VFXPrefab
+    {
+        get { return _VFXPrefab; }
+    }
+    public GameObject VFXSpawner
+    {
+        get { return _VFXSpawner; }
+    }
+
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
     [HideInInspector] public bool pMoved;
@@ -50,19 +64,21 @@ public class Character : Occupant, IUniqueSpell
     [SerializeField] public int _Cost = 2;
     [SerializeField] public int _Range = 4;
 
-    public ScriptableObject pUniqueSpellScriptable;
+    //public ScriptableObject pUniqueSpellScriptable;
 
     public IUniqueSpell pUniqueSpell;
 
     [Header("VFX")]
     public GameObject pAura;
-    public GameObject pBasicSpell;
+    [SerializeField] private GameObject _VFXPrefab;
+    [SerializeField] private GameObject _VFXSpawner;
 
     private bool mIsActiveCharacter;
 
     private void Start()
     {
-        pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
+        //pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
+        pUniqueSpell = GetComponents<IUniqueSpell>()[1];
         pHpCurrent = pHp;
     }
 
@@ -127,6 +143,10 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
+
+        if (pFraction == eFraction.PC)
+            yield break;
+
         if (pApCurrent > 0)
         {
             GameManager.pInstance.ChangeState(eGameState.Move);
@@ -148,9 +168,9 @@ public class Character : Occupant, IUniqueSpell
 
     private IEnumerator StandardAttackCoroutine(Tile t)
     {
-        pBasicSpell.SetActive(false);
-        pBasicSpell.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position + new Vector3(0, 1, 0));
-        pBasicSpell.SetActive(true);
+        var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
+        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position
+                                    + new Vector3(0, pFraction == eFraction.PC ? 1 : 0.5f, 0));
 
         yield return new WaitUntil(() => pEffectHit);
 
@@ -166,6 +186,7 @@ public class Character : Occupant, IUniqueSpell
         }
         else
         {
+            yield return new WaitForSeconds(1);
             GameManager.pInstance.ChangeState(eGameState.End);
         }
 
@@ -178,8 +199,8 @@ public class Character : Occupant, IUniqueSpell
             pAura.SetActive(false);
             pUniqueSpell.HideUniquePreview(t);
             pApCurrent -= pUniqueSpell.Cost;
-            pUniqueSpell.CastUnique(t);
             pFired = true;
+            pUniqueSpell.CastUnique(t);
         }
     }
 

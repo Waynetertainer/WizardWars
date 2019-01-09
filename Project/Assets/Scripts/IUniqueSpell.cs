@@ -13,6 +13,10 @@ public interface IUniqueSpell
     int Cost { get; }
     int Range { get; }
 
+    Character CurrentCharacter { get; }
+    GameObject VFXPrefab { get; }
+    GameObject VFXSpawner { get; }
+
 
     void CastUnique(Tile t);
     void ShowUniquePreview(Tile t);

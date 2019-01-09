@@ -7,12 +7,14 @@ using System;
 using UnityEngine;
 
 [CreateAssetMenu]
-public class DamageSpell : ScriptableObject, IUniqueSpell
+public class DamageSpell : MonoBehaviour, IUniqueSpell
 {
-    [SerializeField]private string _SpellName;
-    [SerializeField]private int _Damage;
-    [SerializeField]private int _Cost;
-    [SerializeField]private int _Range;
+    [SerializeField] private string _SpellName;
+    [SerializeField] private int _Damage;
+    [SerializeField] private int _Cost;
+    [SerializeField] private int _Range;
+    [SerializeField] private GameObject _VFXPrefab;
+    [SerializeField] private GameObject _VFXSpawner;
 
     public string SpellName
     {
@@ -29,6 +31,18 @@ public class DamageSpell : ScriptableObject, IUniqueSpell
     public int Range
     {
         get { return _Range; }
+    }
+
+    public Character CurrentCharacter { get { return GetComponentInParent<Character>(); } }
+
+    public GameObject VFXPrefab
+    {
+        get { return _VFXPrefab; }
+    }
+
+    public GameObject VFXSpawner
+    {
+        get { return _VFXSpawner; }
     }
 
     public void CastUnique(Tile t)
