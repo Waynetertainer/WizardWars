@@ -10,23 +10,22 @@ public class CharacterHealthBar : MonoBehaviour
 {
     private Character mCharacter;
     private Slider mHealthBar;
-    private GameObject mCamera;
+    private Camera mCamera;
 
     private void Start()
     {
         mCharacter = GetComponentInParent<Character>();
         mHealthBar = GetComponentInChildren<Slider>();
-        //GetComponent<Canvas>().worldCamera = Camera.current;
 
         mHealthBar.maxValue = mCharacter.pHp;
         mHealthBar.value = mCharacter.pHp;
 
-        mCamera = GameObject.FindGameObjectWithTag("MainCamera");
+        mCamera = Camera.main;
     }
 
     private void Update()
     {
-        this.transform.LookAt(mCamera.transform);
         mHealthBar.value = Mathf.Lerp(mHealthBar.value, mCharacter.pHpCurrent, Time.deltaTime);
+        this.transform.LookAt(mCamera.transform);
     }
 }

@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
             GridManager.pInstance.pCurrentLevel.pPCSpawns);
 
         EntityManager.pInstance.GetCharacterForId(0).Select();
-        ChangeState(eGameState.Selected);
+        ChangeState(eGameState.Move);
     }
 
     private void Update()
@@ -64,8 +64,17 @@ public class GameManager : MonoBehaviour
                     case eGameState.Select:
                         if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
                         {
-                            hit.transform.GetComponent<Character>().Select();
-                            ChangeState(eGameState.Selected);
+                            if (EntityManager.pInstance.pCurrentPlayers.Contains(
+                                hit.transform.GetComponent<Character>()))
+                            {
+
+                                hit.transform.GetComponent<Character>().Select();
+                                ChangeState(eGameState.Move);
+                            }
+                            else
+                            {
+                                //TODO Show info of clicked character
+                            }
                         }
                         break;
                     case eGameState.Selected:
@@ -82,24 +91,21 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        if (hit.isType<Tile>())
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
                         {
-                            if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            if (pActiveCharacter.pApCurrent == pActiveCharacter.pAp
+                                && EntityManager.pInstance.pCurrentPlayers.Contains(hit.transform.GetComponent<Character>()))
                             {
-                                pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.Moving);
+                                pActiveCharacter.Deselect();
+                                hit.transform.GetComponent<Character>().Select();
+                                ChangeState(eGameState.Move);
+
+                            }
+                            else
+                            {
+                                //TODO Show info of clicked character
                             }
                         }
-                        else if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
-                        {
-                            pActiveCharacter.Deselect();
-                            hit.transform.GetComponent<Character>().Select();
-                            ChangeState(eGameState.Selected);
-                        }
-                        break;
-                    case eGameState.Moving:
-                        break;
-                    case eGameState.WaitForInput:
                         break;
                     case eGameState.FireSkill:
                         if (hit.isType<Tile>())
@@ -107,7 +113,14 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Tile>());
-                                ChangeState(eGameState.WaitForInput);
+                                if (pActiveCharacter.pApCurrent > 0)
+                                {
+                                    ChangeState(eGameState.FireSkill);
+                                }
+                                else
+                                {
+                                    ChangeState(eGameState.End);
+                                }
                             }
                         }
                         else if (hit.isType<Character>())
@@ -115,7 +128,14 @@ public class GameManager : MonoBehaviour
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
                             {
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
-                                ChangeState(eGameState.WaitForInput);
+                                if (pActiveCharacter.pApCurrent > 0)
+                                {
+                                    ChangeState(eGameState.Move);
+                                }
+                                else
+                                {
+                                    ChangeState(eGameState.End);
+                                }
                             }
                         }
                         break;
@@ -138,6 +158,45 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                 }
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, RayCastLayers))
+            {
+                if (EventSystem.current.IsPointerOverGameObject())
+                    return;
+
+                switch (pGameState)
+                {
+                    case eGameState.Move:
+                        if (hit.isType<Tile>())
+                        {
+                            if (pActiveCharacter.pReachableTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            {
+                                pActiveCharacter.Move(hit.transform.GetComponent<Tile>());
+                                ChangeState(eGameState.Moving);
+                            }
+                        }
+
+                        break;
+                }
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            switch (pGameState)
+            {
+                case eGameState.Move:
+
+                    break;
+                case eGameState.FireSkill:
+                    ChangeState(eGameState.Move);
+                    break;
             }
         }
 

@@ -15,7 +15,7 @@ public class Character : Occupant, IUniqueSpell
     public int pVisionRange = 10;
     public int pWalkRange = 10;
 
-    [Range(1, 20)]public int pWalkCost;
+    [Range(1, 20)] public int pWalkCost;
 
     public string SpellName
     {
@@ -119,7 +119,14 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
-        GameManager.pInstance.ChangeState(eGameState.Move);
+        if (pApCurrent > 0)
+        {
+            GameManager.pInstance.ChangeState(eGameState.Move);
+        }
+        else
+        {
+            GameManager.pInstance.ChangeState(eGameState.End);
+        }
     }
 
     public void StandardAttack(Tile t)
@@ -193,7 +200,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pApCurrent < pWalkRange / pWalkCost ? pApCurrent : pWalkRange);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pApCurrent / pWalkCost);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);

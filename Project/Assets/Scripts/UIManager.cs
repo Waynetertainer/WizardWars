@@ -6,6 +6,7 @@
 using System;
 using UI;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
@@ -13,6 +14,7 @@ public class UIManager : MonoBehaviour
 
     public Window pStatScreen;
     public Window pSelectionScreen;
+    public Window pEndScreen;
 
     public Toggle pMoveToggle;
     public Toggle pFireToggle;
@@ -35,6 +37,7 @@ public class UIManager : MonoBehaviour
     {
         pStatScreen.Hide();
         pSelectionScreen.Hide();
+        pEndScreen.Hide();
     }
 
     public void ShowStatScreen()
@@ -109,6 +112,21 @@ public class UIManager : MonoBehaviour
             case eGameState.End:
                 CloseAllWindows();
                 break;
+            case eGameState.EndOfMatch:
+                CloseAllWindows();
+                pEndScreen.Show(EntityManager.pInstance.pPCPlayers.Count == 0);
+                break;
         }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void BackToMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+
     }
 }

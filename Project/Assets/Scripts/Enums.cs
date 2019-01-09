@@ -17,7 +17,8 @@ public enum eGameState
     WaitForInput,
     FireSkill,
     FireUnique,
-    End
+    End,
+    EndOfMatch
 }
 
 public enum eVisibility

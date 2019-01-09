@@ -17,6 +17,10 @@ namespace UI
         {
             gameObject.SetActive(true);
         }
+        public virtual void Show(bool win)
+        {
+            gameObject.SetActive(true);
+        }
 
         public virtual void Hide()
         {
