@@ -15,7 +15,7 @@ public class Character : Occupant, IUniqueSpell
     public int pVisionRange = 10;
     public int pWalkRange = 10;
 
-    [Range(1, 20)]public int pWalkCost;
+    [Range(1, 20)] public int pWalkCost;
 
     public string SpellName
     {
@@ -120,6 +120,7 @@ public class Character : Occupant, IUniqueSpell
 
         pMoved = true;
         GameManager.pInstance.ChangeState(eGameState.Move);
+        
     }
 
     public void StandardAttack(Tile t)
@@ -130,11 +131,21 @@ public class Character : Occupant, IUniqueSpell
         pApCurrent -= Cost;
         //TODO: Check for Cover between tiles to reduce damage
         RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
+        eBlockType maxCover = eBlockType.Empty;
+        /*
         foreach (RaycastHit hit in mHits)
         {
-
+            if (hit.transform.gameObject.GetComponent<Character>().pTile.pBlockType == eBlockType.Blocked)
+            {
+                Debug.Log("Full cover so no damage!");
+                return;
+            }
+            else if (hit.transform.gameObject.GetComponent<Character>().pTile.pBlockType == eBlockType.HalfBlocked)
+            {
+                Debug.Log("Half cover, half damage");
+            }
         }
-
+        */
 
 
 

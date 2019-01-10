@@ -248,12 +248,12 @@ public class GridManager : MonoBehaviour
     /// <returns>Returns the opacity rating of the tiles between start (exclusive) and target (inclusive). If the target is out of range return is Opaque</returns>
     public eVisibility GetVisibilityToTarget(Tile startTile, Tile targetTile, int visionRange)
     {
-        if (Tile.Distance(startTile, targetTile) >visionRange) // out of range = opaque
+        if (Tile.Distance(startTile, targetTile) > visionRange) // out of range = opaque
             return eVisibility.Opaque;
 
         RaycastHit[] mRayHits;
-        mRayHits = Physics.SphereCastAll(startTile.transform.position,0.3f,targetTile.transform.position - startTile.transform.position, Vector3.Distance(startTile.transform.position, targetTile.transform.position));
-        Debug.Log("Collisions to check for Visibility: " + mRayHits.Length.ToString());
+        mRayHits = Physics.SphereCastAll(startTile.transform.position, 0.3f, targetTile.transform.position - startTile.transform.position, Vector3.Distance(startTile.transform.position, targetTile.transform.position));
+        //Debug.Log("Collisions to check for Visibility: " + mRayHits.Length.ToString());
 
         foreach (RaycastHit hit in mRayHits) //search all tile hits for first who makes blocks visibility
         {
@@ -264,6 +264,16 @@ public class GridManager : MonoBehaviour
         }
 
         return eVisibility.Seethrough;
+    }
+
+    public eBlockType GetCoverFromTarget(Tile startTile, Tile targetTile)
+    {
+        RaycastHit mRayHits;
+        if (Physics.SphereCast(startTile.transform.position, 0.3f, targetTile.transform.position - startTile.transform.position, out mRayHits, 5f))
+            return mRayHits.transform.gameObject.GetComponent<Tile>().pBlockType;
+        else
+            Debug.Log("No target hit");
+        return eBlockType.Empty;
     }
 
     public List<Tile> GetPathTo(Tile startTile, Tile endTile)
@@ -357,19 +367,19 @@ public class GridManager : MonoBehaviour
     public List<Tile> GetRing(Tile startTile, int radius, bool includeBlocked)
     {
         List<Tile> result = new List<Tile>();
-        Tile temp = mGrid[startTile.pPosition.x - 2 * (radius), startTile.pPosition.y ];
+        Tile temp = mGrid[startTile.pPosition.x - 2 * (radius), startTile.pPosition.y];
 
         for (int i = 0; i < 6; ++i)
         {
             for (int j = 0; j < radius; ++j)
             {
-                if (temp!=null)
+                if (temp != null)
                 {
                     if (includeBlocked)                             //if check for blocked tiles not needed, remove all lines with // after it
                     {                                               //
                         result.Add(temp);
                     }                                               //
-                    else if(temp.pBlockType==eBlockType.Empty)      //
+                    else if (temp.pBlockType == eBlockType.Empty)      //
                     {                                               //
                         result.Add(temp);                           //
                     }                                               //
@@ -390,7 +400,7 @@ public class GridManager : MonoBehaviour
         result.Add(startTile);
         for (int i = 1; i <= radius; i++)
         {
-            result.AddRange(GetRing(startTile,i,includeBlocked));
+            result.AddRange(GetRing(startTile, i, includeBlocked));
         }
         return result;
     }
