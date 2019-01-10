@@ -75,7 +75,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove in nessesary
+            yield return new WaitForSeconds(1f); // blocks debug stepping. Remove in nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
