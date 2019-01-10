@@ -13,7 +13,7 @@ public class AIevaluator
         Character pActiveTarget = null;
         //int mCoverRoundCount = 0; //TODO: Implement Cover Count
         int shotsLeft = 2; // ai is only allowed to shoot twice
-        
+
         List<Tile> pSteps = new List<Tile>();
 
 
@@ -75,7 +75,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove in nessesary
+            yield return new WaitForSeconds(1f); // blocks debug stepping. Remove in nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
@@ -104,7 +104,7 @@ public class AIevaluator
                         pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mCharacter.mPatWaypointID]);
                     }
 
-                    yield return AIevaluator.AImove(mCharacter ,pSteps[1]); // make one single step and check for targets
+                    yield return AIevaluator.AImove(mCharacter, pSteps[1]); // make one single step and check for targets
                     pActiveTarget = AIfindTarget(mCharacter);
                     if (pActiveTarget != null)
                         pAIState = eAIState.Fight;
@@ -112,11 +112,11 @@ public class AIevaluator
                     break;
                 case eAIState.Fight:
 
-                    Debug.Log(mCharacter.pName + " is searching for cover against " + pActiveTarget.pName );
+                    Debug.Log(mCharacter.pName + " is searching for cover against " + pActiveTarget.pName);
 
                     List<Tile> walkableTiles = GridManager.pInstance.GetReachableTiles(mCharacter.pTile, mCharacter.pApCurrent / mCharacter.pWalkCost);
                     eBlockType currentCoverTarget = eBlockType.Empty;
-                                        
+
                     //Creating lists with all options to choose from
 
                     List<Tile> coverPositionsFull = new List<Tile>();
@@ -144,7 +144,7 @@ public class AIevaluator
 
                     List<Tile> wayToTarget = new List<Tile>();
                     switch (currentCoverTarget)
-                    {   
+                    {
                         case eBlockType.Empty:
                             wayToTarget = GridManager.pInstance.GetPathTo(pActiveTarget.pTile, mCharacter.pTile);
                             break;
@@ -164,7 +164,7 @@ public class AIevaluator
                     if (currentCoverTarget != eBlockType.Empty && wayToTarget.Count <= mCharacter.pApCurrent / mCharacter.pWalkCost && wayToTarget.Count > 1)
                     {
                         Debug.Log("Move to cover becaouse it seems reachable");
-                        yield return AIevaluator.AImove(mCharacter,wayToTarget[1]);
+                        yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
                         break;
                     }
 
@@ -172,7 +172,7 @@ public class AIevaluator
                     if (currentCoverTarget == eBlockType.Empty && wayToTarget.Count > mCharacter.Range)
                     {
                         Debug.Log("Move to Enemy because out of range");
-                        yield return AIevaluator.AImove(mCharacter,wayToTarget[1]);
+                        yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
                         break;
                     }
 
@@ -201,7 +201,7 @@ public class AIevaluator
                         Debug.Log("AI shooting Normal spell at " + pActiveTarget.pName + " for " + mCharacter.Cost.ToString());
                         mCharacter.StandardAttack(pActiveTarget.pTile);// shoot normal spell at target
                         --shotsLeft;
-                        
+
                         pActiveTarget = AIfindTarget(mCharacter); //check for survivors
                         if (pActiveTarget == null)
                             pAIState = eAIState.Patrouille;
@@ -214,6 +214,8 @@ public class AIevaluator
 
                     break;
                 case eAIState.Hunt:
+
+                    /*
                     pActiveTarget = AIfindTarget(mCharacter);
                     if (pActiveTarget != null) // did we find a target on the way to the point of interest?
                     {
@@ -229,7 +231,7 @@ public class AIevaluator
 
                     int tileDistance = int.MaxValue;
                     Tile moveTarget = null;
-                    for (int poiCounter = EntityManager.pInstance.pPointsOfInterest.Count -1; poiCounter > 0 ; --poiCounter)
+                    for (int poiCounter = EntityManager.pInstance.pPointsOfInterest.Count - 1; poiCounter > 0; --poiCounter)
                     {
                         int currentDistance = Tile.Distance(mCharacter.pTile, EntityManager.pInstance.pPointsOfInterest[poiCounter]);
                         if (currentDistance == 1) // if point of interest is resolved remove from list
@@ -256,8 +258,8 @@ public class AIevaluator
 
                     //move one tile to the point of interest
                     List<Tile> stepsToTarget = GridManager.pInstance.GetPathTo(mCharacter.pTile, moveTarget);
-                    yield return AIevaluator.AImove(mCharacter,stepsToTarget[1]);
-                    
+                    yield return AIevaluator.AImove(mCharacter, stepsToTarget[1]);
+                    */
                     break;
                 default:
                     Debug.LogError("AI in unknown state");
@@ -287,10 +289,16 @@ public class AIevaluator
         Debug.Log(mCharacter.pName + " is searching for targets ");
         List<Character> visibleCharaters = new List<Character>();
 
-        foreach (var playerChar in EntityManager.pInstance.pPlayers) //find visible players
-            if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough)
+        //find visible and revealed players
+        foreach (var playerChar in EntityManager.pInstance.pPlayers)
+            if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough || playerChar.pHasBeenRevealed == true)
                 visibleCharaters.Add(playerChar);
 
+        // every visible character is revealed forever
+        foreach (Character playerChar in visibleCharaters)
+            playerChar.pHasBeenRevealed = true;
+
+        
         // find closest enemy
 
         int targetDistance = int.MaxValue;
@@ -308,7 +316,7 @@ public class AIevaluator
         if (returnCharacter != null)
         {
 
-        Debug.Log("Found Enemy " + returnCharacter.pName + " at distance " + targetDistance);
+            Debug.Log("Found Enemy " + returnCharacter.pName + " at distance " + targetDistance);
         }
         else
         {
@@ -327,13 +335,13 @@ public class AIevaluator
     {
 
         //moving the object
-        
+
         while (Vector3.Distance(mCharacter.transform.position, targetTile.transform.position) >= 0.1f)
         {
             mCharacter.transform.position = Vector3.Lerp(mCharacter.transform.position, targetTile.transform.position, Time.deltaTime * 5);
-            yield return new WaitForEndOfFrame();;
+            yield return new WaitForEndOfFrame(); ;
         }
-        
+
         //HACK: jumping the object to target 
         //mCharacter.transform.position = targetTile.transform.position;
 

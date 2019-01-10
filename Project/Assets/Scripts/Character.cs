@@ -14,6 +14,7 @@ public class Character : Occupant, IUniqueSpell
     public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
+    public bool pHasBeenRevealed = false;
 
 
     public bool pEffectHit;
