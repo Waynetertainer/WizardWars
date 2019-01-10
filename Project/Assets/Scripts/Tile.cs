@@ -52,7 +52,7 @@ public class Tile : MonoBehaviour
 
         if (pCharacterId != -1)
         {
-            EntityManager.pInstance.GetCharacterForId(pCharacterId).GetComponent<MeshRenderer>().enabled = true;
+            //EntityManager.pInstance.GetCharacterForId(pCharacterId).GetComponent<MeshRenderer>().enabled = true;
         }
     }
 

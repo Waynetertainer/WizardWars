@@ -29,9 +29,9 @@ public class CameraMovement : MonoBehaviour
     private void Start()
     {
         mTargetPos = GridManager.pInstance.GetCenter().transform.position;
-        transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -60, transform.localEulerAngles.z);
+        //transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, -60, transform.localEulerAngles.z);
         mCam = Camera.main;
-        mZoomState = 1;
+        mZoomState = 3;
     }
 
     private void Update()

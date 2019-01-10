@@ -15,9 +15,9 @@ TagManager:
   - 
   - PostProcessing
   - NotEnlighted
-  - 
-  - 
-  - 
+  - Grid
+  - Terrain
+  - PlayerCollider
   - 
   - 
   - 

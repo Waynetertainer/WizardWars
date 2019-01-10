@@ -66,6 +66,6 @@ public static class Extensions
 
     public static bool isType<T>(this RaycastHit hit)
     {
-        return hit.transform.GetComponent<T>() != null;
+        return hit.transform.GetComponentInParent<T>() != null;
     }
 }

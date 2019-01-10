@@ -1,0 +1,638 @@
+fileFormatVersion: 2
+guid: e2a98459f9b62ac41b750cdc28e1f1d6
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: attachments
+    100002: belt_slot_1
+    100004: belt_slot_2
+    100006: belt_slot_3
+    100008: belt_slot_4
+    100010: belt_slot_5
+    100012: book_back_01
+    100014: book_back_02
+    100016: book_back_03
+    100018: book_back_04
+    100020: book_back_chainattachment
+    100022: book_belt_attachment
+    100024: book_chain_01_back
+    100026: book_chain_01_front
+    100028: book_chain_02_back
+    100030: book_chain_02_front
+    100032: book_chain_03_back
+    100034: book_chain_03_front
+    100036: book_front_01
+    100038: book_front_02
+    100040: book_front_03
+    100042: book_front_04
+    100044: book_front_chainattachment
+    100046: book_ground
+    100048: chest
+    100050: chest 1
+    100052: chest_CTRL
+    100054: chest_GRP
+    100056: CONTROLS
+    100058: curve3
+    100060: EXTRAS
+    100062: GEOMETRY
+    100064: Ground
+    100066: Ground 1
+    100068: Ground_GRP
+    100070: Hair
+    100072: hat
+    100074: hat 1
+    100076: hat_low
+    100078: head
+    100080: head 1
+    100082: head_CTRL
+    100084: head_GRP
+    100086: IK_R_Leg
+    100088: ikHandle1
+    100090: L_ankle
+    100092: L_belt_01
+    100094: L_belt_02
+    100096: L_belt_03
+    100098: L_belt_04
+    100100: L_clavicle
+    100102: L_elbow
+    100104: L_elbow_CTRL
+    100106: L_elbow_GRP
+    100108: L_Eye
+    100110: L_feet
+    100112: L_held
+    100114: L_hip
+    100116: L_indexfinger01_CTRL
+    100118: L_indexfinger01_GRP
+    100120: L_indexfinger02_CTRL
+    100122: L_indexfinger02_GRP
+    100124: L_indexfinger03_CTRL
+    100126: L_indexfinger03_GRP
+    100128: L_indexfinger_01
+    100130: L_indexfinger_02
+    100132: L_indexfinger_03
+    100134: L_indexfinger_04
+    100136: L_knee
+    100138: L_Leg_CTRL
+    100140: L_Leg_GRP
+    100142: L_middlefinger01_CTRL
+    100144: L_middlefinger01_GRP
+    100146: L_middlefinger02_CTRL
+    100148: L_middlefinger02_GRP
+    100150: L_middlefinger03_CTRL
+    100152: L_middlefinger03_GRP
+    100154: L_middlefinger_01
+    100156: L_middlefinger_02
+    100158: L_middlefinger_03
+    100160: L_middlefinger_04
+    100162: L_pinkiefinger01_CTRL
+    100164: L_pinkiefinger01_GRP
+    100166: L_pinkiefinger02_CTRL
+    100168: L_pinkiefinger02_GRP
+    100170: L_pinkiefinger03_GRP
+    100172: L_pinkiefinger_01
+    100174: L_pinkiefinger_02
+    100176: L_pinkiefinger_03
+    100178: L_pinkiefinger_04
+    100180: L_ringfinder_01
+    100182: L_ringfinder_02
+    100184: L_ringfinder_03
+    100186: L_ringfinder_04
+    100188: L_ringfinger01_CTRL
+    100190: L_ringfinger01_GRP
+    100192: L_ringfinger02_CTRL
+    100194: L_ringfinger02_GRP
+    100196: L_ringfinger03_CTRL
+    100198: L_ringfinger03_GRP
+    100200: L_shoulder
+    100202: L_shoulder_01
+    100204: L_shoulder_02
+    100206: L_shoulder_03
+    100208: L_shoulder_CTRL
+    100210: L_shoulder_GRP
+    100212: L_thumb01_CTRL
+    100214: L_thumb01_GRP
+    100216: L_thumb02_CTRL
+    100218: L_thumb02_GRP
+    100220: L_thumb03_CTRL
+    100222: L_thumb03_GRP
+    100224: L_thumb_01
+    100226: L_thumb_02
+    100228: L_thumb_03
+    100230: L_thumb_04
+    100232: L_wrist
+    100234: L_wrist_CTRL
+    100236: L_wrist_GRP
+    100238: LOCATORS
+    100240: neck
+    100242: neck 1
+    100244: neck_CTRL
+    100246: neck_GRP
+    100248: nurbsCircle1
+    100250: nurbsCircle2
+    100252: nurbsCircle3
+    100254: nurbsCircle4
+    100256: nurbsCircle5
+    100258: pelvis
+    100260: pelvis 1
+    100262: pelvis_CTRL
+    100264: pelvis_GRP
+    100266: R_ankle
+    100268: R_ankle 1
+    100270: R_belt_01
+    100272: R_belt_book
+    100274: R_clavicle
+    100276: R_clavicle 1
+    100278: R_elbow
+    100280: R_elbow 1
+    100282: R_elbow_CTRL
+    100284: R_elbow_GRP
+    100286: R_Eye
+    100288: R_feet
+    100290: R_feet 1
+    100292: R_hand
+    100294: R_held
+    100296: R_hip
+    100298: R_hip 1
+    100300: R_indexfinger01_CTRL
+    100302: R_indexfinger01_GRP
+    100304: R_indexfinger02_CTRL
+    100306: R_indexfinger02_GRP
+    100308: R_indexfinger03_CTRL
+    100310: R_indexfinger03_GRP
+    100312: R_indexfinger_01
+    100314: R_indexfinger_01 1
+    100316: R_indexfinger_02
+    100318: R_indexfinger_02 1
+    100320: R_indexfinger_03
+    100322: R_indexfinger_03 1
+    100324: R_indexfinger_04
+    100326: R_knee
+    100328: R_knee 1
+    100330: R_Leg_CTRL
+    100332: R_Leg_GRP
+    100334: R_middlefinger01_CTRL
+    100336: R_middlefinger01_GRP
+    100338: R_middlefinger02_CTRL
+    100340: R_middlefinger02_GRP
+    100342: R_middlefinger03_CTRL
+    100344: R_middlefinger03_GRP
+    100346: R_middlefinger_01
+    100348: R_middlefinger_01 1
+    100350: R_middlefinger_02
+    100352: R_middlefinger_02 1
+    100354: R_middlefinger_03
+    100356: R_middlefinger_03 1
+    100358: R_middlefinger_04
+    100360: R_pinkiefinger01_CTRL
+    100362: R_pinkiefinger01_GRP
+    100364: R_pinkiefinger02_CTRL
+    100366: R_pinkiefinger02_GRP
+    100368: R_pinkiefinger03_CTRL
+    100370: R_pinkiefinger03_CTRL 1
+    100372: R_pinkiefinger03_GRP
+    100374: R_pinkiefinger_01
+    100376: R_pinkiefinger_01 1
+    100378: R_pinkiefinger_02
+    100380: R_pinkiefinger_02 1
+    100382: R_pinkiefinger_03
+    100384: R_pinkiefinger_03 1
+    100386: R_pinkiefinger_04
+    100388: R_ringfinder_01
+    100390: R_ringfinder_02
+    100392: R_ringfinder_03
+    100394: R_ringfinder_04
+    100396: R_ringfinger01_CTRL
+    100398: R_ringfinger01_GRP
+    100400: R_ringfinger02_CTRL
+    100402: R_ringfinger02_GRP
+    100404: R_ringfinger03_CTRL
+    100406: R_ringfinger03_GRP
+    100408: R_ringfinger_01
+    100410: R_ringfinger_02
+    100412: R_ringfinger_03
+    100414: R_shoulder
+    100416: R_shoulder 1
+    100418: R_shoulder_01
+    100420: R_shoulder_02
+    100422: R_shoulder_03
+    100424: R_shoulder_CTRL
+    100426: R_shoulder_GRP
+    100428: R_thumb01_CTRL
+    100430: R_thumb01_GRP
+    100432: R_thumb02_CTRL
+    100434: R_thumb02_GRP
+    100436: R_thumb03_CTRL
+    100438: R_thumb03_GRP
+    100440: R_thumb_01
+    100442: R_thumb_02
+    100444: R_thumb_03
+    100446: R_thumb_04
+    100448: R_tumb_01
+    100450: R_tumb_02
+    100452: R_wrist
+    100454: R_wrist 1
+    100456: R_wrist_CTRL
+    100458: R_wrist_GRP
+    100460: RIG
+    100462: shoulder_down_low
+    100464: shoulder_up_low
+    100466: skirt_low
+    100468: //RootNode
+    100470: sorceress_low
+    100472: spine01_CTRL
+    100474: spine01_GRP
+    100476: spine02_CTRL
+    100478: spine02_GRP
+    100480: spine_01
+    100482: spine_01 1
+    100484: spine_02
+    100486: spine_02 1
+    100488: staff
+    100490: staff_02
+    100492: View
+    400000: attachments
+    400002: belt_slot_1
+    400004: belt_slot_2
+    400006: belt_slot_3
+    400008: belt_slot_4
+    400010: belt_slot_5
+    400012: book_back_01
+    400014: book_back_02
+    400016: book_back_03
+    400018: book_back_04
+    400020: book_back_chainattachment
+    400022: book_belt_attachment
+    400024: book_chain_01_back
+    400026: book_chain_01_front
+    400028: book_chain_02_back
+    400030: book_chain_02_front
+    400032: book_chain_03_back
+    400034: book_chain_03_front
+    400036: book_front_01
+    400038: book_front_02
+    400040: book_front_03
+    400042: book_front_04
+    400044: book_front_chainattachment
+    400046: book_ground
+    400048: chest
+    400050: chest 1
+    400052: chest_CTRL
+    400054: chest_GRP
+    400056: CONTROLS
+    400058: curve3
+    400060: EXTRAS
+    400062: GEOMETRY
+    400064: Ground
+    400066: Ground 1
+    400068: Ground_GRP
+    400070: Hair
+    400072: hat
+    400074: hat 1
+    400076: hat_low
+    400078: head
+    400080: head 1
+    400082: head_CTRL
+    400084: head_GRP
+    400086: IK_R_Leg
+    400088: ikHandle1
+    400090: L_ankle
+    400092: L_belt_01
+    400094: L_belt_02
+    400096: L_belt_03
+    400098: L_belt_04
+    400100: L_clavicle
+    400102: L_elbow
+    400104: L_elbow_CTRL
+    400106: L_elbow_GRP
+    400108: L_Eye
+    400110: L_feet
+    400112: L_held
+    400114: L_hip
+    400116: L_indexfinger01_CTRL
+    400118: L_indexfinger01_GRP
+    400120: L_indexfinger02_CTRL
+    400122: L_indexfinger02_GRP
+    400124: L_indexfinger03_CTRL
+    400126: L_indexfinger03_GRP
+    400128: L_indexfinger_01
+    400130: L_indexfinger_02
+    400132: L_indexfinger_03
+    400134: L_indexfinger_04
+    400136: L_knee
+    400138: L_Leg_CTRL
+    400140: L_Leg_GRP
+    400142: L_middlefinger01_CTRL
+    400144: L_middlefinger01_GRP
+    400146: L_middlefinger02_CTRL
+    400148: L_middlefinger02_GRP
+    400150: L_middlefinger03_CTRL
+    400152: L_middlefinger03_GRP
+    400154: L_middlefinger_01
+    400156: L_middlefinger_02
+    400158: L_middlefinger_03
+    400160: L_middlefinger_04
+    400162: L_pinkiefinger01_CTRL
+    400164: L_pinkiefinger01_GRP
+    400166: L_pinkiefinger02_CTRL
+    400168: L_pinkiefinger02_GRP
+    400170: L_pinkiefinger03_GRP
+    400172: L_pinkiefinger_01
+    400174: L_pinkiefinger_02
+    400176: L_pinkiefinger_03
+    400178: L_pinkiefinger_04
+    400180: L_ringfinder_01
+    400182: L_ringfinder_02
+    400184: L_ringfinder_03
+    400186: L_ringfinder_04
+    400188: L_ringfinger01_CTRL
+    400190: L_ringfinger01_GRP
+    400192: L_ringfinger02_CTRL
+    400194: L_ringfinger02_GRP
+    400196: L_ringfinger03_CTRL
+    400198: L_ringfinger03_GRP
+    400200: L_shoulder
+    400202: L_shoulder_01
+    400204: L_shoulder_02
+    400206: L_shoulder_03
+    400208: L_shoulder_CTRL
+    400210: L_shoulder_GRP
+    400212: L_thumb01_CTRL
+    400214: L_thumb01_GRP
+    400216: L_thumb02_CTRL
+    400218: L_thumb02_GRP
+    400220: L_thumb03_CTRL
+    400222: L_thumb03_GRP
+    400224: L_thumb_01
+    400226: L_thumb_02
+    400228: L_thumb_03
+    400230: L_thumb_04
+    400232: L_wrist
+    400234: L_wrist_CTRL
+    400236: L_wrist_GRP
+    400238: LOCATORS
+    400240: neck
+    400242: neck 1
+    400244: neck_CTRL
+    400246: neck_GRP
+    400248: nurbsCircle1
+    400250: nurbsCircle2
+    400252: nurbsCircle3
+    400254: nurbsCircle4
+    400256: nurbsCircle5
+    400258: pelvis
+    400260: pelvis 1
+    400262: pelvis_CTRL
+    400264: pelvis_GRP
+    400266: R_ankle
+    400268: R_ankle 1
+    400270: R_belt_01
+    400272: R_belt_book
+    400274: R_clavicle
+    400276: R_clavicle 1
+    400278: R_elbow
+    400280: R_elbow 1
+    400282: R_elbow_CTRL
+    400284: R_elbow_GRP
+    400286: R_Eye
+    400288: R_feet
+    400290: R_feet 1
+    400292: R_hand
+    400294: R_held
+    400296: R_hip
+    400298: R_hip 1
+    400300: R_indexfinger01_CTRL
+    400302: R_indexfinger01_GRP
+    400304: R_indexfinger02_CTRL
+    400306: R_indexfinger02_GRP
+    400308: R_indexfinger03_CTRL
+    400310: R_indexfinger03_GRP
+    400312: R_indexfinger_01
+    400314: R_indexfinger_01 1
+    400316: R_indexfinger_02
+    400318: R_indexfinger_02 1
+    400320: R_indexfinger_03
+    400322: R_indexfinger_03 1
+    400324: R_indexfinger_04
+    400326: R_knee
+    400328: R_knee 1
+    400330: R_Leg_CTRL
+    400332: R_Leg_GRP
+    400334: R_middlefinger01_CTRL
+    400336: R_middlefinger01_GRP
+    400338: R_middlefinger02_CTRL
+    400340: R_middlefinger02_GRP
+    400342: R_middlefinger03_CTRL
+    400344: R_middlefinger03_GRP
+    400346: R_middlefinger_01
+    400348: R_middlefinger_01 1
+    400350: R_middlefinger_02
+    400352: R_middlefinger_02 1
+    400354: R_middlefinger_03
+    400356: R_middlefinger_03 1
+    400358: R_middlefinger_04
+    400360: R_pinkiefinger01_CTRL
+    400362: R_pinkiefinger01_GRP
+    400364: R_pinkiefinger02_CTRL
+    400366: R_pinkiefinger02_GRP
+    400368: R_pinkiefinger03_CTRL
+    400370: R_pinkiefinger03_CTRL 1
+    400372: R_pinkiefinger03_GRP
+    400374: R_pinkiefinger_01
+    400376: R_pinkiefinger_01 1
+    400378: R_pinkiefinger_02
+    400380: R_pinkiefinger_02 1
+    400382: R_pinkiefinger_03
+    400384: R_pinkiefinger_03 1
+    400386: R_pinkiefinger_04
+    400388: R_ringfinder_01
+    400390: R_ringfinder_02
+    400392: R_ringfinder_03
+    400394: R_ringfinder_04
+    400396: R_ringfinger01_CTRL
+    400398: R_ringfinger01_GRP
+    400400: R_ringfinger02_CTRL
+    400402: R_ringfinger02_GRP
+    400404: R_ringfinger03_CTRL
+    400406: R_ringfinger03_GRP
+    400408: R_ringfinger_01
+    400410: R_ringfinger_02
+    400412: R_ringfinger_03
+    400414: R_shoulder
+    400416: R_shoulder 1
+    400418: R_shoulder_01
+    400420: R_shoulder_02
+    400422: R_shoulder_03
+    400424: R_shoulder_CTRL
+    400426: R_shoulder_GRP
+    400428: R_thumb01_CTRL
+    400430: R_thumb01_GRP
+    400432: R_thumb02_CTRL
+    400434: R_thumb02_GRP
+    400436: R_thumb03_CTRL
+    400438: R_thumb03_GRP
+    400440: R_thumb_01
+    400442: R_thumb_02
+    400444: R_thumb_03
+    400446: R_thumb_04
+    400448: R_tumb_01
+    400450: R_tumb_02
+    400452: R_wrist
+    400454: R_wrist 1
+    400456: R_wrist_CTRL
+    400458: R_wrist_GRP
+    400460: RIG
+    400462: shoulder_down_low
+    400464: shoulder_up_low
+    400466: skirt_low
+    400468: //RootNode
+    400470: sorceress_low
+    400472: spine01_CTRL
+    400474: spine01_GRP
+    400476: spine02_CTRL
+    400478: spine02_GRP
+    400480: spine_01
+    400482: spine_01 1
+    400484: spine_02
+    400486: spine_02 1
+    400488: staff
+    400490: staff_02
+    400492: View
+    2100000: 'Material #148'
+    2100002: 'Material #147'
+    2100004: 'Material #149'
+    2100006: 'Material #145'
+    2100008: 'Material #154'
+    2300000: Hair
+    2300002: staff
+    2300004: staff_02
+    3300000: Hair
+    3300002: staff
+    3300004: staff_02
+    4300000: attachments
+    4300002: hat_low
+    4300004: skirt_low
+    4300006: shoulder_up_low
+    4300008: shoulder_down_low
+    4300010: sorceress_low
+    4300012: staff
+    4300014: staff_02
+    4300016: Hair
+    7400000: Sorc_Cast_01
+    9500000: //RootNode
+    11100000: //RootNode
+    13700000: attachments
+    13700002: hat_low
+    13700004: shoulder_down_low
+    13700006: shoulder_up_low
+    13700008: skirt_low
+    13700010: sorceress_low
+  externalObjects: {}
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: Sorc_Cast_01
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 60
+      wrapMode: 2
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 1
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 1
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 0.01
+    hasPreviousCalculatedGlobalScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 1
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 1
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

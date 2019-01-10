@@ -4,6 +4,7 @@
 */
 
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class EntityManager : MonoBehaviour
@@ -16,7 +17,7 @@ public class EntityManager : MonoBehaviour
     }
     public List<Character> pPCPlayers
     {
-        get { return mAllEntities.FindAll(T => T.pFraction == eFraction.PC); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.PC); }
     }
     public List<Character> pCurrentPlayers
     {
@@ -24,9 +25,9 @@ public class EntityManager : MonoBehaviour
     }
     public List<Character> pPlayers
     {
-        get { return mAllEntities.FindAll(T => T.pFraction == eFraction.Player); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.Player); }
     }
-    
+
     [HideInInspector]
     public List<Tile> pPointsOfInterest = new List<Tile>(); //List of Tiles witch might trigger AIHunt, if in range
 
@@ -35,7 +36,7 @@ public class EntityManager : MonoBehaviour
     [SerializeField]
     private List<Character> mAIPrefabs = new List<Character>();
 
-    private List<Character> mAllEntities = new List<Character>();
+    private Dictionary<int, Character> mAllEntities = new Dictionary<int, Character>();
     private List<Character> mCurrentEntities = new List<Character>();
 
     public List<ScriptableObject> DBG_Spells = new List<ScriptableObject>();
@@ -59,7 +60,7 @@ public class EntityManager : MonoBehaviour
         {
             Character e = Instantiate(mPlayerPrefabs[i], GridManager.pInstance.GetTileAt(playerSpawns[i]).transform.position,
                 mPlayerPrefabs[i].transform.rotation);
-            mAllEntities.Add(e);
+            mAllEntities.Add(i, e);
             e.pTile = GridManager.pInstance.GetTileAt(playerSpawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);
@@ -69,10 +70,10 @@ public class EntityManager : MonoBehaviour
         {
             Character e = Instantiate(mAIPrefabs[i], GridManager.pInstance.GetTileAt(pcSpawns[i]).transform.position,
                 mAIPrefabs[i].transform.rotation);
-            mAllEntities.Add(e);
+            mAllEntities.Add(i + mPlayerPrefabs.Count, e);
             e.pFraction = eFraction.PC;
             e.pTile = GridManager.pInstance.GetTileAt(pcSpawns[i]);
-            e.pTile.pCharacterId = GetIdForCharacter(e);
+            e.pTile.pCharacterId = i + mPlayerPrefabs.Count;
             mCurrentEntities.Add(e);
         }
     }
@@ -80,17 +81,13 @@ public class EntityManager : MonoBehaviour
     public void KillCharacter(Character c)
     {
         Debug.Log(c.pName + " has been killed");
-        mAllEntities.Remove(c);
+        mAllEntities.Remove(GetIdForCharacter(c));
         mCurrentEntities.Remove(c);
         Destroy(c.gameObject);
 
-        if (pPlayers.Count == 0)
+        if (pPCPlayers.Count == 0 || pPlayers.Count == 0)
         {
-            //TODO: switch to loose screen
-        }
-        else if (pPCPlayers.Count == 0)
-        {
-            //TODO: Switch to win screen
+            GameManager.pInstance.ChangeState(eGameState.EndOfMatch);
         }
     }
 
@@ -108,7 +105,8 @@ public class EntityManager : MonoBehaviour
 
     public int GetIdForCharacter(Character character)
     {
-        return mAllEntities.IndexOf(character);
+        int index = mAllEntities.Values.ToList().IndexOf(character);
+        return mAllEntities.ElementAt(index).Key;
     }
 
     public void EndRound(Character character)
@@ -121,10 +119,11 @@ public class EntityManager : MonoBehaviour
 
     private void ResetCharacters(eFraction fraction)
     {
-        foreach (var e in mAllEntities.FindAll(T => T.pFraction == fraction))
+        foreach (var e in mAllEntities.Values.ToList().FindAll(T => T.pFraction == fraction))
         {
             e.pMoved = false;
             e.pFired = false;
+            e.pAura.SetActive(true);
             mCurrentEntities.Add(e);
         }
     }

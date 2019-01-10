@@ -4,7 +4,8 @@
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
@@ -11178,3 +11179,5 @@ MonoBehaviour:
   - {x: 62, y: 28}
   - {x: 61, y: 35}
   - {x: 49, y: 31}
+  - {x: 57, y: 35}
+  - {x: 54, y: 36}
