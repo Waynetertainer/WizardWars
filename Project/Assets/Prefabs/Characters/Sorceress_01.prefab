@@ -743,6 +743,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5466297652044152030}
     m_Modifications:
+    - target: {fileID: 1339230971020323828, guid: 56f6c3a175c69c240829980393902d97,
+        type: 3}
+      propertyPath: m_Name
+      value: Base
+      objectReference: {fileID: 0}
     - target: {fileID: 1341902989470135130, guid: 56f6c3a175c69c240829980393902d97,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -798,31 +803,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1339230971020323828, guid: 56f6c3a175c69c240829980393902d97,
-        type: 3}
-      propertyPath: m_Name
-      value: Base
-      objectReference: {fileID: 0}
-    - target: {fileID: 4876201742280505969, guid: 56f6c3a175c69c240829980393902d97,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4876201742280505969, guid: 56f6c3a175c69c240829980393902d97,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4878850001439727295, guid: 56f6c3a175c69c240829980393902d97,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4878850001439727295, guid: 56f6c3a175c69c240829980393902d97,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.017
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 56f6c3a175c69c240829980393902d97, type: 3}
 --- !u!4 &5466744114447914252 stripped
@@ -844,6 +824,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5466297652044152030}
     m_Modifications:
+    - target: {fileID: 1243233662051348, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
+      propertyPath: m_Name
+      value: Sorceress_01
+      objectReference: {fileID: 0}
     - target: {fileID: 4254531241053944, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -887,10 +871,6 @@ PrefabInstance:
     - target: {fileID: 4254531241053944, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1243233662051348, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
-      propertyPath: m_Name
-      value: Sorceress_01
       objectReference: {fileID: 0}
     - target: {fileID: 4790408474620826, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -1555,10 +1535,6 @@ PrefabInstance:
     - target: {fileID: 4705152500889464, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 28.404665
-      objectReference: {fileID: 0}
-    - target: {fileID: 4202915721981428, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 999f190805a00124899b0e50e776ff4e, type: 3}
