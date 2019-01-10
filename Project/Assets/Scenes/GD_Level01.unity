@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 107750767}
   - component: {fileID: 107750766}
   - component: {fileID: 107750765}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: FogOfWar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -7929,7 +7929,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8741bc6b903e5408eac387a67ff14d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pPointsOfInterest: []
   mPlayerPrefabs:
   - {fileID: 5674433864005383468, guid: 2deca2246b4ee7d418bdf0e2c7e29792, type: 3}
   - {fileID: 2942241432458684204, guid: b824a1b6ba804ca44a8e80d506efc4fe, type: 3}
@@ -11004,6 +11003,10 @@ PrefabInstance:
     - target: {fileID: 100000, guid: 9e2fa7db8865b854c9f33dc3bd97c592, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 9e2fa7db8865b854c9f33dc3bd97c592, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9e2fa7db8865b854c9f33dc3bd97c592, type: 3}
       propertyPath: m_LocalPosition.x
