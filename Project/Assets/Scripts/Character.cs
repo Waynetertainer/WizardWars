@@ -199,15 +199,20 @@ public class Character : Occupant, IUniqueSpell
 
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
-        if (pApCurrent > 0)
+
+        if (this.pFraction == eFraction.Player)
         {
-            GameManager.pInstance.ChangeState(eGameState.FireSkill);
+            if (pApCurrent > 0)
+            {
+                GameManager.pInstance.ChangeState(eGameState.FireSkill);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1);
+                GameManager.pInstance.ChangeState(eGameState.End);
+            }
         }
-        else
-        {
-            yield return new WaitForSeconds(1);
-            GameManager.pInstance.ChangeState(eGameState.End);
-        }
+
 
     }
 
