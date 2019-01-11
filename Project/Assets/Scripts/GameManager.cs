@@ -112,6 +112,7 @@ public class GameManager : MonoBehaviour
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
+                                ChangeState(eGameState.Firing);
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Tile>());
                                 if (pActiveCharacter.pApCurrent > 0)
                                 {
@@ -125,9 +126,10 @@ public class GameManager : MonoBehaviour
                         }
                         else if (hit.isType<Character>())
                         {
-                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponentInParent<Character>().pTile))
+                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
                             {
-                                pActiveCharacter.StandardAttack(hit.transform.GetComponentInParent<Character>().pTile);
+                                ChangeState(eGameState.Firing);
+                                pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
                                 if (pActiveCharacter.pApCurrent > 0)
                                 {
                                     ChangeState(eGameState.FireSkill);
@@ -144,16 +146,16 @@ public class GameManager : MonoBehaviour
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
-                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
                                 ChangeState(eGameState.Firing);
+                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
                             }
                         }
                         else if (hit.isType<Character>())
                         {
-                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
+                            if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Character>().pTile))
                             {
-                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Tile>());
                                 ChangeState(eGameState.Firing);
+                                pActiveCharacter.CastUnique(hit.transform.GetComponent<Character>().pTile);
                             }
                         }
                         break;
@@ -197,6 +199,9 @@ public class GameManager : MonoBehaviour
                 case eGameState.FireSkill:
                     ChangeState(eGameState.Move);
                     break;
+                case eGameState.FireUnique:
+                    ChangeState(eGameState.Move);
+                    break;
             }
         }
 
@@ -209,6 +214,9 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(eGameState state) //TODO: Replace with setter
     {
+        if (pGameState == eGameState.EndOfMatch)
+            return;
+
         pGameState = state;
 
         switch (pGameState)
@@ -251,6 +259,7 @@ public class GameManager : MonoBehaviour
             case eGameState.End:
                 pActiveCharacter.HideRange();
                 pActiveCharacter.HideView();
+                pActiveCharacter.pAura.gameObject.SetActive(false);
                 EntityManager.pInstance.EndRound(pActiveCharacter);
                 pActiveCharacter.Deselect();
 

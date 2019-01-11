@@ -272,7 +272,9 @@ public class AIevaluator
         // end AI turn
         Debug.Log("AI spent all AP, end turn");
         yield return new WaitForSeconds(1);
-        GameManager.pInstance.ChangeState(eGameState.Select);
+        EntityManager.pInstance.pCurrentPlayers[0].Select();
+        GameManager.pInstance.ChangeState(eGameState.Move);
+        mCharacter.pAura.SetActive(false);
         EntityManager.pInstance.EndRound(mCharacter);
 
     }
@@ -298,7 +300,7 @@ public class AIevaluator
         foreach (Character playerChar in visibleCharaters)
             playerChar.pHasBeenRevealed = true;
 
-        
+
         // find closest enemy
 
         int targetDistance = int.MaxValue;
@@ -335,7 +337,8 @@ public class AIevaluator
     {
 
         //moving the object
-
+        mCharacter.transform.LookAt(targetTile.transform.position);
+        mCharacter.transform.localEulerAngles = new Vector3(-90, mCharacter.transform.localEulerAngles.y, 0);
         while (Vector3.Distance(mCharacter.transform.position, targetTile.transform.position) >= 0.1f)
         {
             mCharacter.transform.position = Vector3.Lerp(mCharacter.transform.position, targetTile.transform.position, Time.deltaTime * 5);

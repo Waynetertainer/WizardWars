@@ -65,6 +65,7 @@ public class Character : Occupant, IUniqueSpell
     [SerializeField] public int _Cost = 2;
     [SerializeField] public int _Range = 4;
 
+    public Transform pHitTransform;
     //public ScriptableObject pUniqueSpellScriptable;
 
     public IUniqueSpell pUniqueSpell;
@@ -100,7 +101,6 @@ public class Character : Occupant, IUniqueSpell
     public void Move(Tile targetTile)
     {
         StartCoroutine(MoveEnumerator(targetTile));
-        pAura.SetActive(false);
     }
 
     public IEnumerator MoveEnumerator(Tile targetTile)
@@ -114,11 +114,15 @@ public class Character : Occupant, IUniqueSpell
             tile.ResetVisibility();
         }
 
+        //pTile.pBlockType = eBlockType.Empty;
         List<Tile> path = GridManager.pInstance.GetPathTo(pTile, targetTile);
 
         for (int i = path.Count - 1; i >= 0; i--)
         {
             var tile = path[i];
+
+            transform.LookAt(tile.transform.position);
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
 
             while (Vector3.Distance(transform.position, tile.transform.position) >= 0.1f)
             {
@@ -144,7 +148,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pMoved = true;
-
+        //pTile.pBlockType = eBlockType.Blocked;
         if (pFraction == eFraction.PC)
             yield break;
 
@@ -169,14 +173,15 @@ public class Character : Occupant, IUniqueSpell
 
     private IEnumerator StandardAttackCoroutine(Tile t)
     {
+        transform.LookAt(t.transform.position);
+        transform.localEulerAngles = new Vector3(pFraction == eFraction.Player ? 0 : -90, transform.localEulerAngles.y, 0);
+
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
-        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position
-                                    + new Vector3(0, pFraction == eFraction.PC ? 1 : 0.5f, 0));
+        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
 
         yield return new WaitUntil(() => pEffectHit);
 
         pEffectHit = false;
-        pAura.SetActive(false);
         pApCurrent -= Cost;
         //TODO: Check for Cover between tiles to reduce damage
         RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
@@ -221,7 +226,6 @@ public class Character : Occupant, IUniqueSpell
     {
         if (pUniqueSpell != null)
         {
-            pAura.SetActive(false);
             pUniqueSpell.HideUniquePreview(t);
             pApCurrent -= pUniqueSpell.Cost;
             pFired = true;

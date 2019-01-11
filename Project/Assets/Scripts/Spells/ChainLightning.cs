@@ -79,35 +79,49 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
 
     private IEnumerator CastUniqueCoroutine(Tile t, int damage)
     {
-        if (damage == 1)
-            yield break;
-
-        if (t.pCharacterId != -1 && t.pCharacterId != EntityManager.pInstance.GetIdForCharacter(CurrentCharacter))
+        if (damage != 1)
         {
-            var inst = Instantiate(damage == Damage ? _VFXPrefab : _VFXPrefab2, mNextSpawn, Quaternion.identity);
-            inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position
-                                  + new Vector3(0, CurrentCharacter.pFraction == eFraction.PC ? 1 : 0.5f, 0));
-            mHitIds.Add(t.pCharacterId);
-
-            yield return new WaitForSeconds(damage == Damage ? 3 : 0.5f);
-            EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
-            mNextSpawn = EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position;
-            mNextSpawn = new Vector3(mNextSpawn.x, mNextSpawn.y + (EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pFraction == eFraction.Player ? 1 : 0.5f), mNextSpawn.z);
-        }
-
-        List<Tile> list = GridManager.pInstance.GetVisibleTiles(t, Range);
-        for (int i = 0; i < list.Count; i++)
-        {
-            var tile = list[i];
-
-            if (tile.pCharacterId != -1 && !mHitIds.Contains(tile.pCharacterId) && tile.pCharacterId != EntityManager.pInstance.GetIdForCharacter(CurrentCharacter))
+            if (t.pCharacterId != -1 && t.pCharacterId != EntityManager.pInstance.GetIdForCharacter(CurrentCharacter))
             {
-                StartCoroutine(CastUniqueCoroutine(tile, damage - 1));
-                yield break;
+                try
+                {
+                    var inst = Instantiate(damage == Damage ? _VFXPrefab : _VFXPrefab2, mNextSpawn,
+                        Quaternion.identity);
+                    inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
+                    mHitIds.Add(t.pCharacterId);
+                }
+                catch
+                {
+                    Debug.Log("Catched Lightning first block");
+                }
+                yield return new WaitForSeconds(damage == Damage ? 3 : 0.5f);
+
+                try
+                {
+                    EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
+                    mNextSpawn = EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform.position;
+
+                    List<Tile> list = GridManager.pInstance.GetVisibleTiles(t, Range);
+                    for (int i = 0; i < list.Count; i++)
+                    {
+                        var tile = list[i];
+
+                        if (tile.pCharacterId != -1 && !mHitIds.Contains(tile.pCharacterId) && tile.pCharacterId !=
+                            EntityManager.pInstance.GetIdForCharacter(CurrentCharacter))
+                        {
+                            StartCoroutine(CastUniqueCoroutine(tile, damage - 1));
+                            yield break;
+                        }
+                    }
+
+                    mHitIds.Clear();
+                }
+                catch
+                {
+                    Debug.Log("Oops something went wrong with the chain lightning so lets skip it");
+                }
             }
         }
-        mHitIds.Clear();
-
         if (CurrentCharacter.pApCurrent > 0)
         {
             GameManager.pInstance.ChangeState(eGameState.Move);

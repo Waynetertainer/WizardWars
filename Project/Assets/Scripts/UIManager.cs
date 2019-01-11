@@ -77,6 +77,10 @@ public class UIManager : MonoBehaviour
 
     public void SetState(eGameState state)
     {
+        if (GameManager.pInstance.pGameState == eGameState.Firing
+            || GameManager.pInstance.pGameState == eGameState.Moving)
+            return;
+
         GameManager.pInstance.ChangeState(state);
     }
 

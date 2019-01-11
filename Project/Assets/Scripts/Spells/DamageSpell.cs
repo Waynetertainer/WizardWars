@@ -51,6 +51,14 @@ public class DamageSpell : MonoBehaviour, IUniqueSpell
         {
             EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
         }
+        if (CurrentCharacter.pApCurrent > 0)
+        {
+            GameManager.pInstance.ChangeState(eGameState.Move);
+        }
+        else
+        {
+            GameManager.pInstance.ChangeState(eGameState.End);
+        }
     }
 
     public void ShowUniquePreview(Tile tile)

@@ -82,7 +82,7 @@ public class CameraMovement : MonoBehaviour
         transform.position = pos;
 
         //Camera Rotation on Zooming
-        transform.localEulerAngles = new Vector3(Mathf.Clamp(16 + pos.y * 4, 30, 60), transform.localEulerAngles.y, transform.localEulerAngles.z);
+        transform.localEulerAngles = new Vector3(Mathf.Clamp(16 + pos.y * 4, 40, 60), transform.localEulerAngles.y, transform.localEulerAngles.z);
 
         //Change Distance between Camera and Pivot to smaller rotation radius while zoomig in
         mCam.transform.localPosition =
