@@ -75,7 +75,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            yield return new WaitForSeconds(1f); // blocks debug stepping. Remove in nessesary
+            //yield return new WaitForSeconds(1f); // blocks debug stepping. Remove in nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
@@ -115,6 +115,12 @@ public class AIevaluator
                     Debug.Log(mCharacter.pName + " is searching for cover against " + pActiveTarget.pName);
 
                     List<Tile> walkableTiles = GridManager.pInstance.GetReachableTiles(mCharacter.pTile, mCharacter.pApCurrent / mCharacter.pWalkCost);
+                    //remove tiles with players on it
+                    for (int i = walkableTiles.Count-1; i > 0; --i)
+                    {
+                        if (walkableTiles[i].pCharacterId != -1)
+                            walkableTiles.Remove(walkableTiles[i]);
+                    }
                     eBlockType currentCoverTarget = eBlockType.Empty;
 
                     //Creating lists with all options to choose from
@@ -123,7 +129,8 @@ public class AIevaluator
                     List<Tile> coverPositionsHalf = new List<Tile>();
                     foreach (Tile walkableTile in walkableTiles)
                     {
-                        if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, pActiveTarget.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough)
+                        if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, pActiveTarget.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough
+                            && walkableTile.pCharacterId == -1) // now with occupied tiles
                         {
                             switch (GridManager.pInstance.GetCoverFromTarget(mCharacter.pTile, pActiveTarget.pTile))
                             {
@@ -171,14 +178,47 @@ public class AIevaluator
                     // if we need to get in range
                     if (currentCoverTarget == eBlockType.Empty && wayToTarget.Count > mCharacter.Range)
                     {
-                        Debug.Log("Move to Enemy because out of range");
-                        yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
+                        // weglist durchgehen und einen punkt wählen der dicht genug für schuss ist und nicht blockiert ist
+                        int possibleFinalWaypoint = 0;
+                        for (int wayPointCounter = wayToTarget.Count -1; wayPointCounter > 0; --wayPointCounter)
+                        {
+                            if (wayToTarget[wayPointCounter].pCharacterId == -1 && Tile.Distance(wayToTarget[wayPointCounter], pActiveTarget.pTile) <= mCharacter.Range)
+                            {
+                                possibleFinalWaypoint = wayPointCounter;
+                            }
+                            else
+                            {
+                                //wayToTarget.RemoveAt(wayPointCounter);
+                            }
+                        }
+
+                        Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps" );
+
+                        for ( int i = 1; i < possibleFinalWaypoint; ++i)
+                        {
+                            yield return AIevaluator.AImove(mCharacter, wayToTarget[i]);
+                        }
+                        /*
+                        if (wayToTarget[1].pCharacterId != -1 && wayToTarget.Count >1) //targettile is blocked by another player.
+                        {
+                            yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
+                            yield return AIevaluator.AImove(mCharacter, wayToTarget[2]); //HACK: step over target. Needs loop
+
+                        }
+                        else
+                        {
+                            yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
+
+                        }
+
+                        */
                         break;
                     }
 
 
 
-                    /*  //HACK: commented out because no special for AI is implemented
+                    /*  
+                     *  //HACK: commented out because no special for AI is implemented
                     if (mCharacter.pApCurrent > mCharacter.pUniqueSpell.Cost) //TODO: #1 Special cooldown? Sanity check?
                     {
                         mCharacter.CastUnique(pActiveTarget.pTile); //fire signature spell against active target
