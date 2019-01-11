@@ -56,7 +56,7 @@ public class HealSpell : MonoBehaviour, IUniqueSpell
         for (int i = 0; i < 5; ++i)
         {
             Tile tile = GridManager.pInstance.GetTileAt(pos.x - i * 2, pos.y);
-            if (tile.pCharacterId != -1)
+            if (tile.pCharacterId != -1 && EntityManager.pInstance.GetCharacterForId(tile.pCharacterId).pFraction == eFraction.Player)
             {
                 EntityManager.pInstance.GetCharacterForId(tile.pCharacterId).DealDamage(Damage);
             }
