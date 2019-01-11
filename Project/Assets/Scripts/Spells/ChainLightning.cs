@@ -83,22 +83,23 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
         {
             if (t.pCharacterId != -1 && t.pCharacterId != EntityManager.pInstance.GetIdForCharacter(CurrentCharacter))
             {
-                var inst = Instantiate(damage == Damage ? _VFXPrefab : _VFXPrefab2, mNextSpawn, Quaternion.identity);
-                inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position
-                                      + new Vector3(0, CurrentCharacter.pFraction == eFraction.PC ? 1 : 0.5f, 0));
-                mHitIds.Add(t.pCharacterId);
-
+                try
+                {
+                    var inst = Instantiate(damage == Damage ? _VFXPrefab : _VFXPrefab2, mNextSpawn,
+                        Quaternion.identity);
+                    inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
+                    mHitIds.Add(t.pCharacterId);
+                }
+                catch
+                {
+                    Debug.Log("Catched Lightning first block");
+                }
                 yield return new WaitForSeconds(damage == Damage ? 3 : 0.5f);
 
                 try
                 {
                     EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
-                    mNextSpawn = EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position;
-                    mNextSpawn = new Vector3(mNextSpawn.x,
-                        mNextSpawn.y +
-                        (EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pFraction == eFraction.Player
-                            ? 1
-                            : 0.5f), mNextSpawn.z);
+                    mNextSpawn = EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform.position;
 
                     List<Tile> list = GridManager.pInstance.GetVisibleTiles(t, Range);
                     for (int i = 0; i < list.Count; i++)

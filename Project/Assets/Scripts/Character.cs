@@ -65,6 +65,7 @@ public class Character : Occupant, IUniqueSpell
     [SerializeField] public int _Cost = 2;
     [SerializeField] public int _Range = 4;
 
+    public Transform pHitTransform;
     //public ScriptableObject pUniqueSpellScriptable;
 
     public IUniqueSpell pUniqueSpell;
@@ -176,8 +177,7 @@ public class Character : Occupant, IUniqueSpell
         transform.localEulerAngles = new Vector3(pFraction == eFraction.Player ? 0 : -90, transform.localEulerAngles.y, 0);
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
-        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).transform.position
-                                    + new Vector3(0, pFraction == eFraction.PC ? 1 : 0.5f, 0));
+        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
 
         yield return new WaitUntil(() => pEffectHit);
 
