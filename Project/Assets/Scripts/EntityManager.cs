@@ -28,8 +28,10 @@ public class EntityManager : MonoBehaviour
         get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.Player); }
     }
 
+    /*
     [HideInInspector]
     public List<Tile> pPointsOfInterest = new List<Tile>(); //List of Tiles witch might trigger AIHunt, if in range
+    */
 
     [SerializeField]
     private List<Character> mPlayerPrefabs = new List<Character>();

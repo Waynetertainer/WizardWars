@@ -14,6 +14,7 @@ public class Character : Occupant, IUniqueSpell
     public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
+    public bool pHasBeenRevealed = false;
 
 
     public bool pEffectHit;
@@ -177,18 +178,42 @@ public class Character : Occupant, IUniqueSpell
         pEffectHit = false;
         pAura.SetActive(false);
         pApCurrent -= Cost;
+        //TODO: Check for Cover between tiles to reduce damage
+        RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
+        eBlockType maxCover = eBlockType.Empty;
+        /*
+        foreach (RaycastHit hit in mHits)
+        {
+            if (hit.transform.gameObject.GetComponent<Character>().pTile.pBlockType == eBlockType.Blocked)
+            {
+                Debug.Log("Full cover so no damage!");
+                return;
+            }
+            else if (hit.transform.gameObject.GetComponent<Character>().pTile.pBlockType == eBlockType.HalfBlocked)
+            {
+                Debug.Log("Half cover, half damage");
+            }
+        }
+        */
+
+
 
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
-        if (pApCurrent > 0)
+
+        if (this.pFraction == eFraction.Player)
         {
-            GameManager.pInstance.ChangeState(eGameState.FireSkill);
+            if (pApCurrent > 0)
+            {
+                GameManager.pInstance.ChangeState(eGameState.FireSkill);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1);
+                GameManager.pInstance.ChangeState(eGameState.End);
+            }
         }
-        else
-        {
-            yield return new WaitForSeconds(1);
-            GameManager.pInstance.ChangeState(eGameState.End);
-        }
+
 
     }
 
