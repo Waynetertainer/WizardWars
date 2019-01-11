@@ -65,6 +65,7 @@ public class EntityManager : MonoBehaviour
             mAllEntities.Add(i, e);
             e.pTile = GridManager.pInstance.GetTileAt(playerSpawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
+            //e.pTile.pBlockType = eBlockType.Blocked;
             mCurrentEntities.Add(e);
         }
 
@@ -76,12 +77,14 @@ public class EntityManager : MonoBehaviour
             e.pFraction = eFraction.PC;
             e.pTile = GridManager.pInstance.GetTileAt(pcSpawns[i]);
             e.pTile.pCharacterId = i + mPlayerPrefabs.Count;
+            //e.pTile.pBlockType = eBlockType.Blocked;
             mCurrentEntities.Add(e);
         }
     }
 
     public void KillCharacter(Character c)
     {
+        //c.pTile.pBlockType = eBlockType.Empty;
         Debug.Log(c.pName + " has been killed");
         mAllEntities.Remove(GetIdForCharacter(c));
         mCurrentEntities.Remove(c);
