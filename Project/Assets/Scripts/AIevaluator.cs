@@ -15,62 +15,7 @@ public class AIevaluator
         int shotsLeft = 2; // ai is only allowed to shoot twice
 
         List<Tile> pSteps = new List<Tile>();
-
-
-        #region AI v1
-        /*
-
-        if (character.pCurrentAp > character.pHp * 0.25 || mCoverRoundCount > 0) //wenn in deckung war oder genug HP hat
-        {
-            if (true) // Ist ein Ziel sichtbar?
-            {
-                if (true) //Bin ichein Runenmagier und hab noch AP für ultimate übrig?
-                {
-                    //ziele in reihenfolge anvisieren: Support, Damage, Tank
-
-                }
-
-                while (character.pApCurrent >= character._Cost) // Solange AP vorhanden sind -> Ballern
-                {
-                    //ziele in reihenfolge anvisieren: Support, Damage, Tank
-                }
-
-            }
-        }
-        else // character hat wenig leben und ist nicht in deckung
-        {
-            if (true) //TODO: Gegner vorhanden und Deckung vor dem gegner vorhanden?
-            {
-                if (true) //TODO: Halbe deckung bevorzugen?!
-                {
-                    //zur halben deckung gehen
-                }
-                else // wenn keine halbe, dann in volle deckung begeben
-                {
-                    //zur vollen deckung gehen
-                }
-
-                if (true) //Bin ichein Runenmagier und hab noch AP für ultimate übrig?
-                {
-                    //ziele in reihenfolge anvisieren: Support, Damage, Tank
-
-                }
-
-                while (character.pApCurrent >= character._Cost) // Solange AP vorhanden sind -> Ballern
-                {
-                    //ziele in reihenfolge anvisieren: Support, Damage, Tank
-                }
-
-
-            }
-            else //TODO: wenn keine deckung vorhanden und kein gegner
-            {
-                //richtung support laufen für heilung?
-            }
-
-        }*/
-        #endregion
-
+        
         #region AI v2
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
@@ -182,22 +127,32 @@ public class AIevaluator
                         int possibleFinalWaypoint = 0;
                         for (int wayPointCounter = wayToTarget.Count -1; wayPointCounter > 0; --wayPointCounter)
                         {
-                            if (wayToTarget[wayPointCounter].pCharacterId == -1 && Tile.Distance(wayToTarget[wayPointCounter], pActiveTarget.pTile) <= mCharacter.Range)
+                            if (wayToTarget[wayPointCounter].pCharacterId == -1 && wayToTarget.Count - wayPointCounter - 1 <= mCharacter.Range)
                             {
                                 possibleFinalWaypoint = wayPointCounter;
                             }
-                            else
+                            else if (wayToTarget[wayPointCounter].pCharacterId == -1 && wayToTarget.Count - wayPointCounter - 1 > mCharacter.Range)
                             {
-                                //wayToTarget.RemoveAt(wayPointCounter);
+                                possibleFinalWaypoint = wayPointCounter;
+                                break;
                             }
                         }
 
                         Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps" );
 
-                        for ( int i = 1; i < possibleFinalWaypoint; ++i)
+                        for ( int stepCount = 1; stepCount <= possibleFinalWaypoint; ++stepCount)
                         {
-                            yield return AIevaluator.AImove(mCharacter, wayToTarget[i]);
+                            yield return AIevaluator.AImove(mCharacter, wayToTarget[stepCount]);
                         }
+
+                        //informing Grid about changes
+                        mCharacter.pTile.pCharacterId = -1;
+                        wayToTarget[possibleFinalWaypoint].pCharacterId = EntityManager.pInstance.GetIdForCharacter(mCharacter);
+                        mCharacter.pTile = wayToTarget[possibleFinalWaypoint];
+
+                        // substract cost for step
+                        mCharacter.pApCurrent -= mCharacter.pWalkCost;
+
                         /*
                         if (wayToTarget[1].pCharacterId != -1 && wayToTarget.Count >1) //targettile is blocked by another player.
                         {
@@ -369,6 +324,7 @@ public class AIevaluator
 
     /// <summary>
     /// Moves the Player to the target tile. Use for one single Step only. No pathfinding! Substracts movement cost of one Step from mCharacter.
+    /// !Does not Set Tile Automatically!
     /// </summary>
     /// <param name="mCharacter">AI Character to move</param>
     /// <param name="targetTile">Adjenct Tile to place the character on</param>
@@ -384,17 +340,6 @@ public class AIevaluator
             mCharacter.transform.position = Vector3.Lerp(mCharacter.transform.position, targetTile.transform.position, Time.deltaTime * 5);
             yield return new WaitForEndOfFrame(); ;
         }
-
-        //HACK: jumping the object to target 
-        //mCharacter.transform.position = targetTile.transform.position;
-
-        // informing the grid about the changes
-        mCharacter.pTile.pCharacterId = -1;
-        targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(mCharacter);
-        mCharacter.pTile = targetTile;
-
-        // substract cost for step
-        mCharacter.pApCurrent -= mCharacter.pWalkCost;
 
         yield return null;
     }
