@@ -164,7 +164,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void StandardAttack(Tile mTarget)
     {
-        if (mTarget.pCharacterId == -1 || pFraction == EntityManager.pInstance.GetCharacterForId( mTarget.pCharacterId).pFraction ) // shot on tile without a character on it or friendly fire
+        if (mTarget.pCharacterId == -1 || pFraction == EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction) // shot on tile without a character on it or friendly fire
             return;
 
         StartCoroutine(StandardAttackCoroutine(mTarget));
@@ -223,12 +223,22 @@ public class Character : Occupant, IUniqueSpell
 
     public void CastUnique(Tile mTarget)
     {
-        if (pUniqueSpell != null) //TODO: friendly fire test
+        if (pUniqueSpell != null)
         {
-            pUniqueSpell.HideUniquePreview(mTarget);
-            pApCurrent -= pUniqueSpell.Cost;
-            pFired = true;
-            pUniqueSpell.CastUnique(mTarget);
+            if (pUniqueSpell.SpellName == "Heal" && EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == pFraction) // friendly fire ok for heal
+            {
+                pUniqueSpell.HideUniquePreview(mTarget);
+                pApCurrent -= pUniqueSpell.Cost;
+                pFired = true;
+                pUniqueSpell.CastUnique(mTarget);
+            }
+            else if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction != pFraction) // every other spell should not hit friendlies
+            {
+                pUniqueSpell.HideUniquePreview(mTarget);
+                pApCurrent -= pUniqueSpell.Cost;
+                pFired = true;
+                pUniqueSpell.CastUnique(mTarget);
+            }
         }
     }
 
