@@ -20,7 +20,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            //yield return new WaitForSeconds(1f); // blocks debug stepping. Remove in nessesary
+            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove in nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
@@ -288,14 +288,18 @@ public class AIevaluator
 
         //find visible and revealed players
         foreach (var playerChar in EntityManager.pInstance.pPlayers)
-            if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough || playerChar.pHasBeenRevealed == true)
+        {
+            if (mCharacter.pRevealedCharacters.IndexOf(playerChar) >= 0) //character already known?
+            {
                 visibleCharaters.Add(playerChar);
-
-        // every visible character is revealed forever
-        foreach (Character playerChar in visibleCharaters)
-            playerChar.pHasBeenRevealed = true;
-
-
+            }
+            else if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+            {
+                visibleCharaters.Add(playerChar);
+                mCharacter.pRevealedCharacters.Add(playerChar);
+            }
+        }
+        
         // find closest enemy
 
         int targetDistance = int.MaxValue;

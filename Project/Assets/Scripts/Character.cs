@@ -14,7 +14,6 @@ public class Character : Occupant, IUniqueSpell
     public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
-    public bool pHasBeenRevealed = false;
 
 
     public bool pEffectHit;
@@ -54,6 +53,7 @@ public class Character : Occupant, IUniqueSpell
 
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
+    [HideInInspector] public List<Character> pRevealedCharacters = new List<Character>(); // used by AI to remeber a target
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
     public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
