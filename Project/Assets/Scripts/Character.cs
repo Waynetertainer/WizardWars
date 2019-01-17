@@ -162,13 +162,12 @@ public class Character : Occupant, IUniqueSpell
         }
     }
 
-    public void StandardAttack(Tile t)
+    public void StandardAttack(Tile mTarget)
     {
-        if (t.pCharacterId == -1)
+        if (mTarget.pCharacterId == -1 || pFraction == EntityManager.pInstance.GetCharacterForId( mTarget.pCharacterId).pFraction ) // shot on tile without a character on it or friendly fire
             return;
 
-        StartCoroutine(StandardAttackCoroutine(t));
-
+        StartCoroutine(StandardAttackCoroutine(mTarget));
     }
 
     private IEnumerator StandardAttackCoroutine(Tile t)
@@ -222,14 +221,14 @@ public class Character : Occupant, IUniqueSpell
 
     }
 
-    public void CastUnique(Tile t)
+    public void CastUnique(Tile mTarget)
     {
-        if (pUniqueSpell != null)
+        if (pUniqueSpell != null) //TODO: friendly fire test
         {
-            pUniqueSpell.HideUniquePreview(t);
+            pUniqueSpell.HideUniquePreview(mTarget);
             pApCurrent -= pUniqueSpell.Cost;
             pFired = true;
-            pUniqueSpell.CastUnique(t);
+            pUniqueSpell.CastUnique(mTarget);
         }
     }
 
