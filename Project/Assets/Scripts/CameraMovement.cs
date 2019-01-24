@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class CameraMovement : MonoBehaviour
 {
-
+    public int pZoomValue;
     [Range(0, 1)]
     public float pMovementSmooth = 0.1f;
     [Range(0, 1)]
@@ -16,7 +16,7 @@ public class CameraMovement : MonoBehaviour
     public float pZoomSpeed = 40;
     [Range(0, 20)]
     public float pRotateSpeed = 5;
-    public int[] pZoomValues = { 30, 25, 20, 15, 10, 5, 2, 1 };
+    [HideInInspector]public int[] pZoomValues = { 30, 25, 20, 15, 10, 5, 2, 1 };
     public bool pBlocked;
 
     private static Transform mTarget;
@@ -62,7 +62,7 @@ public class CameraMovement : MonoBehaviour
                 moveY = -1;
             }
 #endif
-        float zoomFactor = ((float)pZoomValues[mZoomState] / pZoomValues[0]);
+        float zoomFactor = ((float)pZoomValue / pZoomValues[0]);
 
         if (moveX != 0 || moveY != 0)
         {
@@ -78,7 +78,7 @@ public class CameraMovement : MonoBehaviour
 
         //Camera Zoom
         Vector3 pos = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, pZoomValues.Last(), 200), transform.position.z);
-        pos.y = Mathf.Lerp(pos.y, pZoomValues[mZoomState], pZoomSmooth);
+        pos.y = Mathf.Lerp(pos.y, pZoomValue, pZoomSmooth);
         transform.position = pos;
 
         //Camera Rotation on Zooming
@@ -86,7 +86,7 @@ public class CameraMovement : MonoBehaviour
 
         //Change Distance between Camera and Pivot to smaller rotation radius while zoomig in
         mCam.transform.localPosition =
-            Vector3.Lerp(mCam.transform.localPosition, new Vector3(0, 0, -pZoomValues[mZoomState] * 4), pZoomSmooth);
+            Vector3.Lerp(mCam.transform.localPosition, new Vector3(0, 0, -pZoomValue * 4), pZoomSmooth);
 
         if (Input.GetKey(KeyCode.E))
         {
@@ -98,20 +98,20 @@ public class CameraMovement : MonoBehaviour
             transform.eulerAngles += new Vector3(0, pRotateSpeed * Time.deltaTime * 20, 0);
         }
 
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (mZoomState < pZoomValues.Length - 1)
-            {
-                mZoomState++;
-            }
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (mZoomState > 0)
-            {
-                mZoomState--;
-            }
-        }
+        //if (Input.GetAxis("Mouse ScrollWheel") > 0)
+        //{
+        //    if (mZoomState < pZoomValues.Length - 1)
+        //    {
+        //        mZoomState++;
+        //    }
+        //}
+        //if (Input.GetAxis("Mouse ScrollWheel") < 0)
+        //{
+        //    if (mZoomState > 0)
+        //    {
+        //        mZoomState--;
+        //    }
+        //}
     }
 
     public static void SetTarget(Transform target)
