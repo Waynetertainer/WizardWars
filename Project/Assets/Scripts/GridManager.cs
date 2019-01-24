@@ -1,9 +1,5 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering;
 
 
 public class GridManager : MonoBehaviour
@@ -37,20 +33,6 @@ public class GridManager : MonoBehaviour
         CreateGrid();
         CreateNavigation();
 
-
-        //int i = 0;
-        //foreach (Vector2Int position in pSpawnPoints)
-        //{
-        //    Character character = Instantiate(pCharacterPrefab, new Vector3(
-        //        mGrid[i, position.x].gameObject.transform.position.x,
-        //        mGrid[i, position.x].gameObject.transform.position.y + 1.2f,
-        //        mGrid[i, position.x].gameObject.transform.position.z),
-        //        Quaternion.identity).GetComponent<Character>();
-        //    character.GetComponent<Character>().pTile = mGrid[i, position.x];
-        //    mGrid[i, position.x].pCharacter = character.GetComponent<Character>();
-        //    character.pFraction = i < 6 ? eFraction.PC : eFraction.Player;
-        //    i += 2;
-        //}
     }
 
     public List<Tile> GetReachableTiles(Tile startTile, int range)
@@ -155,22 +137,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    //private void CreateGrid(Tile[,] input)
-    //{
-    //    mGrid = new Tile[input.GetLength(0), input.GetLength(1)];
-    //    for (int j = 0; j < mGrid.GetLength(1); j++)
-    //    {
-    //        for (int i = 0; i < mGrid.GetLength(0); i++)
-    //        {
-    //            if (i % 2 != j % 2) continue;
-    //            GameObject tempTile = Instantiate(pTilePrefab, new Vector3(j * 1.5f, 1, i * Mathf.Sqrt(3) / 2), Quaternion.identity);
-    //            mGrid[i, j] = tempTile.GetComponent<Tile>();
-    //            mGrid[i, j].pPosition = new Vector2Int(i, j);
-    //            //TODO add Occupant
-    //        }
-    //    }
-    //}
-
     public Tile GetNeighbour(Tile startTile, int direction)
     {
         switch (direction)
@@ -271,6 +237,33 @@ public class GridManager : MonoBehaviour
             }
         }
         return allTiles;
+    }
+
+    /// <summary>
+    /// Checks if a target Tile is visible from a certain point.
+    /// </summary>
+    /// <param name="startTile">Startingtile from where the vision check is made</param>
+    /// <param name="targetTile">Target tile that is looked at.</param>
+    /// <param name="visionRange">Range to check.</param>
+    /// <returns>Returns the opacity rating of the tiles between start (exclusive) and target (inclusive). If the target is out of range return is Opaque</returns>
+    public eVisibility GetVisibilityToTarget(Tile startTile, Tile targetTile, int visionRange)
+    {
+        if (Tile.Distance(startTile, targetTile) >visionRange) // out of range = opaque
+            return eVisibility.Opaque;
+
+        RaycastHit[] mRayHits;
+        mRayHits = Physics.SphereCastAll(startTile.transform.position,0.3f,targetTile.transform.position - startTile.transform.position, Vector3.Distance(startTile.transform.position, targetTile.transform.position));
+        Debug.Log("Collisions to check for Visibility: " + mRayHits.Length.ToString());
+
+        foreach (RaycastHit hit in mRayHits) //search all tile hits for first who makes blocks visibility
+        {
+            if (hit.transform.gameObject.name.Contains("Tile") && hit.transform.gameObject.GetComponent<Tile>().eVisibility == eVisibility.Opaque) // we only check tile information for occlusion
+            {
+                return eVisibility.Opaque;
+            }
+        }
+
+        return eVisibility.Seethrough;
     }
 
     public List<Tile> GetPathTo(Tile startTile, Tile endTile)

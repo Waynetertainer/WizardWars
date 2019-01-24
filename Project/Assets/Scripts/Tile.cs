@@ -90,6 +90,7 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseEnter()
     {
+        /*
         //begin test
         Color = GetComponent<Renderer>().material.color;
         GetComponent<Renderer>().material.SetColor("_Color", Color.blue);
@@ -99,11 +100,12 @@ public class Tile : MonoBehaviour
             tile.GetComponent<Renderer>().material.SetColor("_Color", Color.cyan);
         }
         //end test
+        */
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
                 mMouseOver = true;
-                GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this));
+                //GridManager.pInstance.DrawPath(GridManager.pInstance.GetPathTo(GameManager.pInstance.pActiveCharacter.pTile, this)); //HACK: deactivated because of performance issues
                 break;
             case eGameState.FireSkill:
                 Color = GetComponent<Renderer>().material.color;
@@ -118,6 +120,7 @@ public class Tile : MonoBehaviour
 
     protected virtual void OnMouseExit()
     {
+        /*
         //begin test
         GetComponent<Renderer>().material.SetColor("_Color", Color);
         foreach (Tile tile in GridManager.pInstance.GetRing(this, 3, false))
@@ -125,6 +128,7 @@ public class Tile : MonoBehaviour
             tile.GetComponent<Renderer>().material.SetColor("_Color", Color);
         }
         //end test
+        */
         switch (GameManager.pInstance.pGameState)
         {
             case eGameState.Move:
