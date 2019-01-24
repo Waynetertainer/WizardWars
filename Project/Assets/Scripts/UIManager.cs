@@ -13,7 +13,6 @@ public class UIManager : MonoBehaviour
 
     public Window pStatScreen;
     public Window pSelectionScreen;
-    public Window pToolTipScreen;
 
     public Toggle pMoveToggle;
     public Toggle pFireToggle;
@@ -111,22 +110,5 @@ public class UIManager : MonoBehaviour
                 CloseAllWindows();
                 break;
         }
-    }
-
-    public void ShowTooltip(string action)
-    {
-        switch (action)
-        {
-            case ("FireBall"):
-                pToolTipScreen.Show();
-
-
-                break;
-        }
-    }
-
-    public void HideToolTip()
-    {
-        pToolTipScreen.Hide();
     }
 }
