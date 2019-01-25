@@ -7,12 +7,12 @@ TerrainLayer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: layer_background 2 offset  ,21.11Ground_Mud_normal(15.000,15.000)(0.000,0.000)(0.000,0.000,0.000),0.000,0.000
-  m_DiffuseTexture: {fileID: 2800000, guid: b3ec2352ecaa0124e94106091cf8a37c, type: 3}
-  m_NormalMapTexture: {fileID: 2800000, guid: 74ddfdc2d35e88d42915d99ffeb2ea71, type: 3}
+  m_DiffuseTexture: {fileID: 2800000, guid: d9414f6baa8b02b4cbb4fed6c832125d, type: 3}
+  m_NormalMapTexture: {fileID: 2800000, guid: 0ed297d654ea1394b84a4fdd81f256cd, type: 3}
   m_MaskMapTexture: {fileID: 0}
   m_TileSize: {x: 15, y: 15}
   m_TileOffset: {x: 0, y: 0}
-  m_Specular: {r: 0, g: 0, b: 0, a: 0}
+  m_Specular: {r: 1, g: 1, b: 1, a: 0}
   m_Metallic: 0
   m_Smoothness: 0
   m_NormalScale: 1
