@@ -15,6 +15,8 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
     [SerializeField] private int _Damage;
     [SerializeField] private int _Cost;
     [SerializeField] private int _Range;
+    [SerializeField] private int _Cooldown;
+    [SerializeField] [Multiline] private string _Description;
     [SerializeField] private GameObject _VFXPrefab;
     [SerializeField] private GameObject _VFXPrefab2;
     [SerializeField] private GameObject _VFXSpawner;
@@ -37,6 +39,14 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
     public int Range
     {
         get { return _Range; }
+    }
+    public int Cooldown
+    {
+        get { return _Cooldown; }
+    }
+    public string Description
+    {
+        get { return _Description; }
     }
 
     public Character CurrentCharacter { get { return GetComponentInParent<Character>(); } }
@@ -122,7 +132,7 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
                 }
             }
         }
-        if (CurrentCharacter.pApCurrent > 0)
+        if (CurrentCharacter.pApCurrent > 5)
         {
             GameManager.pInstance.ChangeState(eGameState.Move);
         }

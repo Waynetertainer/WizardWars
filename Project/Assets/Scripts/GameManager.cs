@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public static GameManager pInstance;
     public GameObject pGridGameObject;
     public eGameState pGameState;
+    public eFraction pCurrentFraction;
+
     public System.Random pRandom = new System.Random();
     public LayerMask RayCastLayers;
 
@@ -62,9 +64,9 @@ public class GameManager : MonoBehaviour
                 switch (pGameState)
                 {
                     case eGameState.Select:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
                         {
-                            if (EntityManager.pInstance.pCurrentPlayers.Contains(
+                            if (EntityManager.pInstance.pAllCurrentPlayers.Contains(
                                 hit.transform.GetComponent<Character>()))
                             {
 
@@ -78,7 +80,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Selected:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
                         {
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
@@ -91,10 +93,10 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == eFraction.Player)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
                         {
                             if (pActiveCharacter.pApCurrent == pActiveCharacter.pAp
-                                && EntityManager.pInstance.pCurrentPlayers.Contains(hit.transform.GetComponent<Character>()))
+                                && EntityManager.pInstance.pAllCurrentPlayers.Contains(hit.transform.GetComponent<Character>()))
                             {
                                 pActiveCharacter.Deselect();
                                 hit.transform.GetComponent<Character>().Select();
@@ -108,13 +110,13 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.FireSkill:
-                        if (hit.isType<Tile>())
+                        if (hit.isType<Tile>() && hit.transform.GetComponent<Tile>().pCharacterId != -1)
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
                                 ChangeState(eGameState.Firing);
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Tile>());
-                                if (pActiveCharacter.pApCurrent > 0)
+                                if (pActiveCharacter.pApCurrent > 5)
                                 {
                                     ChangeState(eGameState.FireSkill);
                                 }
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
                             {
                                 ChangeState(eGameState.Firing);
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
-                                if (pActiveCharacter.pApCurrent > 0)
+                                if (pActiveCharacter.pApCurrent > 5)
                                 {
                                     ChangeState(eGameState.FireSkill);
                                 }
@@ -140,9 +142,13 @@ public class GameManager : MonoBehaviour
                                 }
                             }
                         }
+                        else
+                        {
+                            ChangeState(eGameState.Move);
+                        }
                         break;
                     case eGameState.FireUnique:
-                        if (hit.isType<Tile>())
+                        if (hit.isType<Tile>() && hit.transform.GetComponent<Tile>().pCharacterId != -1)
                         {
                             if (pActiveCharacter.pVisibleTiles.Contains(hit.transform.GetComponent<Tile>()))
                             {
@@ -157,6 +163,10 @@ public class GameManager : MonoBehaviour
                                 ChangeState(eGameState.Firing);
                                 pActiveCharacter.CastUnique(hit.transform.GetComponent<Character>().pTile);
                             }
+                        }
+                        else
+                        {
+                            ChangeState(eGameState.Move);
                         }
                         break;
                 }
@@ -263,12 +273,18 @@ public class GameManager : MonoBehaviour
                 EntityManager.pInstance.EndRound(pActiveCharacter);
                 pActiveCharacter.Deselect();
 
-                Character ai = EntityManager.pInstance.pCurrentPCPlayers[
-                    Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
-                CameraMovement.SetTarget(ai.transform);
+                pCurrentFraction = pCurrentFraction == eFraction.Player1 ? eFraction.Player2 : eFraction.Player1;
 
-                //StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
-                StartCoroutine(AIevaluator.EvaluateAI(ai));
+                Character t = EntityManager.pInstance.pAllCurrentPlayers.Find(T => T.pFraction == pCurrentFraction);
+                t.Select();
+                ChangeState(eGameState.Select);
+
+                //Character ai = EntityManager.pInstance.pCurrentPCPlayers[
+                //    Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
+                //CameraMovement.SetTarget(ai.transform);
+                //
+                ////StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
+                //StartCoroutine(AIevaluator.EvaluateAI(ai));
 
                 break;
         }

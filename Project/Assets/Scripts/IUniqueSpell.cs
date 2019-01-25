@@ -12,6 +12,8 @@ public interface IUniqueSpell
     int Damage { get; }
     int Cost { get; }
     int Range { get; }
+    int Cooldown { get; }
+    string Description { get; }
 
     Character CurrentCharacter { get; }
     GameObject VFXPrefab { get; }

@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public Window pStatScreen;
     public Window pSelectionScreen;
     public Window pEndScreen;
+    public Window pToolTipScreen;
 
     public Toggle pMoveToggle;
     public Toggle pFireToggle;
@@ -125,6 +126,15 @@ public class UIManager : MonoBehaviour
                 pEndScreen.Show(EntityManager.pInstance.pPCPlayers.Count == 0);
                 break;
         }
+    }
+    public void ShowTooltip(string action)
+    {
+        pToolTipScreen.Show(action);
+    }
+
+    public void HideToolTip()
+    {
+        pToolTipScreen.Hide();
     }
 
     public void Restart()

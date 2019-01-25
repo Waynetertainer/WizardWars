@@ -36,6 +36,14 @@ public class Character : Occupant, IUniqueSpell
     {
         get { return _Range; }
     }
+    public int Cooldown
+    {
+        get { return _Cooldown; }
+    }
+    public string Description
+    {
+        get { return _Description; }
+    }
 
     public Character CurrentCharacter
     {
@@ -59,10 +67,12 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public int mPatWaypointID = 0; // used for AI
     public CharacterHealthBar pHealthBarScript;
 
-    [SerializeField] public string _SpellName = "Fireball";
-    [SerializeField] public int _Damage = 2;
-    [SerializeField] public int _Cost = 2;
-    [SerializeField] public int _Range = 4;
+    [SerializeField] private string _SpellName = "Magic Missile";
+    [SerializeField] private int _Damage = 2;
+    [SerializeField] private int _Cost = 2;
+    [SerializeField] private int _Range = 4;
+    [SerializeField] private int _Cooldown;
+    [SerializeField] [Multiline] private string _Description;
 
     public Transform pHitTransform;
     //public ScriptableObject pUniqueSpellScriptable;
@@ -132,7 +142,7 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pTile.pCharacterId = -1;
-        pApCurrent -= Tile.Distance(pTile, targetTile) * pWalkCost;
+        pApCurrent -= pWalkCost;
         pTile = targetTile;
         targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
@@ -151,7 +161,7 @@ public class Character : Occupant, IUniqueSpell
         if (pFraction == eFraction.AI1 || pFraction == eFraction.AI2)
             yield break;
 
-        if (pApCurrent > 0)
+        if (pApCurrent > 5)
         {
             GameManager.pInstance.ChangeState(eGameState.Move);
         }
@@ -211,7 +221,7 @@ public class Character : Occupant, IUniqueSpell
 
         if (this.pFraction == eFraction.Player1 || pFraction == eFraction.Player2)
         {
-            if (pApCurrent > 0)
+            if (pApCurrent > 5)
             {
                 GameManager.pInstance.ChangeState(eGameState.FireSkill);
             }
@@ -229,6 +239,7 @@ public class Character : Occupant, IUniqueSpell
     {
         if (pUniqueSpell != null)
         {
+            //TODO Crashes when clickin g on empty tile
             if (pUniqueSpell.SpellName == "Heal" && EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == pFraction) // friendly fire ok for heal
             {
                 pUniqueSpell.HideUniquePreview(mTarget);
@@ -295,7 +306,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pApCurrent / pWalkCost);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile,pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
