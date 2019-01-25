@@ -15,7 +15,7 @@ public class AIevaluator
         int shotsLeft = 2; // ai is only allowed to shoot twice
 
         List<Tile> pSteps = new List<Tile>();
-        
+
         #region AI v2
         while (mCharacter.pApCurrent > 0) //TODO: #2 do stuff until AP are spend, possible infinite loop if char is in position but shot is too expensive
         {
@@ -61,7 +61,7 @@ public class AIevaluator
 
                     List<Tile> walkableTiles = GridManager.pInstance.GetReachableTiles(mCharacter.pTile, mCharacter.pApCurrent / mCharacter.pWalkCost);
                     //remove tiles with players on it
-                    for (int i = walkableTiles.Count-1; i > 0; --i)
+                    for (int i = walkableTiles.Count - 1; i > 0; --i)
                     {
                         if (walkableTiles[i].pCharacterId != -1)
                             walkableTiles.Remove(walkableTiles[i]);
@@ -125,7 +125,7 @@ public class AIevaluator
                     {
                         // weglist durchgehen und einen punkt wählen der dicht genug für schuss ist und nicht blockiert ist
                         int possibleFinalWaypoint = 0;
-                        for (int wayPointCounter = wayToTarget.Count -1; wayPointCounter > 0; --wayPointCounter)
+                        for (int wayPointCounter = wayToTarget.Count - 1; wayPointCounter > 0; --wayPointCounter)
                         {
                             if (wayToTarget[wayPointCounter].pCharacterId == -1 && wayToTarget.Count - wayPointCounter - 1 <= mCharacter.Range)
                             {
@@ -138,9 +138,9 @@ public class AIevaluator
                             }
                         }
 
-                        Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps" );
+                        Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps");
 
-                        for ( int stepCount = 1; stepCount <= possibleFinalWaypoint; ++stepCount)
+                        for (int stepCount = 1; stepCount <= possibleFinalWaypoint; ++stepCount)
                         {
                             yield return AIevaluator.AImove(mCharacter, wayToTarget[stepCount]);
                         }
@@ -267,11 +267,13 @@ public class AIevaluator
         // end AI turn
         Debug.Log("AI spent all AP, end turn");
         yield return new WaitForSeconds(1);
-        EntityManager.pInstance.pCurrentPlayers[0].Select();
+        if (mCharacter.pFraction == eFraction.AI1)
+            EntityManager.pInstance.pCurrentPlayer2Players[0].Select();
+        else
+            EntityManager.pInstance.pCurrentPlayer1Players[0].Select();
         GameManager.pInstance.ChangeState(eGameState.Move);
         mCharacter.pAura.SetActive(false);
         EntityManager.pInstance.EndRound(mCharacter);
-
     }
 
 
@@ -287,19 +289,43 @@ public class AIevaluator
         List<Character> visibleCharaters = new List<Character>();
 
         //find visible and revealed players
-        foreach (var playerChar in EntityManager.pInstance.pPlayers)
+        if (mCharacter.pFraction == eFraction.AI1)
         {
-            if (mCharacter.pRevealedCharacters.IndexOf(playerChar) >= 0) //character already known?
+            foreach (var playerChar in EntityManager.pInstance.pCurrentPlayer2Players)
             {
-                visibleCharaters.Add(playerChar);
+                if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+                {
+                    visibleCharaters.Add(playerChar);
+                }
             }
-            else if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+            foreach (var playerChar in EntityManager.pInstance.pCurrentAI2Players)
             {
-                visibleCharaters.Add(playerChar);
-                mCharacter.pRevealedCharacters.Add(playerChar);
+                if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+                {
+                    visibleCharaters.Add(playerChar);
+                }
             }
         }
-        
+        else
+        {
+            foreach (var playerChar in EntityManager.pInstance.pCurrentPlayer1Players)
+            {
+                if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+                {
+                    visibleCharaters.Add(playerChar);
+                }
+            }
+            foreach (var playerChar in EntityManager.pInstance.pCurrentAI1Players)
+            {
+                if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
+                {
+                    visibleCharaters.Add(playerChar);
+                }
+            }
+
+        }
+
+
         // find closest enemy
 
         int targetDistance = int.MaxValue;

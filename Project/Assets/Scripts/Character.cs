@@ -53,7 +53,6 @@ public class Character : Occupant, IUniqueSpell
 
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
-    [HideInInspector] public List<Character> pRevealedCharacters = new List<Character>(); // used by AI to remeber a target
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
     public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
@@ -149,7 +148,7 @@ public class Character : Occupant, IUniqueSpell
 
         pMoved = true;
         //pTile.pBlockType = eBlockType.Blocked;
-        if (pFraction == eFraction.PC)
+        if (pFraction == eFraction.AI1 || pFraction == eFraction.AI2)
             yield break;
 
         if (pApCurrent > 0)
@@ -164,16 +163,21 @@ public class Character : Occupant, IUniqueSpell
 
     public void StandardAttack(Tile mTarget)
     {
-        if (mTarget.pCharacterId == -1 || pFraction == EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction) // shot on tile without a character on it or friendly fire
+        if (mTarget.pCharacterId == -1) // shot on tile without a character on it or friendly fire
             return;
 
+        if (pFraction == eFraction.AI1 || pFraction == eFraction.Player1)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFraction.AI2
+                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFraction.Player2)
+                StartCoroutine(StandardAttackCoroutine(mTarget));
+        else
         StartCoroutine(StandardAttackCoroutine(mTarget));
     }
 
     private IEnumerator StandardAttackCoroutine(Tile t)
     {
         transform.LookAt(t.transform.position);
-        transform.localEulerAngles = new Vector3(pFraction == eFraction.Player ? 0 : -90, transform.localEulerAngles.y, 0);
+        transform.localEulerAngles = new Vector3(pFraction == eFraction.Player1 || pFraction == eFraction.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
         inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
@@ -205,7 +209,7 @@ public class Character : Occupant, IUniqueSpell
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
 
-        if (this.pFraction == eFraction.Player)
+        if (this.pFraction == eFraction.Player1 || pFraction == eFraction.Player2)
         {
             if (pApCurrent > 0)
             {
