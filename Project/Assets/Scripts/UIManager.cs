@@ -53,8 +53,12 @@ public class UIManager : MonoBehaviour
 
         pMoveButton.interactable = character.pApCurrent >= character.Cost;
         pSkillButton.interactable = character.pApCurrent >= character.Cost;
-        pUniqueButton.GetComponentInChildren<Text>().text = character.pUniqueSpell.SpellName;
-        pUniqueButton.interactable = !character.pFired && character.pApCurrent >= character.pUniqueSpell.Cost;
+        if (character.pUniqueSpell != null) // null reference possible in NPCs
+        {
+            pUniqueButton.GetComponentInChildren<Text>().text = character.pUniqueSpell.SpellName;
+            pUniqueButton.interactable = !character.pFired && character.pApCurrent >= character.pUniqueSpell.Cost;
+        }
+
     }
 
     public void ShowSelectionScreen()

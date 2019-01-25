@@ -14,7 +14,6 @@ public class Character : Occupant, IUniqueSpell
     public int pApCurrent;
     public int pVisionRange = 10;
     public int pWalkRange = 10;
-    public bool pHasBeenRevealed = false;
 
 
     public bool pEffectHit;
@@ -54,6 +53,7 @@ public class Character : Occupant, IUniqueSpell
 
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
+    [HideInInspector] public List<Character> pRevealedCharacters = new List<Character>(); // used by AI to remeber a target
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
     public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
@@ -162,13 +162,12 @@ public class Character : Occupant, IUniqueSpell
         }
     }
 
-    public void StandardAttack(Tile t)
+    public void StandardAttack(Tile mTarget)
     {
-        if (t.pCharacterId == -1)
+        if (mTarget.pCharacterId == -1 || pFraction == EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction) // shot on tile without a character on it or friendly fire
             return;
 
-        StartCoroutine(StandardAttackCoroutine(t));
-
+        StartCoroutine(StandardAttackCoroutine(mTarget));
     }
 
     private IEnumerator StandardAttackCoroutine(Tile t)
@@ -222,14 +221,24 @@ public class Character : Occupant, IUniqueSpell
 
     }
 
-    public void CastUnique(Tile t)
+    public void CastUnique(Tile mTarget)
     {
         if (pUniqueSpell != null)
         {
-            pUniqueSpell.HideUniquePreview(t);
-            pApCurrent -= pUniqueSpell.Cost;
-            pFired = true;
-            pUniqueSpell.CastUnique(t);
+            if (pUniqueSpell.SpellName == "Heal" && EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == pFraction) // friendly fire ok for heal
+            {
+                pUniqueSpell.HideUniquePreview(mTarget);
+                pApCurrent -= pUniqueSpell.Cost;
+                pFired = true;
+                pUniqueSpell.CastUnique(mTarget);
+            }
+            else if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction != pFraction) // every other spell should not hit friendlies
+            {
+                pUniqueSpell.HideUniquePreview(mTarget);
+                pApCurrent -= pUniqueSpell.Cost;
+                pFired = true;
+                pUniqueSpell.CastUnique(mTarget);
+            }
         }
     }
 
