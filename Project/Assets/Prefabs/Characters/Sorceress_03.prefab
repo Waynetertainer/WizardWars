@@ -611,15 +611,15 @@ MonoBehaviour:
   pName: The other guy
   pHp: 12
   pHpCurrent: 12
-  pAp: 10
-  pApCurrent: 10
+  pAp: 25
+  pApCurrent: 25
   pVisionRange: 8
   pWalkRange: 5
-  pHasBeenRevealed: 0
   pEffectHit: 0
-  pWalkCost: 1
+  pWalkCost: 10
   pReachableTiles: []
   pVisibleTiles: []
+  pRevealedCharacters: []
   pMoved: 0
   pFired: 0
   pAIPatrouillePoints: []
@@ -627,8 +627,11 @@ MonoBehaviour:
   pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
   _Damage: 2
-  _Cost: 2
+  _Cost: 15
   _Range: 4
+  _Cooldown: 0
+  _Description: "Yo momma is so fat,\nI took a picture of her last \nChristmas and
+    it's still printing.\r\r\n"
   pHitTransform: {fileID: 6617945324666935092}
   pAura: {fileID: 2358764340621112999}
   _VFXPrefab: {fileID: 1656209977527216, guid: 5199d0a11cb69cf4b91aec612fc67cc8, type: 3}
@@ -660,8 +663,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SpellName: Heal
   _Damage: -3
-  _Cost: 5
+  _Cost: 15
   _Range: 6
+  _Cooldown: 0
+  _Description: "Yo momma is so fat that when she went \nto the beach a whale swam
+    up and \nsang, \"We are family, even though \nyou're fatter than me.\"\r\n\r\n"
   _VFXPrefab: {fileID: 1779447656501116, guid: 9a615be42d1b2f84d9ee762f0f251523, type: 3}
   _VFXSpawner: {fileID: 8642981888887384503}
 --- !u!1 &8642981888887384503

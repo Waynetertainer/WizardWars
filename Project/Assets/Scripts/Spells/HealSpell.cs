@@ -13,6 +13,8 @@ public class HealSpell : MonoBehaviour, IUniqueSpell
     [SerializeField] private int _Damage;
     [SerializeField] private int _Cost;
     [SerializeField] private int _Range;
+    [SerializeField] private int _Cooldown;
+    [SerializeField] [Multiline] private string _Description;
     [SerializeField] private GameObject _VFXPrefab;
     [SerializeField] private GameObject _VFXSpawner;
 
@@ -32,7 +34,14 @@ public class HealSpell : MonoBehaviour, IUniqueSpell
     {
         get { return _Range; }
     }
-
+    public int Cooldown
+    {
+        get { return _Cooldown; }
+    }
+    public string Description
+    {
+        get { return _Description; }
+    }
     public Character CurrentCharacter { get { return GetComponentInParent<Character>(); } }
 
     public GameObject VFXPrefab
@@ -56,19 +65,19 @@ public class HealSpell : MonoBehaviour, IUniqueSpell
         for (int i = 0; i < 5; ++i)
         {
             Tile tile = GridManager.pInstance.GetTileAt(pos.x - i * 2, pos.y);
-            if (tile.pCharacterId != -1 && EntityManager.pInstance.GetCharacterForId(tile.pCharacterId).pFraction == eFraction.Player)
+            if (tile.pCharacterId != -1 && EntityManager.pInstance.GetCharacterForId(tile.pCharacterId).pFraction == eFactions.Player1)
             {
                 EntityManager.pInstance.GetCharacterForId(tile.pCharacterId).DealDamage(Damage);
             }
         }
 
-        if (CurrentCharacter.pApCurrent > 0)
+        if (CurrentCharacter.pApCurrent > 5)
         {
             GameManager.pInstance.ChangeState(eGameState.Move);
         }
         else
         {
-            GameManager.pInstance.ChangeState(eGameState.End);
+            GameManager.pInstance.ChangeState(eGameState.EndTurn);
         }
     }
 

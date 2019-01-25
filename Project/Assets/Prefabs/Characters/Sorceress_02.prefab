@@ -579,15 +579,15 @@ MonoBehaviour:
   pName: Lightcatcher
   pHp: 14
   pHpCurrent: 14
-  pAp: 10
-  pApCurrent: 10
+  pAp: 25
+  pApCurrent: 25
   pVisionRange: 8
   pWalkRange: 5
-  pHasBeenRevealed: 0
   pEffectHit: 0
-  pWalkCost: 1
+  pWalkCost: 10
   pReachableTiles: []
   pVisibleTiles: []
+  pRevealedCharacters: []
   pMoved: 0
   pFired: 0
   pAIPatrouillePoints: []
@@ -595,8 +595,11 @@ MonoBehaviour:
   pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
   _Damage: 2
-  _Cost: 2
+  _Cost: 15
   _Range: 4
+  _Cooldown: 0
+  _Description: "Yo momma is so fat,\nI took a picture of her last \nChristmas and
+    it's still printing.\r\r\n"
   pHitTransform: {fileID: 3253979207877321367}
   pAura: {fileID: 7174452882659289988}
   _VFXPrefab: {fileID: 1656209977527216, guid: 5199d0a11cb69cf4b91aec612fc67cc8, type: 3}
@@ -628,8 +631,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _SpellName: Chain Lightning
   _Damage: 4
-  _Cost: 5
+  _Cost: 15
   _Range: 4
+  _Cooldown: 0
+  _Description: "Yo mamma is so ugly when she tried \nto join an ugly contest they
+    said, \n\"Sorry, no professionals.\"\r\n\r\n"
   _VFXPrefab: {fileID: 1681509065507608, guid: 134dea8ed9c44ea42ac15c6b85624165, type: 3}
   _VFXPrefab2: {fileID: 1051393132799822, guid: 9112aa9ef9bb3044e8621a5ddbebd5e4,
     type: 3}
