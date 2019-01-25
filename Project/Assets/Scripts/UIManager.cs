@@ -130,12 +130,12 @@ public class UIManager : MonoBehaviour
     }
     public void ShowTooltip(string action)
     {
-        //TODO implementatino of pToolTipScreen.Show(action);
+        pToolTipScreen.Show(action);
     }
 
     public void HideToolTip()
     {
-        //TODO implementation of pToolTipScreen.Hide();
+        pToolTipScreen.Hide();
     }
 
     public void Restart()

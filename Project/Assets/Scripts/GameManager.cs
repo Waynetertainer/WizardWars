@@ -37,9 +37,7 @@ public class GameManager : MonoBehaviour
     {
         pUiManager.CloseAllWindows();
 
-        EntityManager.pInstance.SpawnCharacters(
-            GridManager.pInstance.pCurrentLevel.pPlayerSpawns,
-            GridManager.pInstance.pCurrentLevel.pPCSpawns);
+        EntityManager.pInstance.SpawnCharacters();
 
         EntityManager.pInstance.GetCharacterForId(0).Select();
         
@@ -76,7 +74,7 @@ public class GameManager : MonoBehaviour
                 switch (pGameState)
                 {
                     case eGameState.Select:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
                         {
                             if (EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
                             {
@@ -91,7 +89,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Selected:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
                         {
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
@@ -104,7 +102,7 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
                         {
                             if (pActiveCharacter.pApCurrent == pActiveCharacter.pAp
                                 && EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
@@ -299,9 +297,8 @@ public class GameManager : MonoBehaviour
                 ////StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
                 //StartCoroutine(AIevaluator.EvaluateAI(ai));
                 pCurrentFraction = pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
-                Character t = EntityManager.pInstance.pGetFactionEntities(pCurrentFraction)[0];
-                t.Select();
-               
+                //EntityManager.pInstance.pGetFactionEntities(pCurrentFraction)[0].Select();
+                              
                 ChangeState(eGameState.Select);
 
                 break;

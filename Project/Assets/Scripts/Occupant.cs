@@ -7,5 +7,5 @@ using UnityEngine;
 public abstract class Occupant : MonoBehaviour
 {
     public Tile pTile;
-    public eFactions pFraction;
+    public eFactions pFaction;
 }

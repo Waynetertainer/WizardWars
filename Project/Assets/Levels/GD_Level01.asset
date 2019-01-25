@@ -11171,13 +11171,21 @@ MonoBehaviour:
   - pPosition: {x: 110, y: 66}
     pBlockType: 0
     pVisibilty: 0
-  pPlayerSpawns:
-  - {x: 82, y: 40}
+  pPlayer1Spawns:
+  - {x: 85, y: 37}
   - {x: 83, y: 39}
-  - {x: 82, y: 38}
-  pPCSpawns:
-  - {x: 62, y: 28}
-  - {x: 61, y: 35}
+  - {x: 80, y: 40}
+  pAI1Spawns:
+  - {x: 71, y: 35}
+  pPlayer2Spawns:
   - {x: 49, y: 31}
-  - {x: 57, y: 35}
-  - {x: 54, y: 36}
+  - {x: 52, y: 30}
+  - {x: 52, y: 28}
+  pAI2Spawns:
+  - {x: 52, y: 36}
+  pAI1Spawner:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}
+  pAI2Spawner:
+  - {x: 0, y: 0}
+  - {x: 0, y: 0}

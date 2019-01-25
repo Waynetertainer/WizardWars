@@ -101,7 +101,7 @@ public class Character : Occupant, IUniqueSpell
             spawnTile.transform.position.z)
             , prefab.transform.rotation);
 
-        e.pFraction = fraction;
+        e.pFaction = fraction;
         e.pUniqueSpell = uniqueSpell as IUniqueSpell;
         e.pTile = spawnTile;
         return e;
@@ -127,7 +127,10 @@ public class Character : Occupant, IUniqueSpell
         List<Tile> path = GridManager.pInstance.GetPathTo(pTile, targetTile);
 
         if (path == null || path.Count == 0)
+        {
             Debug.Log("pathfinding is broken");
+            System.Diagnostics.Debugger.Break();
+        }
 
         for (int i = path.Count - 1; i >= 0; i--)
         {
@@ -161,7 +164,7 @@ public class Character : Occupant, IUniqueSpell
 
         pMoved = true;
         //pTile.pBlockType = eBlockType.Blocked;
-        if (pFraction == eFactions.AI1 || pFraction == eFactions.AI2)
+        if (pFaction == eFactions.AI1 || pFaction == eFactions.AI2)
             yield break;
 
         if (pApCurrent > 5)
@@ -176,34 +179,37 @@ public class Character : Occupant, IUniqueSpell
 
     public void StandardAttack(Tile mTarget)
     {
-        if (mTarget.pCharacterId == -1) // shot on tile without a character on it or friendly fire
+        if (mTarget.pCharacterId == -1) // shot on tile without a character on it
             return;
 
-        if (pFraction == eFactions.AI1 || pFraction == eFactions.Player1)
+        //friendly fire checks
+        if (pFaction == eFactions.AI1 || pFaction == eFactions.Player1)
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.AI2
-                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.Player2)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI2
+                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player2)
             {
+                GameManager.pInstance.ChangeState(eGameState.FireSkill);
                 StartCoroutine(StandardAttackCoroutine(mTarget));
             }
         }
         else
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.AI1
-                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.Player1)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI1
+                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player1)
             {
+                GameManager.pInstance.ChangeState(eGameState.FireSkill);
                 StartCoroutine(StandardAttackCoroutine(mTarget));
             }
         }
     }
 
-    private IEnumerator StandardAttackCoroutine(Tile t)
+    private IEnumerator StandardAttackCoroutine(Tile targetTile)
     {
-        transform.LookAt(t.transform.position);
-        transform.localEulerAngles = new Vector3(pFraction == eFactions.Player1 || pFraction == eFactions.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
+        transform.LookAt(targetTile.transform.position);
+        transform.localEulerAngles = new Vector3(pFaction == eFactions.Player1 || pFaction == eFactions.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
-        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
+        inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pHitTransform);
         pApCurrent -= Cost; // always reduce AP, even when not hit.
         yield return new WaitUntil(() => pEffectHit);
 
@@ -232,14 +238,14 @@ public class Character : Occupant, IUniqueSpell
         #endregion
 
 
-        Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
-        EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
+        Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pHpCurrent.ToString());
+        EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).DealDamage(Damage);
 
-        if (this.pFraction == eFactions.Player1 || pFraction == eFactions.Player2)
+        if (this.pFaction == eFactions.Player1 || pFaction == eFactions.Player2)
         {
             if (pApCurrent > 5)
             {
-                GameManager.pInstance.ChangeState(eGameState.FireSkill);
+                GameManager.pInstance.ChangeState(eGameState.Selected);
             }
             else
             {
@@ -256,14 +262,14 @@ public class Character : Occupant, IUniqueSpell
         if (pUniqueSpell != null)
         {
             //TODO Crashes when clickin g on empty tile
-            if (pUniqueSpell.SpellName == "Heal" && EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == pFraction) // friendly fire ok for heal
+            if (pUniqueSpell.SpellName == "Heal" && EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == pFaction) // friendly fire ok for heal
             {
                 pUniqueSpell.HideUniquePreview(mTarget);
                 pApCurrent -= pUniqueSpell.Cost;
                 pFired = true;
                 pUniqueSpell.CastUnique(mTarget);
             }
-            else if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction != pFraction) // every other spell should not hit friendlies
+            else if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction != pFaction) // every other spell should not hit friendlies
             {
                 pUniqueSpell.HideUniquePreview(mTarget);
                 pApCurrent -= pUniqueSpell.Cost;

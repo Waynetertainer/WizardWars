@@ -267,7 +267,7 @@ public class AIevaluator
         // end AI turn
         Debug.Log("AI spent all AP, end turn");
         yield return new WaitForSeconds(1);
-        if (mCharacter.pFraction == eFactions.AI1)
+        if (mCharacter.pFaction == eFactions.AI1)
             EntityManager.pInstance.pCurrentPlayer2Players[0].Select();
         else
             EntityManager.pInstance.pCurrentPlayer1Players[0].Select();
@@ -289,7 +289,7 @@ public class AIevaluator
         List<Character> visibleCharaters = new List<Character>();
 
         //find visible and revealed players
-        if (mCharacter.pFraction == eFactions.AI1)
+        if (mCharacter.pFaction == eFactions.AI1)
         {
             foreach (var playerChar in EntityManager.pInstance.pCurrentPlayer2Players)
             {

@@ -13,43 +13,43 @@ public class EntityManager : MonoBehaviour
 
     [HideInInspector] public List<Character> pCurrentAI1Players
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFactions.AI1); }
+        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI1); }
     }
     [HideInInspector] public List<Character> pCurrentAI2Players
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFactions.AI2); }
+        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI2); }
     }
     [HideInInspector] public List<Character> pAI1Players
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFactions.AI1); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI1); }
     }
     [HideInInspector] public List<Character> pAI2Players
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFactions.AI2); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI2); }
     }
     public List<Character> pGetFactionEntities(eFactions faction)
     {
-        return mAllEntities.Values.ToList().FindAll(T => T.pFraction == faction);
+        return mAllEntities.Values.ToList().FindAll(T => T.pFaction == faction);
     }
     public List<Character> pGetCurrentFactionEntities(eFactions faction)
     {
-        return mCurrentEntities.FindAll(T => T.pFraction == faction);
+        return mCurrentEntities.FindAll(T => T.pFaction == faction);
     }
     [HideInInspector] public List<Character> pCurrentPlayer1Players
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFactions.Player1); }
+        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.Player1); }
     }
     [HideInInspector]public List<Character> pCurrentPlayer2Players
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFactions.Player2); }
+        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.Player2); }
     }
     public List<Character> pPlayer1Players
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFactions.Player1); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.Player1); }
     }
     public List<Character> pPlayer2Players
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFactions.Player2); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.Player2); }
     }
 
     /*
@@ -58,9 +58,10 @@ public class EntityManager : MonoBehaviour
     */
 
     [SerializeField]
-    private List<Character> mPlayerPrefabs = new List<Character>();
+    private List<Character> mPlayer1Prefabs = new List<Character>();
     [SerializeField]
-    private List<Character> mAIPrefabs = new List<Character>();
+    private List<Character> mPlayer2Prefabs = new List<Character>();
+    [SerializeField] private Character mAIPrefab;
 
     private Dictionary<int, Character> mAllEntities = new Dictionary<int, Character>();
     private List<Character> mCurrentEntities = new List<Character>();
@@ -80,29 +81,56 @@ public class EntityManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void SpawnCharacters(Vector2Int[] playerSpawns, Vector2Int[] pcSpawns)
+    public void SpawnCharacters()
     {
-        for (int i = 0; i < mPlayerPrefabs.Count; i++)
+        int spawnCounter = 0;
+
+        for (int i = 0; i < mPlayer1Prefabs.Count; i++)
         {
-            Character e = Instantiate(mPlayerPrefabs[i], GridManager.pInstance.GetTileAt(playerSpawns[i]).transform.position,
-                mPlayerPrefabs[i].transform.rotation);
-            mAllEntities.Add(i, e);
-            e.pTile = GridManager.pInstance.GetTileAt(playerSpawns[i]);
+            Character e = Instantiate(mPlayer1Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]).transform.position, mPlayer1Prefabs[i].transform.rotation);
+            mAllEntities.Add(spawnCounter, e);
+            e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
+            e.pFaction = eFactions.Player1;
             //e.pTile.pBlockType = eBlockType.Blocked;
             mCurrentEntities.Add(e);
+            ++spawnCounter;
         }
 
-        for (int i = 0; i < mAIPrefabs.Count; i++)
+        for (int i = 0; i < mPlayer2Prefabs.Count; i++)
         {
-            Character e = Instantiate(mAIPrefabs[i], GridManager.pInstance.GetTileAt(pcSpawns[i]).transform.position,
-                mAIPrefabs[i].transform.rotation);
-            mAllEntities.Add(i + mPlayerPrefabs.Count, e);
-            //e.pFraction = eFactions.AI1; //TODO auch für gegner AI spawnen!
-            e.pTile = GridManager.pInstance.GetTileAt(pcSpawns[i]);
-            e.pTile.pCharacterId = i + mPlayerPrefabs.Count;
-            //e.pTile.pBlockType = eBlockType.Blocked;
+            Character e = Instantiate(mPlayer2Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer2Spawns[i]).transform.position,
+                mPlayer2Prefabs[i].transform.rotation);
+            mAllEntities.Add(spawnCounter, e);
+            e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer2Spawns[i]);
+            e.pTile.pCharacterId = GetIdForCharacter(e);
+            e.pFaction = eFactions.Player2;
             mCurrentEntities.Add(e);
+            ++spawnCounter;
+        }
+
+        for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI1Spawns.Length; ++i)
+        {
+            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]).transform.position,
+                mAIPrefab.transform.rotation);
+            mAllEntities.Add(spawnCounter, e);
+            e.pFaction = eFactions.AI1;
+            e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]);
+            e.pTile.pCharacterId = GetIdForCharacter(e); 
+            mCurrentEntities.Add(e);
+            ++spawnCounter;
+        }
+
+        for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI2Spawns.Length; ++i)
+        {
+            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]).transform.position,
+                mAIPrefab.transform.rotation);
+            mAllEntities.Add(spawnCounter, e);
+            e.pFaction = eFactions.AI2;
+            e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]);
+            e.pTile.pCharacterId = GetIdForCharacter(e);
+            mCurrentEntities.Add(e);
+            ++spawnCounter;
         }
     }
 
@@ -142,13 +170,13 @@ public class EntityManager : MonoBehaviour
     {
         mCurrentEntities.Remove(character);
 
-        if (mCurrentEntities.Find(T => T.pFraction == character.pFraction) == null)
-            ResetCharacters(character.pFraction);
+        if (mCurrentEntities.Find(T => T.pFaction == character.pFaction) == null)
+            ResetCharacters(character.pFaction);
     }
 
     private void ResetCharacters(eFactions fraction)
     {
-        foreach (var e in mAllEntities.Values.ToList().FindAll(T => T.pFraction == fraction))
+        foreach (var e in mAllEntities.Values.ToList().FindAll(T => T.pFaction == fraction))
         {
             e.pMoved = false;
             e.pFired = false;
