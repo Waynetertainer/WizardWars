@@ -900,7 +900,7 @@ MonoBehaviour:
   pStatScreen: {fileID: 1167056914}
   pSelectionScreen: {fileID: 1652642989}
   pEndScreen: {fileID: 1907152789}
-  pToolTipScreen: {fileID: 270348762}
+  pToolTipScreen: {fileID: 0}
   pMoveToggle: {fileID: 1697100676}
   pFireToggle: {fileID: 642020741}
   pMoveButton: {fileID: 1857415879}
@@ -3221,7 +3221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pGridGameObject: {fileID: 1186950841}
   pGameState: 0
-  pCurrentFraction: 1
+  pCurrentFraction: 0
   RayCastLayers:
     serializedVersion: 2
     m_Bits: 1815

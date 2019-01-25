@@ -126,6 +126,9 @@ public class Character : Occupant, IUniqueSpell
         //pTile.pBlockType = eBlockType.Empty;
         List<Tile> path = GridManager.pInstance.GetPathTo(pTile, targetTile);
 
+        if (path == null || path.Count == 0)
+            Debug.Log("pathfinding is broken");
+
         for (int i = path.Count - 1; i >= 0; i--)
         {
             var tile = path[i];
@@ -177,11 +180,21 @@ public class Character : Occupant, IUniqueSpell
             return;
 
         if (pFraction == eFactions.AI1 || pFraction == eFactions.Player1)
+        {
             if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.AI2
                 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.Player2)
+            {
                 StartCoroutine(StandardAttackCoroutine(mTarget));
+            }
+        }
         else
-        StartCoroutine(StandardAttackCoroutine(mTarget));
+        {
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.AI1
+                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.Player1)
+            {
+                StartCoroutine(StandardAttackCoroutine(mTarget));
+            }
+        }
     }
 
     private IEnumerator StandardAttackCoroutine(Tile t)
@@ -191,15 +204,18 @@ public class Character : Occupant, IUniqueSpell
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
         inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
-
+        pApCurrent -= Cost; // always reduce AP, even when not hit.
         yield return new WaitUntil(() => pEffectHit);
 
         pEffectHit = false;
-        pApCurrent -= Cost;
+
+        #region Cover Damage Reduction
+
         //TODO: Check for Cover between tiles to reduce damage
+        /*
         RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
         eBlockType maxCover = eBlockType.Empty;
-        /*
+        
         foreach (RaycastHit hit in mHits)
         {
             if (hit.transform.gameObject.GetComponent<Character>().pTile.pBlockType == eBlockType.Blocked)
@@ -213,7 +229,7 @@ public class Character : Occupant, IUniqueSpell
             }
         }
         */
-
+        #endregion
 
 
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
@@ -306,7 +322,7 @@ public class Character : Occupant, IUniqueSpell
 
     public void ShowRange()
     {
-        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile,pWalkRange);
+        pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
         foreach (Tile tile in pReachableTiles)
         {
             tile.IsReachable(this);
