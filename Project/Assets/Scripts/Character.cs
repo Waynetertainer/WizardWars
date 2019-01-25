@@ -93,7 +93,7 @@ public class Character : Occupant, IUniqueSpell
         pHpCurrent = pHp;
     }
 
-    public static Character CreateCharacter(eFraction fraction, Tile spawnTile, Character prefab, ScriptableObject uniqueSpell)
+    public static Character CreateCharacter(eFactions fraction, Tile spawnTile, Character prefab, ScriptableObject uniqueSpell)
     {
         Character e = Instantiate(prefab, new Vector3(
             spawnTile.transform.position.x,
@@ -158,7 +158,7 @@ public class Character : Occupant, IUniqueSpell
 
         pMoved = true;
         //pTile.pBlockType = eBlockType.Blocked;
-        if (pFraction == eFraction.AI1 || pFraction == eFraction.AI2)
+        if (pFraction == eFactions.AI1 || pFraction == eFactions.AI2)
             yield break;
 
         if (pApCurrent > 5)
@@ -167,7 +167,7 @@ public class Character : Occupant, IUniqueSpell
         }
         else
         {
-            GameManager.pInstance.ChangeState(eGameState.End);
+            GameManager.pInstance.ChangeState(eGameState.EndTurn);
         }
     }
 
@@ -176,9 +176,9 @@ public class Character : Occupant, IUniqueSpell
         if (mTarget.pCharacterId == -1) // shot on tile without a character on it or friendly fire
             return;
 
-        if (pFraction == eFraction.AI1 || pFraction == eFraction.Player1)
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFraction.AI2
-                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFraction.Player2)
+        if (pFraction == eFactions.AI1 || pFraction == eFactions.Player1)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.AI2
+                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFraction == eFactions.Player2)
                 StartCoroutine(StandardAttackCoroutine(mTarget));
         else
         StartCoroutine(StandardAttackCoroutine(mTarget));
@@ -187,7 +187,7 @@ public class Character : Occupant, IUniqueSpell
     private IEnumerator StandardAttackCoroutine(Tile t)
     {
         transform.LookAt(t.transform.position);
-        transform.localEulerAngles = new Vector3(pFraction == eFraction.Player1 || pFraction == eFraction.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
+        transform.localEulerAngles = new Vector3(pFraction == eFactions.Player1 || pFraction == eFactions.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
         inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHitTransform);
@@ -219,7 +219,7 @@ public class Character : Occupant, IUniqueSpell
         Debug.Log("Damage for " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pName + " Amount: " + Damage.ToString() + " HPCurrent: " + EntityManager.pInstance.GetCharacterForId(t.pCharacterId).pHpCurrent.ToString());
         EntityManager.pInstance.GetCharacterForId(t.pCharacterId).DealDamage(Damage);
 
-        if (this.pFraction == eFraction.Player1 || pFraction == eFraction.Player2)
+        if (this.pFraction == eFactions.Player1 || pFraction == eFactions.Player2)
         {
             if (pApCurrent > 5)
             {
@@ -228,7 +228,7 @@ public class Character : Occupant, IUniqueSpell
             else
             {
                 yield return new WaitForSeconds(1);
-                GameManager.pInstance.ChangeState(eGameState.End);
+                GameManager.pInstance.ChangeState(eGameState.EndTurn);
             }
         }
 

@@ -139,7 +139,7 @@ public class ChainLightning : MonoBehaviour, IUniqueSpell
         else
         {
             yield return new WaitForSeconds(damage == Damage ? 3 : 1);
-            GameManager.pInstance.ChangeState(eGameState.End);
+            GameManager.pInstance.ChangeState(eGameState.EndTurn);
         }
     }
 

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum eFraction
+public enum eFactions
 {
-    Gaia,
+    Spawner,
     Player1,
     AI1,
     Player2,
@@ -22,8 +22,9 @@ public enum eGameState
     FireSkill,
     FireUnique,
     Firing,
-    End,
-    EndOfMatch
+    EndTurn,
+    EndOfMatch,
+    AIturn
 }
 
 public enum eVisibility

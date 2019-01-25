@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         pMoveButton.onClick.AddListener(delegate { SetState(eGameState.Move); });
-        pEndButton.onClick.AddListener(delegate { SetState(eGameState.End); });
+        pEndButton.onClick.AddListener(delegate { SetState(eGameState.EndTurn); });
         pSkillButton.onClick.AddListener(delegate { SetState(eGameState.FireSkill); });
         pUniqueButton.onClick.AddListener(delegate { SetState(eGameState.FireUnique); });
     }
@@ -118,12 +118,13 @@ public class UIManager : MonoBehaviour
                 CloseAllWindows();
                 ShowStatScreen();
                 break;
-            case eGameState.End:
+            case eGameState.EndTurn:
                 CloseAllWindows();
                 break;
             case eGameState.EndOfMatch:
                 CloseAllWindows();
-                pEndScreen.Show(EntityManager.pInstance.pPCPlayers.Count == 0);
+                // TODO add win screen
+                //pEndScreen.Show(EntityManager.pInstance.pPCPlayers.Count == 0);
                 break;
         }
     }

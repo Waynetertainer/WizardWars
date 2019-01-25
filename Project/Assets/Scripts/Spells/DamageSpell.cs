@@ -66,7 +66,7 @@ public class DamageSpell : MonoBehaviour, IUniqueSpell
         }
         else
         {
-            GameManager.pInstance.ChangeState(eGameState.End);
+            GameManager.pInstance.ChangeState(eGameState.EndTurn);
         }
     }
 

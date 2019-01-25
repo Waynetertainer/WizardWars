@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager pInstance;
     public GameObject pGridGameObject;
     public eGameState pGameState;
-    public eFraction pCurrentFraction;
+    public eFactions pCurrentFraction;
 
     public System.Random pRandom = new System.Random();
     public LayerMask RayCastLayers;
@@ -42,12 +42,24 @@ public class GameManager : MonoBehaviour
             GridManager.pInstance.pCurrentLevel.pPCSpawns);
 
         EntityManager.pInstance.GetCharacterForId(0).Select();
-        ChangeState(eGameState.Move);
+        
+        if (Random.Range(0, 2) == 0)
+            pCurrentFraction = eFactions.AI1;
+        else
+            pCurrentFraction = eFactions.AI2;
+
+        Debug.Log("Starting with " + pCurrentFraction.ToString());
+        
+        ChangeState(eGameState.AIturn);
     }
 
     private void Update()
     {
-        CheckInput();
+        if (pCurrentFraction == eFactions.Player1 || pCurrentFraction == eFactions.Player2)
+        {
+            CheckInput();
+        }
+        
     }
 
     private void CheckInput()
@@ -66,8 +78,7 @@ public class GameManager : MonoBehaviour
                     case eGameState.Select:
                         if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
                         {
-                            if (EntityManager.pInstance.pAllCurrentPlayers.Contains(
-                                hit.transform.GetComponent<Character>()))
+                            if (EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
                             {
 
                                 hit.transform.GetComponent<Character>().Select();
@@ -96,7 +107,7 @@ public class GameManager : MonoBehaviour
                         if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFraction == pCurrentFraction)
                         {
                             if (pActiveCharacter.pApCurrent == pActiveCharacter.pAp
-                                && EntityManager.pInstance.pAllCurrentPlayers.Contains(hit.transform.GetComponent<Character>()))
+                                && EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
                             {
                                 pActiveCharacter.Deselect();
                                 hit.transform.GetComponent<Character>().Select();
@@ -122,7 +133,7 @@ public class GameManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    ChangeState(eGameState.End);
+                                    ChangeState(eGameState.EndTurn);
                                 }
                             }
                         }
@@ -138,7 +149,7 @@ public class GameManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    ChangeState(eGameState.End);
+                                    ChangeState(eGameState.EndTurn);
                                 }
                             }
                         }
@@ -224,6 +235,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(eGameState state) //TODO: Replace with setter
     {
+        Debug.Log("Changing Gamestate " + pGameState + " -> " + state + " faction: " + pCurrentFraction.ToString());
+
         if (pGameState == eGameState.EndOfMatch)
             return;
 
@@ -266,25 +279,30 @@ public class GameManager : MonoBehaviour
                 pActiveCharacter.ShowView();
                 pGridGameObject.SetActive(true);
                 break;
-            case eGameState.End:
+            case eGameState.EndTurn:
                 pActiveCharacter.HideRange();
                 pActiveCharacter.HideView();
                 pActiveCharacter.pAura.gameObject.SetActive(false);
                 EntityManager.pInstance.EndRound(pActiveCharacter);
                 pActiveCharacter.Deselect();
 
-                pCurrentFraction = pCurrentFraction == eFraction.Player1 ? eFraction.Player2 : eFraction.Player1;
+                pCurrentFraction = pCurrentFraction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
 
-                Character t = EntityManager.pInstance.pAllCurrentPlayers.Find(T => T.pFraction == pCurrentFraction);
-                t.Select();
-                ChangeState(eGameState.Select);
-
+                
+                ChangeState(eGameState.AIturn);
+                break;
+            case eGameState.AIturn:
                 //Character ai = EntityManager.pInstance.pCurrentPCPlayers[
                 //    Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
                 //CameraMovement.SetTarget(ai.transform);
                 //
                 ////StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
                 //StartCoroutine(AIevaluator.EvaluateAI(ai));
+                pCurrentFraction = pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
+                Character t = EntityManager.pInstance.pGetFactionEntities(pCurrentFraction)[0];
+                t.Select();
+               
+                ChangeState(eGameState.Select);
 
                 break;
         }
