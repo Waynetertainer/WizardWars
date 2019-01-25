@@ -13,19 +13,23 @@ public class EntityManager : MonoBehaviour
 
     public List<Character> pCurrentPCPlayers
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFraction.PC); }
+        get { return mCurrentEntities.FindAll(T => T.pFraction == eFraction.Player2); }
     }
     public List<Character> pPCPlayers
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.PC); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.Player2); }
     }
     public List<Character> pCurrentPlayers
     {
-        get { return mCurrentEntities.FindAll(T => T.pFraction == eFraction.Player); }
+        get { return mCurrentEntities.FindAll(T => T.pFraction == eFraction.Player1); }
+    }
+    public List<Character> pAllCurrentPlayers
+    {
+        get { return mCurrentEntities; }
     }
     public List<Character> pPlayers
     {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.Player); }
+        get { return mAllEntities.Values.ToList().FindAll(T => T.pFraction == eFraction.Player1); }
     }
 
     /*
@@ -74,7 +78,7 @@ public class EntityManager : MonoBehaviour
             Character e = Instantiate(mAIPrefabs[i], GridManager.pInstance.GetTileAt(pcSpawns[i]).transform.position,
                 mAIPrefabs[i].transform.rotation);
             mAllEntities.Add(i + mPlayerPrefabs.Count, e);
-            e.pFraction = eFraction.PC;
+            e.pFraction = eFraction.Player2;
             e.pTile = GridManager.pInstance.GetTileAt(pcSpawns[i]);
             e.pTile.pCharacterId = i + mPlayerPrefabs.Count;
             //e.pTile.pBlockType = eBlockType.Blocked;

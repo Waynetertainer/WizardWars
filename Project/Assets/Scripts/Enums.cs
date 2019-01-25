@@ -5,7 +5,11 @@ using UnityEngine;
 
 public enum eFraction
 {
-    Gaia, Player, PC
+    Gaia,
+    Player1,
+    AI1,
+    Player2,
+    AI2
 }
 
 public enum eGameState
