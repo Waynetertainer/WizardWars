@@ -11,19 +11,23 @@ public class EntityManager : MonoBehaviour
 {
     public static EntityManager pInstance = null;
 
-    [HideInInspector] public List<Character> pCurrentAI1Players
+    [HideInInspector]
+    public List<Character> pCurrentAI1Players
     {
         get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI1); }
     }
-    [HideInInspector] public List<Character> pCurrentAI2Players
+    [HideInInspector]
+    public List<Character> pCurrentAI2Players
     {
         get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI2); }
     }
-    [HideInInspector] public List<Character> pAI1Players
+    [HideInInspector]
+    public List<Character> pAI1Players
     {
         get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI1); }
     }
-    [HideInInspector] public List<Character> pAI2Players
+    [HideInInspector]
+    public List<Character> pAI2Players
     {
         get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI2); }
     }
@@ -35,11 +39,13 @@ public class EntityManager : MonoBehaviour
     {
         return mCurrentEntities.FindAll(T => T.pFaction == faction);
     }
-    [HideInInspector] public List<Character> pCurrentPlayer1Players
+    [HideInInspector]
+    public List<Character> pCurrentPlayer1Players
     {
         get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.Player1); }
     }
-    [HideInInspector]public List<Character> pCurrentPlayer2Players
+    [HideInInspector]
+    public List<Character> pCurrentPlayer2Players
     {
         get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.Player2); }
     }
@@ -65,6 +71,8 @@ public class EntityManager : MonoBehaviour
 
     private Dictionary<int, Character> mAllEntities = new Dictionary<int, Character>();
     private List<Character> mCurrentEntities = new List<Character>();
+    [HideInInspector] public int mAI1EntityPointer = 0;
+    [HideInInspector] public int mAI2EntityPointer = 0;
 
     public List<ScriptableObject> DBG_Spells = new List<ScriptableObject>();
 
@@ -116,7 +124,7 @@ public class EntityManager : MonoBehaviour
             mAllEntities.Add(spawnCounter, e);
             e.pFaction = eFactions.AI1;
             e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]);
-            e.pTile.pCharacterId = GetIdForCharacter(e); 
+            e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);
             ++spawnCounter;
         }

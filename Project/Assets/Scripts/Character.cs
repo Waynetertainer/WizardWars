@@ -89,7 +89,10 @@ public class Character : Occupant, IUniqueSpell
     private void Start()
     {
         //pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
-        pUniqueSpell = GetComponents<IUniqueSpell>()[1];
+        if (GetComponents<IUniqueSpell>().Length >1) // AI has no Unique Spell
+        {
+            pUniqueSpell = GetComponents<IUniqueSpell>()[1];
+        }
         pHpCurrent = pHp;
     }
 
@@ -218,6 +221,7 @@ public class Character : Occupant, IUniqueSpell
         #region Cover Damage Reduction
 
         //TODO: Check for Cover between tiles to reduce damage
+
         /*
         RaycastHit[] mHits = Physics.SphereCastAll(pTile.transform.position, 0.1f, t.transform.position - pTile.transform.position, Vector3.Distance(t.transform.position, pTile.transform.position));
         eBlockType maxCover = eBlockType.Empty;

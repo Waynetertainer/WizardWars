@@ -345,7 +345,6 @@ GameObject:
   - component: {fileID: 4572164725455915180}
   - component: {fileID: 8775311057603029038}
   - component: {fileID: 2278248226988648695}
-  - component: {fileID: 4666868397423340949}
   m_Layer: 0
   m_Name: Minion
   m_TagString: Untagged
@@ -429,17 +428,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
-  pFraction: 2
+  pFaction: 0
   pName: Minion
-  pHp: 10
-  pHpCurrent: 10
-  pAp: 10
-  pApCurrent: 10
-  pVisionRange: 8
-  pWalkRange: 5
-  pHasBeenRevealed: 0
+  pHp: 1
+  pHpCurrent: 1
+  pAp: 25
+  pApCurrent: 25
+  pVisionRange: 4
+  pWalkRange: 2
   pEffectHit: 0
-  pWalkCost: 1
+  pWalkCost: 10
   pReachableTiles: []
   pVisibleTiles: []
   pMoved: 0
@@ -448,9 +446,11 @@ MonoBehaviour:
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 3859538354524918577}
   _SpellName: Fireball
-  _Damage: 2
-  _Cost: 2
-  _Range: 4
+  _Damage: 1
+  _Cost: 15
+  _Range: 2
+  _Cooldown: 0
+  _Description: 
   pHitTransform: {fileID: 1074683554801746368}
   pAura: {fileID: 4868404048830408773}
   _VFXPrefab: {fileID: 1390603915554272, guid: 404d1dc9975f0404d8465ddc0e5602c0, type: 3}
@@ -469,24 +469,6 @@ CapsuleCollider:
   m_Height: 1.3762022
   m_Direction: 1
   m_Center: {x: -0.00000008940697, y: 0, z: 0.47}
---- !u!114 &4666868397423340949
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4549632939424406210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca822ecd3a3f46869c4a5e7aaac24ef2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _SpellName: Damage
-  _Damage: 5
-  _Cost: 5
-  _Range: 4
-  _VFXPrefab: {fileID: 1390603915554272, guid: 404d1dc9975f0404d8465ddc0e5602c0, type: 3}
-  _VFXSpawner: {fileID: 6390643441012108783}
 --- !u!1 &4550378980214248290
 GameObject:
   m_ObjectHideFlags: 0

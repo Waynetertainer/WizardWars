@@ -399,6 +399,8 @@ MonoBehaviour:
   pBlockType: 0
   eVisibility: 0
   Color: {r: 0, g: 0, b: 0, a: 0}
+  pCollisionMaterial: {fileID: 2100000, guid: e833344799996ee4592ebc15a4671ad4, type: 2}
+  pDefaultMaterial: {fileID: 2100000, guid: a8f15f8a794084f46bb8bec68ef86e25, type: 2}
 --- !u!33 &33563719387178176
 MeshFilter:
   m_ObjectHideFlags: 0

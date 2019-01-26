@@ -40,14 +40,14 @@ public class GameManager : MonoBehaviour
         EntityManager.pInstance.SpawnCharacters();
 
         EntityManager.pInstance.GetCharacterForId(0).Select();
-        
+
         if (Random.Range(0, 2) == 0)
             pCurrentFraction = eFactions.AI1;
         else
             pCurrentFraction = eFactions.AI2;
 
         Debug.Log("Starting with " + pCurrentFraction.ToString());
-        
+
         ChangeState(eGameState.AIturn);
     }
 
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             CheckInput();
         }
-        
+
     }
 
     private void CheckInput()
@@ -286,21 +286,34 @@ public class GameManager : MonoBehaviour
 
                 pCurrentFraction = pCurrentFraction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
 
-                
+
                 ChangeState(eGameState.AIturn);
                 break;
             case eGameState.AIturn:
-                //Character ai = EntityManager.pInstance.pCurrentPCPlayers[
-                //    Random.Range(0, EntityManager.pInstance.pCurrentPCPlayers.Count)];
-                //CameraMovement.SetTarget(ai.transform);
-                //
-                ////StartCoroutine(BaseAI.AIBehaviour(ai)); //HACK: Old AI Line
-                //StartCoroutine(AIevaluator.EvaluateAI(ai));
-                pCurrentFraction = pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
-                //EntityManager.pInstance.pGetFactionEntities(pCurrentFraction)[0].Select();
-                              
-                ChangeState(eGameState.Select);
 
+                if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count > 0) // skip AI turn if no AI present for faction
+                {
+                    for (int i = 0; i < 1; ++i) //HACK three ai moves per turn, debug only one
+                    {
+                        Character ai;
+                        if (pCurrentFraction == eFactions.AI1)
+                        {
+
+                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count >= EntityManager.pInstance.mAI1EntityPointer)
+                                EntityManager.pInstance.mAI1EntityPointer = 0; // loop to first entity
+                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction)[EntityManager.pInstance.mAI1EntityPointer++];
+
+                        }
+                        else // faction AI2
+                        {
+                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count >= EntityManager.pInstance.mAI2EntityPointer)
+                                EntityManager.pInstance.mAI2EntityPointer = 0; // loop to first entity
+                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction)[EntityManager.pInstance.mAI2EntityPointer++];
+                        }
+                        CameraMovement.SetTarget(ai.transform);
+                        StartCoroutine(AIevaluator.EvaluateAI(ai));
+                    }
+                }
                 break;
         }
         pUiManager.Refresh();

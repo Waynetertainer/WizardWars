@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
+﻿
 public enum eFactions
 {
     Spawner,
@@ -43,6 +39,5 @@ public enum eBlockType
 public enum eAIState
 {
     Patrouille,
-    Fight,
-    Hunt
+    Fight
 };

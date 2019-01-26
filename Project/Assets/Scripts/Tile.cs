@@ -12,6 +12,8 @@ public class Tile : MonoBehaviour
     public eBlockType pBlockType;
     public eVisibility eVisibility;
     public Color Color;
+    public Material pCollisionMaterial;
+    public Material pDefaultMaterial;
 
     protected bool mMouseOver;
     private LineRenderer mLine;
@@ -135,8 +137,22 @@ public class Tile : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(1))
             {
-
+                //TODO unnessesary update call?
             }
+        }
+    }
+
+    private void OnValidate() //used for rendererchange if blocktype is changed in editor
+    {
+        Renderer pRend = this.GetComponent<Renderer>();
+        if (pBlockType == eBlockType.HalfBlocked || pBlockType == eBlockType.Blocked)
+        {
+
+            pRend.material = pCollisionMaterial;
+        }
+        else
+        {
+            pRend.material = pDefaultMaterial;
         }
     }
 }
