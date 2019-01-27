@@ -191,7 +191,8 @@ public class Character : Occupant, IUniqueSpell
             if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI2
                 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player2)
             {
-                GameManager.pInstance.ChangeState(eGameState.FireSkill);
+                if (pFaction == eFactions.Player1)
+                    GameManager.pInstance.ChangeState(eGameState.FireSkill);
                 StartCoroutine(StandardAttackCoroutine(mTarget));
             }
         }
@@ -200,7 +201,8 @@ public class Character : Occupant, IUniqueSpell
             if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI1
                 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player1)
             {
-                GameManager.pInstance.ChangeState(eGameState.FireSkill);
+                if (pFaction == eFactions.Player2)
+                    GameManager.pInstance.ChangeState(eGameState.FireSkill);
                 StartCoroutine(StandardAttackCoroutine(mTarget));
             }
         }

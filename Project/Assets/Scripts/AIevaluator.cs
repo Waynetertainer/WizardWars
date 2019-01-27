@@ -18,7 +18,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 9)
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove if nessesary
+            //yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove if nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
