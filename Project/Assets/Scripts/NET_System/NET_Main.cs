@@ -11,7 +11,7 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using NET_System;
 
-namespace NET_Multiplayer_V3
+namespace NET_Multiplayer
 {
     public class NET_Main
     {
@@ -45,9 +45,13 @@ namespace NET_Multiplayer_V3
         private IPAddress localIP;
         private IPAddress serverIP = IPAddress.Any;
 
-        //---------------------------------------------------------------------------------------------//
-        //Constructor:
-        //---------------------------------------------------------------------------------------------//
+/// <summary>
+/// Central network control.
+/// </summary>
+/// <param name="isHost">Sets the NET_Main to server or client mode</param>
+/// <param name="timeStep">Heartbeat of the server</param>
+/// <param name="name">Servername</param>
+/// <param name="log"></param>
         public NET_Main(bool isHost, float timeStep, string name, bool log)
         {
             this.name = name;

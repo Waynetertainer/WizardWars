@@ -8,7 +8,7 @@ using System.Threading;
 using System.Runtime.Serialization.Formatters.Binary;
 using NET_System;
 
-namespace NET_Multiplayer_V3
+namespace NET_Multiplayer
 {
     public class NET_TcpConnection
     {

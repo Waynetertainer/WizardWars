@@ -10,7 +10,7 @@ using System.Text;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace NET_Multiplayer_V3
+namespace NET_Multiplayer
 {
     public class NET_DataPack
     {
