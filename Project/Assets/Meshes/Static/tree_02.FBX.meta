@@ -1,25 +1,18 @@
 fileFormatVersion: 2
-guid: 5a9ed18aaa10f09439b1e68a72180ac4
+guid: c6ebd00ed9abad3488d131295c517103
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: Object053
-    100002: //RootNode
-    100004: trunk_low
-    400000: Object053
-    400002: //RootNode
-    400004: trunk_low
-    2100000: 'Material #131'
-    2100002: 'Material #132'
-    2300000: Object053
-    2300002: trunk_low
-    3300000: Object053
-    3300002: trunk_low
-    4300000: trunk_low
-    4300002: Object053
+    100000: //RootNode
+    400000: //RootNode
+    2100000: 01 - Default
+    2100002: 15 - Default
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: tree_02
   externalObjects: {}
   materials:
-    importMaterials: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -45,16 +38,17 @@ ModelImporter:
     extraExposedTransformPaths: []
     extraUserProperties: []
     clipAnimations: []
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
     addColliders: 0
-    importVisibility: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
@@ -75,7 +69,10 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 4
-  importAnimation: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
   copyAvatar: 0
   humanDescription:
     serializedVersion: 2

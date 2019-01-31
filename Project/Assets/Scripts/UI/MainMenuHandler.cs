@@ -95,7 +95,7 @@ public class MainMenuHandler : MonoBehaviour
     public void btnStartGame()
     {
         //TODO: send other players Level start
-        SceneManager.LoadScene("GD_Level01");
+        SceneManager.LoadScene("GD_Level03");
     }
 
     public void btnPlayerReady()
