@@ -12,6 +12,7 @@ public class MainMenuHandler : MonoBehaviour
     public Color BackgroundFlickerDark;
     public Image BackgroundImage;
     public GameObject ServerButtonPrefab;
+    public string LevelName;
     private List<GameObject> mServerButtonList = new List<GameObject>();
 
     [SerializeField] private GameObject mPanelMainMenu;
@@ -38,7 +39,7 @@ public class MainMenuHandler : MonoBehaviour
 
     public void btnNewGame()
     {
-        SceneManager.LoadScene("GD_Level02");
+        SceneManager.LoadScene(LevelName);
     }
 
     public void btnLoadGame()
@@ -95,7 +96,7 @@ public class MainMenuHandler : MonoBehaviour
     public void btnStartGame()
     {
         //TODO: send other players Level start
-        SceneManager.LoadScene("GD_Level03");
+        SceneManager.LoadScene(LevelName);
     }
 
     public void btnPlayerReady()
