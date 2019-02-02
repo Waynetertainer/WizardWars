@@ -63,7 +63,7 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public List<Tile> pVisibleTiles;
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
-    public List<Tile> pAIPatrouillePoints = new List<Tile>(); // used for AI
+    [HideInInspector] public ePatrouilleSelection pPatrouilleSelection; // used for AI
     [HideInInspector] public int mPatWaypointID = 0; // used for AI
     public CharacterHealthBar pHealthBarScript;
 
@@ -89,7 +89,7 @@ public class Character : Occupant, IUniqueSpell
     private void Start()
     {
         //pUniqueSpell = pUniqueSpellScriptable as IUniqueSpell;
-        if (GetComponents<IUniqueSpell>().Length >1) // AI has no Unique Spell
+        if (GetComponents<IUniqueSpell>().Length > 1) // AI has no Unique Spell
         {
             pUniqueSpell = GetComponents<IUniqueSpell>()[1];
         }

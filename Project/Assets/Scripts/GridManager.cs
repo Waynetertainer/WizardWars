@@ -482,4 +482,78 @@ public class GridManager : MonoBehaviour
             }
         }
     }
+
+    public void MirrorSpawns()
+    {
+        // flipping AI Spawn positions
+        Vector2Int[] newpositions = new Vector2Int[pCurrentLevel.pAI1Spawner.Length];
+        Debug.Log("Flipping AI Spawner positions " + pCurrentLevel.pAI1Spawner.Length.ToString());
+        for (int i = 0; i < pCurrentLevel.pAI1Spawner.Length; ++i)
+        {
+            newpositions[i].x -= pCurrentLevel.pAI1Spawner[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].y -= pCurrentLevel.pAI1Spawner[i].y - pCurrentLevel.pSize.y;
+        }
+
+        pCurrentLevel.pAI2Spawner = newpositions;
+        // flipping Playerpositions
+        newpositions = new Vector2Int[pCurrentLevel.pPlayer1Spawns.Length];
+        Debug.Log("Flipping Player positions " + pCurrentLevel.pPlayer1Spawns.Length.ToString());
+        for (int i = 0; i < pCurrentLevel.pPlayer1Spawns.Length; ++i)
+        {
+            newpositions[i].x -= pCurrentLevel.pPlayer1Spawns[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].y -= pCurrentLevel.pPlayer1Spawns[i].y - pCurrentLevel.pSize.y;
+        }
+
+        pCurrentLevel.pPlayer2Spawns = newpositions;
+        // flipping already spawned AI positions
+        newpositions = new Vector2Int[pCurrentLevel.pAI1Spawns.Length];
+        Debug.Log("Flipping AI Spawns " + pCurrentLevel.pAI1Spawns.Length.ToString());
+        for (int i = 0; i < pCurrentLevel.pAI1Spawns.Length; ++i)
+        {
+            newpositions[i].x -= pCurrentLevel.pAI1Spawns[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].y -= pCurrentLevel.pAI1Spawns[i].y - pCurrentLevel.pSize.y;
+        }
+
+        pCurrentLevel.pAI2Spawns = newpositions;
+        //fliping waypoints for PatA
+        newpositions = new Vector2Int[pCurrentLevel.pAI1PatrouilleA.Length];
+        Debug.Log("Flipping Patrouille A " + pCurrentLevel.pAI1PatrouilleA.Length.ToString());
+        for (int i = 0; i < pCurrentLevel.pAI1PatrouilleA.Length; ++i)
+        {
+            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleA[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].y -= pCurrentLevel.pAI1PatrouilleA[i].y - pCurrentLevel.pSize.y;
+        }
+
+        pCurrentLevel.pAI2PatrouilleA = newpositions;
+        //fliping waypoints for PatB
+        newpositions = new Vector2Int[pCurrentLevel.pAI1PatrouilleB.Length];
+        Debug.Log("Flipping Patrouille B " + pCurrentLevel.pAI1PatrouilleB.Length.ToString());
+        for (int i = 0; i < pCurrentLevel.pAI1PatrouilleB.Length; ++i)
+        {
+            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleB[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].y -= pCurrentLevel.pAI1PatrouilleB[i].y - pCurrentLevel.pSize.y;
+        }
+
+        pCurrentLevel.pAI2PatrouilleB = newpositions;
+    }
+
+    public void SaveToLevelobject()
+    {
+        pCurrentLevel.pListGrid = new List<TileStruct>(this.transform.childCount);
+        int maxX = 0;
+        int maxY = 0;
+
+        foreach (Tile currenTile in transform.GetComponentsInChildren<Tile>())
+        {
+            maxX = (currenTile.pPosition.x > maxX ? currenTile.pPosition.x : maxX);
+            maxY = (currenTile.pPosition.y > maxY ? currenTile.pPosition.y : maxY);
+            pCurrentLevel.pListGrid.Add(currenTile.ToTileStruct());
+        }
+
+        //pCurrentLevel.pSize = new Vector2Int(maxX/2, maxY);
+        //int calculatedTileCount = maxX / 2 * maxY / 2 + ((maxX / 2) + 1) * ((maxY / 2) + 1);
+        //Debug.Assert(calculatedTileCount == this.transform.childCount, "Tileanzahl stimmt nicht mit Coordinaten überein. Max Tile Werte " + calculatedTileCount.ToString() + ", Einträge " + this.transform.childCount);
+        Debug.Log("Speichern komplett");
+
+    }
 }

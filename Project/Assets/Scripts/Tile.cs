@@ -155,6 +155,15 @@ public class Tile : MonoBehaviour
             pRend.material = pDefaultMaterial;
         }
     }
+
+    public TileStruct ToTileStruct()
+    {
+        TileStruct returnStruct;
+        returnStruct.pPosition = this.pPosition;
+        returnStruct.pBlockType = this.pBlockType;
+        returnStruct.pVisibilty = this.eVisibility;
+        return returnStruct;
+    }
 }
 
 [Serializable]

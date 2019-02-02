@@ -93,6 +93,7 @@ public class EntityManager : MonoBehaviour
     {
         int spawnCounter = 0;
 
+        //player 1 characters
         for (int i = 0; i < mPlayer1Prefabs.Count; i++)
         {
             Character e = Instantiate(mPlayer1Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]).transform.position, mPlayer1Prefabs[i].transform.rotation);
@@ -105,10 +106,10 @@ public class EntityManager : MonoBehaviour
             ++spawnCounter;
         }
 
+        //player 2 characters
         for (int i = 0; i < mPlayer2Prefabs.Count; i++)
         {
-            Character e = Instantiate(mPlayer2Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer2Spawns[i]).transform.position,
-                mPlayer2Prefabs[i].transform.rotation);
+            Character e = Instantiate(mPlayer2Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer2Spawns[i]).transform.position, mPlayer2Prefabs[i].transform.rotation);
             mAllEntities.Add(spawnCounter, e);
             e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer2Spawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
@@ -117,24 +118,28 @@ public class EntityManager : MonoBehaviour
             ++spawnCounter;
         }
 
+        //AI1 characters already on field
+
         for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI1Spawns.Length; ++i)
         {
-            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]).transform.position,
-                mAIPrefab.transform.rotation);
+            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]).transform.position, mAIPrefab.transform.rotation);
             mAllEntities.Add(spawnCounter, e);
             e.pFaction = eFactions.AI1;
+            e.pPatrouilleSelection = (i % 2 == 0 ? ePatrouilleSelection.A : ePatrouilleSelection.B);
             e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);
             ++spawnCounter;
         }
 
+        //AI2 characters already on field
         for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI2Spawns.Length; ++i)
         {
             Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]).transform.position,
                 mAIPrefab.transform.rotation);
             mAllEntities.Add(spawnCounter, e);
             e.pFaction = eFactions.AI2;
+            e.pPatrouilleSelection = (i % 2 == 0 ? ePatrouilleSelection.A : ePatrouilleSelection.B);
             e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]);
             e.pTile.pCharacterId = GetIdForCharacter(e);
             mCurrentEntities.Add(e);

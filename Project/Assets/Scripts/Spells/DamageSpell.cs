@@ -9,12 +9,12 @@ using UnityEngine;
 [CreateAssetMenu]
 public class DamageSpell : MonoBehaviour, IUniqueSpell
 {
-    [SerializeField] private string _SpellName;
-    [SerializeField] private int _Damage;
-    [SerializeField] private int _Cost;
-    [SerializeField] private int _Range;
-    [SerializeField] private int _Cooldown;
-    [SerializeField] [Multiline] private string _Description;
+    [SerializeField] private string _SpellName = "";
+    [SerializeField] private int _Damage = 1;
+    [SerializeField] private int _Cost = 15;
+    [SerializeField] private int _Range = 1;
+    [SerializeField] private int _Cooldown = 1;
+    [SerializeField] [Multiline] private string _Description = "";
     [SerializeField] private GameObject _VFXPrefab;
     [SerializeField] private GameObject _VFXSpawner;
 

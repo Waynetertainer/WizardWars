@@ -41,3 +41,10 @@ public enum eAIState
     Patrouille,
     Fight
 };
+
+public enum ePatrouilleSelection
+{
+    A,
+    B,
+    Static
+};

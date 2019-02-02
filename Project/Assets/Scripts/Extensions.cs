@@ -68,4 +68,9 @@ public static class Extensions
     {
         return hit.transform.GetComponent<T>() != null;
     }
+
+    public static Vector2Int ToGridCoordinates(this Vector2Int coordinates)
+    {
+        return new Vector2Int(coordinates.x/2, coordinates.y);
+    }
 }

@@ -22,7 +22,8 @@ public class AIevaluator
             switch (pAIState)
             {
                 case eAIState.Patrouille:
-                    if (mCharacter.pAIPatrouillePoints.Count == 0) // wenn statischer gegner ohne wegpunkte
+                    #region Patrouille
+                    if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.Static) // wenn statischer gegner ohne wegpunkte, early exit
                     {
                         pActiveTarget = AIfindTarget(mCharacter);
                         if (pActiveTarget != null)
@@ -40,14 +41,15 @@ public class AIevaluator
                     }
 
                     Debug.Log("AI patrol to next waypoint");
-                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mCharacter.mPatWaypointID]);
+                    //pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mCharacter.mPatWaypointID]);
+                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt( GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
                     int currentStepsLeft = mCharacter.pWalkRange;
 
                     if (pSteps.Count == 0) //wenn pat-zielpunkt erreicht zum nächsten wechseln
                     {
                         //TODO: What happens when pat point is occupied?
-                        mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % mCharacter.pAIPatrouillePoints.Count;
-                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mCharacter.mPatWaypointID]);
+                        mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length;
+                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
                     }
                     //TODO jumping over waypoint target if more range than steps
 
@@ -60,10 +62,10 @@ public class AIevaluator
                     pActiveTarget = AIfindTarget(mCharacter);
                     if (pActiveTarget != null)
                         pAIState = eAIState.Fight;
-
+                    #endregion
                     break;
                 case eAIState.Fight:
-
+                    #region Fight
                     Debug.Log(mCharacter.pName + " is searching for cover against " + pActiveTarget.pName);
 
                     List<Tile> walkableTiles = GridManager.pInstance.GetReachableTiles(mCharacter.pTile, mCharacter.pWalkRange);
@@ -191,7 +193,7 @@ public class AIevaluator
                     pActiveTarget = AIfindTarget(mCharacter); //check for survivors
                     if (pActiveTarget == null)
                         pAIState = eAIState.Patrouille;
-
+                    #endregion
                     break;
                 default:
                     Debug.LogError("AI in unknown state");

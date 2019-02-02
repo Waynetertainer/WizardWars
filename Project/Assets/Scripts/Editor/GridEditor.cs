@@ -31,7 +31,17 @@ public class GridEditor : Editor
             myScript.CreateNavigation();
             Debug.Log("Navigation complete after " + (Time.realtimeSinceStartup - startTime).ToString() + " seconds");
         }
+        if (GUILayout.Button("Mirror Playersettings"))
+        {
+            myScript.MirrorSpawns();
+        }
 
+        if (GUILayout.Button("Save Scene to Current Level"))
+        {
+            myScript.SaveToLevelobject();
+        }
+
+        
 
     }
 }
