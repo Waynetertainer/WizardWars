@@ -11373,14 +11373,14 @@ MonoBehaviour:
     pBlockType: 0
     pVisibilty: 0
   pPlayer1Spawns:
-  - {x: 80, y: 53}
+  - {x: 80, y: 52}
   - {x: 84, y: 52}
   - {x: 88, y: 50}
   pAI1Spawns:
   - {x: 66, y: 48}
   - {x: 78, y: 42}
   pPlayer2Spawns:
-  - {x: 32, y: 13}
+  - {x: 32, y: 14}
   - {x: 28, y: 14}
   - {x: 24, y: 16}
   pAI2Spawns:
@@ -11393,20 +11393,20 @@ MonoBehaviour:
   - {x: 46, y: 18}
   - {x: 34, y: 24}
   pAI1PatrouilleA:
-  - {x: 50, y: 41}
+  - {x: 50, y: 40}
   - {x: 24, y: 42}
   - {x: 35, y: 27}
   - {x: 56, y: 28}
   pAI1PatrouilleB:
   - {x: 76, y: 38}
-  - {x: 60, y: 25}
+  - {x: 60, y: 24}
   - {x: 84, y: 18}
   pAI2PatrouilleA:
-  - {x: 62, y: 25}
+  - {x: 62, y: 26}
   - {x: 88, y: 24}
   - {x: 77, y: 39}
   - {x: 56, y: 38}
   pAI2PatrouilleB:
   - {x: 36, y: 28}
-  - {x: 52, y: 41}
+  - {x: 52, y: 42}
   - {x: 28, y: 48}

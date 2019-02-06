@@ -429,6 +429,7 @@ public class GridManager : MonoBehaviour
 
     public Tile GetTileAt(Vector2Int pos)
     {
+        Debug.Assert((pos.x + pos.y) % 2 == 0, "Coordinates broken " + pos.x.ToString() + " " + pos.y.ToString());
         return mGrid[pos.x, pos.y];
     }
 
@@ -490,7 +491,7 @@ public class GridManager : MonoBehaviour
         Debug.Log("Flipping AI Spawner positions " + pCurrentLevel.pAI1Spawner.Length.ToString());
         for (int i = 0; i < pCurrentLevel.pAI1Spawner.Length; ++i)
         {
-            newpositions[i].x -= pCurrentLevel.pAI1Spawner[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].x -= pCurrentLevel.pAI1Spawner[i].x - pCurrentLevel.pSize.x * 2;
             newpositions[i].y -= pCurrentLevel.pAI1Spawner[i].y - pCurrentLevel.pSize.y;
         }
 
@@ -500,7 +501,7 @@ public class GridManager : MonoBehaviour
         Debug.Log("Flipping Player positions " + pCurrentLevel.pPlayer1Spawns.Length.ToString());
         for (int i = 0; i < pCurrentLevel.pPlayer1Spawns.Length; ++i)
         {
-            newpositions[i].x -= pCurrentLevel.pPlayer1Spawns[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].x -= pCurrentLevel.pPlayer1Spawns[i].x - pCurrentLevel.pSize.x * 2;
             newpositions[i].y -= pCurrentLevel.pPlayer1Spawns[i].y - pCurrentLevel.pSize.y;
         }
 
@@ -510,7 +511,7 @@ public class GridManager : MonoBehaviour
         Debug.Log("Flipping AI Spawns " + pCurrentLevel.pAI1Spawns.Length.ToString());
         for (int i = 0; i < pCurrentLevel.pAI1Spawns.Length; ++i)
         {
-            newpositions[i].x -= pCurrentLevel.pAI1Spawns[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].x -= pCurrentLevel.pAI1Spawns[i].x - pCurrentLevel.pSize.x * 2;
             newpositions[i].y -= pCurrentLevel.pAI1Spawns[i].y - pCurrentLevel.pSize.y;
         }
 
@@ -520,7 +521,7 @@ public class GridManager : MonoBehaviour
         Debug.Log("Flipping Patrouille A " + pCurrentLevel.pAI1PatrouilleA.Length.ToString());
         for (int i = 0; i < pCurrentLevel.pAI1PatrouilleA.Length; ++i)
         {
-            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleA[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleA[i].x - pCurrentLevel.pSize.x * 2;
             newpositions[i].y -= pCurrentLevel.pAI1PatrouilleA[i].y - pCurrentLevel.pSize.y;
         }
 
@@ -530,7 +531,7 @@ public class GridManager : MonoBehaviour
         Debug.Log("Flipping Patrouille B " + pCurrentLevel.pAI1PatrouilleB.Length.ToString());
         for (int i = 0; i < pCurrentLevel.pAI1PatrouilleB.Length; ++i)
         {
-            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleB[i].x - pCurrentLevel.pSize.x*2;
+            newpositions[i].x -= pCurrentLevel.pAI1PatrouilleB[i].x - pCurrentLevel.pSize.x * 2;
             newpositions[i].y -= pCurrentLevel.pAI1PatrouilleB[i].y - pCurrentLevel.pSize.y;
         }
 
