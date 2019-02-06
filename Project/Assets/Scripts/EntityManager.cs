@@ -96,9 +96,10 @@ public class EntityManager : MonoBehaviour
         //player 1 characters
         for (int i = 0; i < mPlayer1Prefabs.Count; i++)
         {
-            Character e = Instantiate(mPlayer1Prefabs[i], GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]).transform.position, mPlayer1Prefabs[i].transform.rotation);
+            Tile tile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]);
+            Character e = Instantiate(mPlayer1Prefabs[i], tile.transform.position, mPlayer1Prefabs[i].transform.rotation);
             mAllEntities.Add(spawnCounter, e);
-            e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pPlayer1Spawns[i]);
+            e.pTile = tile;
             e.pTile.pCharacterId = GetIdForCharacter(e);
             e.pFaction = eFactions.Player1;
             //e.pTile.pBlockType = eBlockType.Blocked;

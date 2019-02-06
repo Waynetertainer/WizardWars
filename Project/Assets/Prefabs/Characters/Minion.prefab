@@ -442,7 +442,7 @@ MonoBehaviour:
   pVisibleTiles: []
   pMoved: 0
   pFired: 0
-  pAIPatrouillePoints: []
+  pPatrouilleSelection: 0
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 3859538354524918577}
   _SpellName: Fireball
