@@ -22,6 +22,7 @@ public class AIevaluator
             switch (pAIState)
             {
                 case eAIState.Patrouille:
+
                     #region Patrouille
                     if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.Static) // wenn statischer gegner ohne wegpunkte, early exit
                     {
@@ -39,10 +40,10 @@ public class AIevaluator
                             break;
                         }
                     }
-
+                    mCharacter.pApCurrent -= 10;
                     Debug.Log("AI patrol to next waypoint");
-                    //pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, mCharacter.pAIPatrouillePoints[mCharacter.mPatWaypointID]);
-                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt( GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
+
+                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
                     int currentStepsLeft = mCharacter.pWalkRange;
 
                     if (pSteps.Count == 0) //wenn pat-zielpunkt erreicht zum nächsten wechseln
@@ -58,7 +59,7 @@ public class AIevaluator
                     {
                         yield return AIevaluator.AImove(mCharacter, pSteps[1]);
                     }
-                    mCharacter.pApCurrent -= 10;
+
                     pActiveTarget = AIfindTarget(mCharacter);
                     if (pActiveTarget != null)
                         pAIState = eAIState.Fight;

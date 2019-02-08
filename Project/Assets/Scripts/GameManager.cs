@@ -292,6 +292,10 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.AIturn:
 
+                GameManager.pInstance.pCurrentFraction = GameManager.pInstance.pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
+                GameManager.pInstance.ChangeState(eGameState.Select);
+                break;
+
                 if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count > 0) // skip AI turn if no AI present for faction
                 {
                     for (int i = 0; i < 1; ++i) //HACK three ai moves per turn, debug only one
@@ -315,6 +319,10 @@ public class GameManager : MonoBehaviour
                         StartCoroutine(AIevaluator.EvaluateAI(ai));
                     }
                 }
+                
+
+
+
                 break;
         }
         pUiManager.Refresh();

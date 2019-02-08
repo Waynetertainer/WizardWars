@@ -37,7 +37,7 @@ public class MainMenuHandler : MonoBehaviour
         }
     }
 
-    public void btnNewGame()
+    public void btnStartSingleplayerGame()
     {
         SceneManager.LoadScene(LevelName);
     }
@@ -93,7 +93,7 @@ public class MainMenuHandler : MonoBehaviour
         startLog = false;
     }
 
-    public void btnStartGame()
+    public void btnStartMultiplayerGame()
     {
         //TODO: send other players Level start
         SceneManager.LoadScene(LevelName);

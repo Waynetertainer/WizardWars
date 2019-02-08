@@ -419,7 +419,11 @@ public class GridManager : MonoBehaviour
 
     public Tile GetCenter()
     {
-        return mGrid[mGrid.GetLength(0) / 4, mGrid.GetLength(1) / 2];
+        int x = mGrid.GetLength(0) / 4;
+        int y = mGrid.GetLength(1) / 2;
+        if (x % 2 + y % 2 == 1)
+            --y; // hack to fix possible null reference
+        return mGrid[x, y];
     }
 
     public Tile GetTileAt(int x, int y)

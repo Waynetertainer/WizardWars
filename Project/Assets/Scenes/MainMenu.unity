@@ -1678,7 +1678,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1601832168}
-        m_MethodName: btnStartGame
+        m_MethodName: btnStartMultiplayerGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2555,7 +2555,7 @@ PrefabInstance:
     - target: {fileID: 114797369819136858, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: btnNewGame
+      value: btnStartSingleplayerGame
       objectReference: {fileID: 0}
     - target: {fileID: 114797369819136858, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
