@@ -20,7 +20,9 @@ public enum eGameState
     Firing,
     EndTurn,
     EndOfMatch,
-    AIturn
+    AIturn,
+    IdelLoop
+
 }
 
 public enum eVisibility

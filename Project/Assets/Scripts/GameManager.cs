@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("Starting with " + pCurrentFraction.ToString());
 
-        ChangeState(eGameState.AIturn);
+        ChangeState(eGameState.IdelLoop);
     }
 
     private void Update()
@@ -292,9 +292,14 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.AIturn:
 
-                GameManager.pInstance.pCurrentFraction = GameManager.pInstance.pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
-                GameManager.pInstance.ChangeState(eGameState.Select);
-                break;
+
+                if (false) // AI deaktivieren
+                {
+                    GameManager.pInstance.pCurrentFraction = GameManager.pInstance.pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
+                    GameManager.pInstance.ChangeState(eGameState.Select);
+                    break;
+
+                }
 
                 if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count > 0) // skip AI turn if no AI present for faction
                 {
@@ -324,8 +329,16 @@ public class GameManager : MonoBehaviour
 
 
                 break;
+            case eGameState.IdelLoop:
+                StartCoroutine(IdleWait());
+                break;
         }
         pUiManager.Refresh();
 
+    }
+    private IEnumerator IdleWait()
+    {
+        yield return new WaitForSeconds(4);
+        GameManager.pInstance.ChangeState(eGameState.AIturn);
     }
 }

@@ -43,7 +43,17 @@ public class AIevaluator
                     mCharacter.pApCurrent -= 10;
                     Debug.Log("AI patrol to next waypoint");
 
-                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
+                    if (mCharacter.pFaction == eFactions.AI2)
+                    {
+                        Debug.Log("Skipping pat for AI2");
+                        break;
+                    }
+
+                    Tile patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]);
+
+                    pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
+                    Debug.Assert(pSteps != null, "AI did not find a way to waypoint " + mCharacter.mPatWaypointID);
+                    if (pSteps == null) break;
                     int currentStepsLeft = mCharacter.pWalkRange;
 
                     if (pSteps.Count == 0) //wenn pat-zielpunkt erreicht zum nächsten wechseln
