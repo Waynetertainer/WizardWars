@@ -7,7 +7,7 @@ namespace NET_System
 {
     public static class NET_Debug
     {
-        static int errorsCount = 0;
+        //static int errorsCount = 0;
         static bool log = true;
         static Queue<string> debugMessages = new Queue<string>();
 

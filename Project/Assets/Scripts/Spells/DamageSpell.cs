@@ -6,7 +6,6 @@
 using System;
 using UnityEngine;
 
-[CreateAssetMenu]
 public class DamageSpell : MonoBehaviour, IUniqueSpell
 {
     [SerializeField] private string _SpellName = "";

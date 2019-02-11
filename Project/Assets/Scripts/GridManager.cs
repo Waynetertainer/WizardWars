@@ -286,7 +286,7 @@ public class GridManager : MonoBehaviour
         totalCosts.Add(startTile, 0);
 
 
-        while (openToCheck.Count > 0)
+        while (openToCheck.Count > 0 && openToCheck.Count < 2500) //HACK hard limit on tiles in openlist
         {
             Tile activeTile = openToCheck.First.Value.tile;
             openToCheck.RemoveFirst();
