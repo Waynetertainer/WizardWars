@@ -26,7 +26,7 @@ namespace UI
                     pDescriptionText.text = c.Description;
                     break;
                 case ("Unique"):
-                    if (c.pUniqueSpell == null)
+                    if (c == null)
                         break;
                     pNameText.text = c.pUniqueSpell.SpellName;
                     pRangeText.text = c.pUniqueSpell.Range.ToString();

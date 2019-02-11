@@ -140,7 +140,14 @@ public class Character : Occupant, IUniqueSpell
             var tile = path[i];
 
             transform.LookAt(tile.transform.position);
-            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+            if (pFaction == eFactions.AI1 || pFaction == eFactions.AI2)
+            {
+                transform.localEulerAngles = new Vector3(-90, transform.localEulerAngles.y, 0);
+            }
+            else
+            {
+                transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
+            }
 
             while (Vector3.Distance(transform.position, tile.transform.position) >= 0.1f)
             {
@@ -153,6 +160,9 @@ public class Character : Occupant, IUniqueSpell
         pTile.pCharacterId = -1;
         pApCurrent -= pWalkCost;
         pTile = targetTile;
+        if (pFaction == eFactions.AI1 || pFaction == eFactions.AI2)
+            yield break;
+
         targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
         foreach (Tile tile in pReachableTiles)
@@ -167,8 +177,7 @@ public class Character : Occupant, IUniqueSpell
 
         pMoved = true;
         //pTile.pBlockType = eBlockType.Blocked;
-        if (pFaction == eFactions.AI1 || pFaction == eFactions.AI2)
-            yield break;
+
 
         if (pApCurrent > 5)
         {

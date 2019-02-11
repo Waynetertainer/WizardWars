@@ -8721,7 +8721,7 @@ MonoBehaviour:
   - {x: 19, y: 5}
   pAI2Spawns:
   - {x: 35, y: 9}
-  - {x: 18, y: 12}
+  - {x: 17, y: 13}
   pAI1Spawner:
   - {x: 53, y: 49}
   - {x: 70, y: 44}
@@ -8733,9 +8733,9 @@ MonoBehaviour:
   - {x: 19, y: 45}
   - {x: 30, y: 36}
   pAI1PatrouilleB:
-  - {x: 73, y: 39}
-  - {x: 81, y: 29}
-  - {x: 65, y: 29}
+  - {x: 53, y: 15}
+  - {x: 77, y: 19}
+  - {x: 66, y: 26}
   pAI2PatrouilleA:
   - {x: 50, y: 14}
   - {x: 75, y: 15}

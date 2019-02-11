@@ -286,8 +286,12 @@ public class GridManager : MonoBehaviour
         totalCosts.Add(startTile, 0);
 
 
-        while (openToCheck.Count > 0 && openToCheck.Count < 2500) //HACK hard limit on tiles in openlist
+        while (openToCheck.Count > 0) //HACK hard limit on tiles in openlist
         {
+            Debug.Assert(openToCheck.Count < 2500, "AI did not find a way from " + startTile.pPosition.ToString() + " to " + endTile.pPosition.ToString() + " in time");
+            if (openToCheck.Count > 2500) return null;
+            
+
             Tile activeTile = openToCheck.First.Value.tile;
             openToCheck.RemoveFirst();
 

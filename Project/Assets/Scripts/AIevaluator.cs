@@ -18,7 +18,7 @@ public class AIevaluator
         while (mCharacter.pApCurrent > 9)
         {
             Debug.Log("AI current AP " + mCharacter.pApCurrent);
-            //yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove if nessesary
+            yield return new WaitForSeconds(0.5f); // blocks debug stepping. Remove if nessesary
             switch (pAIState)
             {
                 case eAIState.Patrouille:
@@ -47,13 +47,13 @@ public class AIevaluator
 
 
                     pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
-                    Debug.Assert(pSteps != null, "AI did not find a way to waypoint " + mCharacter.mPatWaypointID);
                     if (pSteps == null) break;
                     int currentStepsLeft = mCharacter.pWalkRange;
 
                     if (pSteps.Count < 2) //close enough to pat-point?
                     {
-                        mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length;
+
+                        mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB.Length);
                         patrolTile = GridManager.pInstance.GetTileAt((mCharacter.pFaction == eFactions.AI1 ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID] : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]));
 
                         pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
@@ -61,12 +61,32 @@ public class AIevaluator
 
 
                     //TODO jumping over waypoint target if more range than steps
-
+                    /*
                     //new full move behavior with enemy check in the end
-                    for (int i = 0; i < (pSteps.Count > mCharacter.pWalkRange ? mCharacter.pWalkRange : pSteps.Count); ++i) // walk until range is spent or target reached
+                    int stepCounter = pSteps.Count -1;
+                    for (; stepCounter > (pSteps.Count > mCharacter.pWalkRange ? pSteps.Count -1 - mCharacter.pWalkRange : 0); --stepCounter) // walk until range is spent or target reached
                     {
-                        yield return AIevaluator.AImove(mCharacter, pSteps[1]);
+                        yield return AIevaluator.AImove(mCharacter, pSteps[stepCounter]);
+                        
                     }
+
+
+
+
+                    //setting coordinates
+                    mCharacter.pTile.pCharacterId = -1;
+                    mCharacter.pTile = pSteps[stepCounter-1];
+                    */
+
+                    if (pSteps.Count > mCharacter.pWalkRange)
+                    {
+                        mCharacter.Move(pSteps[pSteps.Count - 1 - mCharacter.pWalkRange]);
+                    }
+                    else
+                    {
+                        mCharacter.Move(pSteps[0]);
+                    }
+
 
                     pActiveTarget = AIfindTarget(mCharacter);
                     if (pActiveTarget != null)
