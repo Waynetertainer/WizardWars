@@ -430,12 +430,12 @@ MonoBehaviour:
   pTile: {fileID: 0}
   pFaction: 0
   pName: Minion
-  pHp: 5
-  pHpCurrent: 5
+  pHp: 1
+  pHpCurrent: 1
   pAp: 25
   pApCurrent: 25
-  pVisionRange: 3
-  pWalkRange: 3
+  pVisionRange: 4
+  pWalkRange: 2
   pEffectHit: 0
   pWalkCost: 10
   pReachableTiles: []
@@ -446,9 +446,9 @@ MonoBehaviour:
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 3859538354524918577}
   _SpellName: Fireball
-  _Damage: 5
+  _Damage: 1
   _Cost: 15
-  _Range: 3
+  _Range: 2
   _Cooldown: 0
   _Description: 
   pHitTransform: {fileID: 1074683554801746368}

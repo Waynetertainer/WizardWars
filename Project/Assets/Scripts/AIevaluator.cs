@@ -66,11 +66,24 @@ public class AIevaluator
                     if (pSteps == null) break;
                     int currentStepsLeft = mCharacter.pWalkRange;
 
-                    if (pSteps.Count < 2) //close enough to pat-point?
+                    if (pSteps.Count < 3) //close enough to pat-point?
                     {
 
                         mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB.Length);
-                        patrolTile = GridManager.pInstance.GetTileAt((mCharacter.pFaction == eFactions.AI1 ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID] : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]));
+                        if (mCharacter.pFaction == eFactions.AI1)
+                        {
+                            if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A)
+                                patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]);
+                            else
+                                patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]);
+                        }
+                        else
+                        {
+                            if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A)
+                                patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2PatrouilleA[mCharacter.mPatWaypointID]);
+                            else
+                                patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2PatrouilleB[mCharacter.mPatWaypointID]);
+                        }
 
                         pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     }
