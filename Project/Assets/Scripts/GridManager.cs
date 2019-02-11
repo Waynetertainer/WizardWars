@@ -290,7 +290,7 @@ public class GridManager : MonoBehaviour
         {
             Debug.Assert(openToCheck.Count < 2500, "AI did not find a way from " + startTile.pPosition.ToString() + " to " + endTile.pPosition.ToString() + " in time");
             if (openToCheck.Count > 2500) return null;
-            
+
 
             Tile activeTile = openToCheck.First.Value.tile;
             openToCheck.RemoveFirst();
@@ -467,7 +467,6 @@ public class GridManager : MonoBehaviour
                     if (tile.pBlockType != eBlockType.Blocked) // search if this hit is blocking the tile if it is't already blocked
                     {
                         tile.pBlockType = hit.transform.GetComponent<EditorAssetSettings>().eBlockType;
-
                     }
 
                     if (tile.eVisibility != eVisibility.Opaque) // search if this hit is opaque it is't already opaque
