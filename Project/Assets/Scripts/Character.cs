@@ -84,7 +84,7 @@ public class Character : Occupant, IUniqueSpell
     [SerializeField] private GameObject _VFXPrefab;
     [SerializeField] private GameObject _VFXSpawner;
 
-    private bool mIsActiveCharacter;
+    private bool mIsActiveCharacter = false;
 
     private void Start()
     {

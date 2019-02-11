@@ -43,25 +43,23 @@ public class AIevaluator
                     mCharacter.pApCurrent -= 10;
                     Debug.Log("AI patrol to next waypoint");
 
-                    if (mCharacter.pFaction == eFactions.AI2)
-                    {
-                        Debug.Log("Skipping pat for AI2");
-                        break;
-                    }
+                    Tile patrolTile = GridManager.pInstance.GetTileAt( (mCharacter.pFaction == eFactions.AI1? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID] : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]));
 
-                    Tile patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]);
 
                     pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     Debug.Assert(pSteps != null, "AI did not find a way to waypoint " + mCharacter.mPatWaypointID);
                     if (pSteps == null) break;
                     int currentStepsLeft = mCharacter.pWalkRange;
 
-                    if (pSteps.Count == 0) //wenn pat-zielpunkt erreicht zum nächsten wechseln
+                    if (pSteps.Count < 2) //close enough to pat-point?
                     {
-                        //TODO: What happens when pat point is occupied?
                         mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length;
-                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]));
+                        patrolTile = GridManager.pInstance.GetTileAt((mCharacter.pFaction == eFactions.AI1 ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID] : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]));
+
+                        pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     }
+
+
                     //TODO jumping over waypoint target if more range than steps
 
                     //new full move behavior with enemy check in the end
