@@ -124,10 +124,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
-  pFraction: 3
-  pName: BadGuy3
-  pHp: 14
-  pHpCurrent: 14
+  pFaction: 0
+  pName: Lightcatcher
+  pHp: 15
+  pHpCurrent: 15
   pAp: 25
   pApCurrent: 25
   pVisionRange: 8
@@ -138,13 +138,13 @@ MonoBehaviour:
   pVisibleTiles: []
   pMoved: 0
   pFired: 0
-  pAIPatrouillePoints: []
+  pPatrouilleSelection: 0
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 383713327480641001}
   _SpellName: Magic Missile
-  _Damage: 2
+  _Damage: 6
   _Cost: 15
-  _Range: 4
+  _Range: 5
   _Cooldown: 0
   _Description: "Yo momma is so fat that Dora can't \neven explore her!\r\n\r\n"
   pHitTransform: {fileID: 8665253960318237514}

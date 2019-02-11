@@ -43,8 +43,24 @@ public class AIevaluator
                     mCharacter.pApCurrent -= 10;
                     Debug.Log("AI patrol to next waypoint");
 
-                    Tile patrolTile = GridManager.pInstance.GetTileAt( (mCharacter.pFaction == eFactions.AI1? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID] : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]));
 
+
+                    Tile patrolTile;
+                    if (mCharacter.pFaction == eFactions.AI1)
+                    {
+                        if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A)
+                            patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA[mCharacter.mPatWaypointID]);
+                        else
+                            patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB[mCharacter.mPatWaypointID]);
+                    }
+                    else
+                    {
+                        if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A)
+                            patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2PatrouilleA[mCharacter.mPatWaypointID]);
+                        else
+                            patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2PatrouilleB[mCharacter.mPatWaypointID]);
+                    }
+                    
 
                     pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     if (pSteps == null) break;

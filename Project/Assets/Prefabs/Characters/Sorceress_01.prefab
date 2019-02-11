@@ -637,28 +637,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
-  pFraction: 1
+  pFaction: 0
   pName: Father Bear
-  pHp: 20
-  pHpCurrent: 20
+  pHp: 23
+  pHpCurrent: 23
   pAp: 25
   pApCurrent: 25
-  pVisionRange: 8
-  pWalkRange: 5
+  pVisionRange: 5
+  pWalkRange: 3
   pEffectHit: 0
   pWalkCost: 10
   pReachableTiles: []
   pVisibleTiles: []
-  pRevealedCharacters: []
   pMoved: 0
   pFired: 0
-  pAIPatrouillePoints: []
+  pPatrouilleSelection: 0
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
-  _Damage: 2
+  _Damage: 6
   _Cost: 15
-  _Range: 4
+  _Range: 5
   _Cooldown: 0
   _Description: "Yo momma is so fat,\nI took a picture of her last \nChristmas and
     it's still printing.\r\r\n"

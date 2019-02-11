@@ -63,7 +63,7 @@ public class Character : Occupant, IUniqueSpell
     [HideInInspector] public List<Tile> pVisibleTiles;
     [HideInInspector] public bool pMoved;
     [HideInInspector] public bool pFired;
-    [HideInInspector] public ePatrouilleSelection pPatrouilleSelection; // used for AI
+    public ePatrouilleSelection pPatrouilleSelection; // used for AI
     [HideInInspector] public int mPatWaypointID = 0; // used for AI
     public CharacterHealthBar pHealthBarScript;
 

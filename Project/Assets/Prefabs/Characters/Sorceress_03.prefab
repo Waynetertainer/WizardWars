@@ -607,26 +607,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pTile: {fileID: 0}
-  pFraction: 1
+  pFaction: 0
   pName: The other guy
-  pHp: 12
-  pHpCurrent: 12
+  pHp: 15
+  pHpCurrent: 15
   pAp: 25
   pApCurrent: 25
-  pVisionRange: 8
+  pVisionRange: 5
   pWalkRange: 5
   pEffectHit: 0
   pWalkCost: 10
   pReachableTiles: []
   pVisibleTiles: []
-  pRevealedCharacters: []
   pMoved: 0
   pFired: 0
-  pAIPatrouillePoints: []
+  pPatrouilleSelection: 0
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 114805691852594456}
   _SpellName: Fireball
-  _Damage: 2
+  _Damage: 6
   _Cost: 15
   _Range: 4
   _Cooldown: 0
