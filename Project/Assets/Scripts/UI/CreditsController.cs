@@ -1,21 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CreditsController : MonoBehaviour {
 
-    public float pScrollSpeed;
-    private Vector3 mover;
-    // Use this for initialization
-    void Start () 
+    void Update () 
     {
-        mover = this.transform.position;
-
-    }
-	
-	// Update is called once per frame
-	void Update () 
-    {
-        mover.y += pScrollSpeed*Time.deltaTime;
+        if (Input.anyKey && Time.timeSinceLevelLoad > 1f)
+            UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
 	}
 }

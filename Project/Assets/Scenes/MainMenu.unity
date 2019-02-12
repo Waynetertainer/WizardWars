@@ -231,6 +231,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MainMenuButtonJoinGame
       objectReference: {fileID: 0}
+    - target: {fileID: 1988735052945664, guid: 0230887580bbf4345bb5253fc6774cc9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114797369819136858, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -279,12 +283,12 @@ PrefabInstance:
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -150
       objectReference: {fileID: 0}
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
@@ -477,10 +481,10 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 7
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 1
+  m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!222 &263580551
@@ -501,6 +505,10 @@ PrefabInstance:
     - target: {fileID: 1988735052945664, guid: 0230887580bbf4345bb5253fc6774cc9, type: 3}
       propertyPath: m_Name
       value: MainMenuButtonHostGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 1988735052945664, guid: 0230887580bbf4345bb5253fc6774cc9, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114797369819136858, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
@@ -550,12 +558,12 @@ PrefabInstance:
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 288
       objectReference: {fileID: 0}
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -90
       objectReference: {fileID: 0}
     - target: {fileID: 224682131958035842, guid: 0230887580bbf4345bb5253fc6774cc9,
         type: 3}
