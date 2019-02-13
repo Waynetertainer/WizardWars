@@ -21,7 +21,8 @@ public enum eGameState
     EndTurn,
     EndOfMatch,
     AIturn,
-    IdelLoop
+    IdleLoop,
+    IdleTransition
 
 }
 

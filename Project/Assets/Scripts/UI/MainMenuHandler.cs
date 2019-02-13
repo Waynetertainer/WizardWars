@@ -28,9 +28,11 @@ public class MainMenuHandler : MonoBehaviour
         mPanelServerSelection.SetActive(false);
     }
 
+
+
     void FixedUpdate()
     {
-        BackgroundImage.color = Color.Lerp(BackgroundFlickerLight, BackgroundFlickerDark, Random.value); // Spielerei :D
+        //BackgroundImage.color = Color.Lerp(BackgroundFlickerLight, BackgroundFlickerDark, Random.value); // Spielerei :D
         if (startLog)
         {
             mPanelNetworkDebug.text = "Connected Clients" + NetworkManager.pInstance.pNetMain.NET_GetStates();

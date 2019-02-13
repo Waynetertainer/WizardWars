@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Character : Occupant, IUniqueSpell
 {
@@ -58,6 +59,7 @@ public class Character : Occupant, IUniqueSpell
     {
         get { return _VFXSpawner; }
     }
+    public Button pButtonForSpecial; //Link to the button wich activates special
 
     [HideInInspector] public List<Tile> pReachableTiles;
     [HideInInspector] public List<Tile> pVisibleTiles;
@@ -197,8 +199,7 @@ public class Character : Occupant, IUniqueSpell
         //friendly fire checks
         if (pFaction == eFactions.AI1 || pFaction == eFactions.Player1)
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI2
-                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player2)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI2 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player2)
             {
                 if (pFaction == eFactions.Player1)
                     GameManager.pInstance.ChangeState(eGameState.FireSkill);
@@ -207,8 +208,7 @@ public class Character : Occupant, IUniqueSpell
         }
         else
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI1
-                || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player1)
+            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI1 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player1)
             {
                 if (pFaction == eFactions.Player2)
                     GameManager.pInstance.ChangeState(eGameState.FireSkill);
@@ -264,7 +264,7 @@ public class Character : Occupant, IUniqueSpell
             }
             else
             {
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(4);
                 GameManager.pInstance.ChangeState(eGameState.EndTurn);
             }
         }

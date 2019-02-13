@@ -11,29 +11,33 @@ public class EntityManager : MonoBehaviour
 {
     public static EntityManager pInstance = null;
 
-    [HideInInspector]
-    public List<Character> pCurrentAI1Players
-    {
-        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI1); }
-    }
-    [HideInInspector]
-    public List<Character> pCurrentAI2Players
-    {
-        get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI2); }
-    }
-    [HideInInspector]
-    public List<Character> pAI1Players
-    {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI1); }
-    }
-    [HideInInspector]
-    public List<Character> pAI2Players
-    {
-        get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI2); }
-    }
+    //[HideInInspector]
+    //public List<Character> pCurrentAI1Players
+    //{
+    //    get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI1); }
+    //}
+    //[HideInInspector]
+    //public List<Character> pCurrentAI2Players
+    //{
+    //    get { return mCurrentEntities.FindAll(T => T.pFaction == eFactions.AI2); }
+    //}
+    //[HideInInspector]
+    //public List<Character> pAI1Players
+    //{
+    //    get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI1); }
+    //}
+    //[HideInInspector]
+    //public List<Character> pAI2Players
+    //{
+    //    get { return mAllEntities.Values.ToList().FindAll(T => T.pFaction == eFactions.AI2); }
+    //}
     public List<Character> pGetFactionEntities(eFactions faction)
     {
         return mAllEntities.Values.ToList().FindAll(T => T.pFaction == faction);
+    }
+    public List<Character> pGetAliveFactionEntities(eFactions faction)
+    {
+        return mAllEntities.Values.ToList().FindAll(T => T.pFaction == faction && T.pHpCurrent > 0);
     }
     public List<Character> pGetCurrentFactionEntities(eFactions faction)
     {
@@ -152,13 +156,21 @@ public class EntityManager : MonoBehaviour
     {
         //c.pTile.pBlockType = eBlockType.Empty;
         Debug.Log(c.pName + " has been killed");
-        mAllEntities.Remove(GetIdForCharacter(c));
-        mCurrentEntities.Remove(c);
-        Destroy(c.gameObject);
 
-        if (pCurrentPlayer1Players.Count == 0 || pCurrentPlayer2Players.Count == 0)
+        if (c.pFaction == eFactions.AI1 || c.pFaction == eFactions.AI2)
         {
-            GameManager.pInstance.ChangeState(eGameState.EndOfMatch);
+            mAllEntities.Remove(GetIdForCharacter(c));
+            mCurrentEntities.Remove(c);
+            Destroy(c.gameObject);
+        }
+        else
+        {
+            mCurrentEntities.Remove(c);
+            c.gameObject.SetActive(false);
+            if (pGetAliveFactionEntities(c.pFaction).Count == 0) //killed playerfaction
+            {
+                GameManager.pInstance.ChangeState(eGameState.EndOfMatch);
+            }
         }
     }
 

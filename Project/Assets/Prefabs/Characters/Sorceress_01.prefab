@@ -641,12 +641,13 @@ MonoBehaviour:
   pName: Father Bear
   pHp: 20
   pHpCurrent: 20
-  pAp: 10
-  pApCurrent: 10
+  pAp: 25
+  pApCurrent: 25
   pVisionRange: 8
   pWalkRange: 5
   pEffectHit: 0
   pWalkCost: 2
+  pButtonForSpecial: {fileID: 0}
   pReachableTiles: []
   pVisibleTiles: []
   pMoved: 0
@@ -890,6 +891,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5466297652044152030}
     m_Modifications:
+    - target: {fileID: 100182, guid: d1a8e9929ff39094e94e2d1a7bab3990, type: 3}
+      propertyPath: m_Name
+      value: sorceress_01
+      objectReference: {fileID: 0}
     - target: {fileID: 400182, guid: d1a8e9929ff39094e94e2d1a7bab3990, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -933,10 +938,6 @@ PrefabInstance:
     - target: {fileID: 400182, guid: d1a8e9929ff39094e94e2d1a7bab3990, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 100182, guid: d1a8e9929ff39094e94e2d1a7bab3990, type: 3}
-      propertyPath: m_Name
-      value: sorceress_01
       objectReference: {fileID: 0}
     - target: {fileID: 400024, guid: d1a8e9929ff39094e94e2d1a7bab3990, type: 3}
       propertyPath: m_LocalPosition.y

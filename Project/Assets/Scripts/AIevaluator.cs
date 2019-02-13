@@ -88,25 +88,6 @@ public class AIevaluator
                         pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     }
 
-
-                    //TODO jumping over waypoint target if more range than steps
-                    /*
-                    //new full move behavior with enemy check in the end
-                    int stepCounter = pSteps.Count -1;
-                    for (; stepCounter > (pSteps.Count > mCharacter.pWalkRange ? pSteps.Count -1 - mCharacter.pWalkRange : 0); --stepCounter) // walk until range is spent or target reached
-                    {
-                        yield return AIevaluator.AImove(mCharacter, pSteps[stepCounter]);
-                        
-                    }
-
-
-
-
-                    //setting coordinates
-                    mCharacter.pTile.pCharacterId = -1;
-                    mCharacter.pTile = pSteps[stepCounter-1];
-                    */
-
                     if (pSteps.Count > mCharacter.pWalkRange)
                     {
                         mCharacter.Move(pSteps[pSteps.Count - 1 - mCharacter.pWalkRange]);
@@ -268,7 +249,7 @@ public class AIevaluator
         EntityManager.pInstance.EndRound(mCharacter);
 
         //ending AI turn and switch to next player
-        GameManager.pInstance.pCurrentFraction = GameManager.pInstance.pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
+        GameManager.pInstance.pCurrentFaction = GameManager.pInstance.pCurrentFaction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
         //EntityManager.pInstance.pGetFactionEntities(pCurrentFraction)[0].Select(); // move camera to an faction entity
         GameManager.pInstance.ChangeState(eGameState.Select);
 
@@ -289,14 +270,14 @@ public class AIevaluator
         //find visible and revealed players
         if (mCharacter.pFaction == eFactions.AI1)
         {
-            foreach (var playerChar in EntityManager.pInstance.pPlayer2Players)
+            foreach (var playerChar in EntityManager.pInstance.pGetAliveFactionEntities(eFactions.Player2))
             {
                 if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
                 {
                     visibleCharaters.Add(playerChar);
                 }
             }
-            foreach (var playerChar in EntityManager.pInstance.pAI2Players)
+            foreach (var playerChar in EntityManager.pInstance.pGetFactionEntities( eFactions.AI2))
             {
                 if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
                 {
@@ -306,14 +287,14 @@ public class AIevaluator
         }
         else // faction AI2
         {
-            foreach (var playerChar in EntityManager.pInstance.pPlayer1Players)
+            foreach (var playerChar in EntityManager.pInstance.pGetAliveFactionEntities(eFactions.Player1))
             {
                 if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
                 {
                     visibleCharaters.Add(playerChar);
                 }
             }
-            foreach (var playerChar in EntityManager.pInstance.pAI1Players)
+            foreach (var playerChar in EntityManager.pInstance.pGetFactionEntities(eFactions.AI1))
             {
                 if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
                 {

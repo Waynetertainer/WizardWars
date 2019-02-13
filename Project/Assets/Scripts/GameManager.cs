@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public static GameManager pInstance;
     public GameObject pGridGameObject;
     public eGameState pGameState;
-    public eFactions pCurrentFraction;
+    public eFactions pCurrentFaction;
 
     public System.Random pRandom = new System.Random();
     public LayerMask RayCastLayers;
@@ -43,18 +43,20 @@ public class GameManager : MonoBehaviour
         EntityManager.pInstance.GetCharacterForId(0).Select();
 
         if (Random.Range(0, 2) == 0)
-            pCurrentFraction = eFactions.AI1;
+            pCurrentFaction = eFactions.AI1;
         else
-            pCurrentFraction = eFactions.AI2;
+            pCurrentFaction = eFactions.AI2;
 
-        Debug.Log("Starting with " + pCurrentFraction.ToString());
+        Debug.Log("Starting with " + pCurrentFaction.ToString());
 
-        ChangeState(eGameState.IdelLoop);
+        pUiManager.CloseAllWindows();
+        pUiManager.UpdatePlayerSelection();
+        ChangeState(eGameState.IdleLoop);
     }
 
     private void Update()
     {
-        if (pCurrentFraction == eFactions.Player1 || pCurrentFraction == eFactions.Player2)
+        if (pCurrentFaction == eFactions.Player1 || pCurrentFaction == eFactions.Player2)
         {
             CheckInput();
         }
@@ -75,9 +77,9 @@ public class GameManager : MonoBehaviour
                 switch (pGameState)
                 {
                     case eGameState.Select:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFaction)
                         {
-                            if (EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
+                            if (EntityManager.pInstance.pGetFactionEntities(pCurrentFaction).Contains(hit.transform.GetComponent<Character>()))
                             {
 
                                 hit.transform.GetComponent<Character>().Select();
@@ -85,12 +87,12 @@ public class GameManager : MonoBehaviour
                             }
                             else
                             {
-                                //TODO Show info of clicked character
+                                //TODO Show info of clicked enemy character
                             }
                         }
                         break;
                     case eGameState.Selected:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFaction)
                         {
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
@@ -103,20 +105,16 @@ public class GameManager : MonoBehaviour
                         }
                         break;
                     case eGameState.Move:
-                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFraction)
+                        if (hit.isType<Character>() && hit.transform.GetComponent<Character>().pFaction == pCurrentFaction)
                         {
                             if (pActiveCharacter.pApCurrent == pActiveCharacter.pAp
-                                && EntityManager.pInstance.pGetFactionEntities(pCurrentFraction).Contains(hit.transform.GetComponent<Character>()))
+                                && EntityManager.pInstance.pGetFactionEntities(pCurrentFaction).Contains(hit.transform.GetComponent<Character>()))
                             {
                                 pActiveCharacter.Deselect();
                                 hit.transform.GetComponent<Character>().Select();
                                 ChangeState(eGameState.Move);
+                            }
 
-                            }
-                            else
-                            {
-                                //TODO Show info of clicked character
-                            }
                         }
                         break;
                     case eGameState.FireSkill:
@@ -234,7 +232,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeState(eGameState state) //TODO: Replace with setter
     {
-        Debug.Log("Changing Gamestate " + pGameState + " -> " + state + " faction: " + pCurrentFraction.ToString());
+        Debug.Log("Changing Gamestate " + pGameState + " -> " + state + " faction: " + pCurrentFaction.ToString());
 
         if (pGameState == eGameState.EndOfMatch)
             return;
@@ -244,6 +242,10 @@ public class GameManager : MonoBehaviour
         switch (pGameState)
         {
             case eGameState.Select:
+                pUiManager.CloseAllWindows();
+                pUiManager.UpdatePlayerSelection();
+
+
                 pGridGameObject.SetActive(false);
                 if (pActiveCharacter != null)
                     pActiveCharacter.Deselect();
@@ -252,12 +254,14 @@ public class GameManager : MonoBehaviour
                 pGridGameObject.SetActive(false);
                 pActiveCharacter.HideRange();
                 pActiveCharacter.HideView();
+                pUiManager.ShowStatScreen();
                 break;
             case eGameState.Move:
                 pActiveCharacter.HideView();
                 pActiveCharacter.HideRange();
                 pActiveCharacter.ShowRange();
                 pGridGameObject.SetActive(true);
+                pUiManager.ShowStatScreen();
                 break;
             case eGameState.Moving:
                 break;
@@ -279,66 +283,60 @@ public class GameManager : MonoBehaviour
                 pGridGameObject.SetActive(true);
                 break;
             case eGameState.EndTurn:
+                pActiveCharacter.pApCurrent = 0;
                 pActiveCharacter.HideRange();
                 pActiveCharacter.HideView();
                 pActiveCharacter.pAura.gameObject.SetActive(false);
                 EntityManager.pInstance.EndRound(pActiveCharacter);
                 pActiveCharacter.Deselect();
 
-                pCurrentFraction = pCurrentFraction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
+                pCurrentFaction = pCurrentFaction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
 
 
                 ChangeState(eGameState.AIturn);
                 break;
             case eGameState.AIturn:
 
+                pUiManager.CloseAllWindows();
+                pUiManager.UpdatePlayerSelection();
 
-                if (false) // AI deaktivieren
-                {
-                    GameManager.pInstance.pCurrentFraction = GameManager.pInstance.pCurrentFraction == eFactions.AI1 ? eFactions.Player1 : eFactions.Player2;
-                    GameManager.pInstance.ChangeState(eGameState.Select);
-                    break;
-
-                }
-
-                if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count > 0) // skip AI turn if no AI present for faction
+                if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFaction).Count > 0) // skip AI turn if no AI present for faction
                 {
                     for (int i = 0; i < 1; ++i) //HACK three ai moves per turn, debug only one
                     {
                         Character ai;
-                        if (pCurrentFraction == eFactions.AI1)
+                        if (pCurrentFaction == eFactions.AI1)
                         {
 
-                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count >= EntityManager.pInstance.mAI1EntityPointer)
+                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFaction).Count >= EntityManager.pInstance.mAI1EntityPointer)
                                 EntityManager.pInstance.mAI1EntityPointer = 0; // loop to first entity
-                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction)[EntityManager.pInstance.mAI1EntityPointer++];
+                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFaction)[EntityManager.pInstance.mAI1EntityPointer++];
 
                         }
                         else // faction AI2
                         {
-                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction).Count >= EntityManager.pInstance.mAI2EntityPointer)
+                            if (EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFaction).Count >= EntityManager.pInstance.mAI2EntityPointer)
                                 EntityManager.pInstance.mAI2EntityPointer = 0; // loop to first entity
-                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFraction)[EntityManager.pInstance.mAI2EntityPointer++];
+                            ai = EntityManager.pInstance.pGetCurrentFactionEntities(pCurrentFaction)[EntityManager.pInstance.mAI2EntityPointer++];
                         }
                         CameraMovement.SetTarget(ai.transform);
                         StartCoroutine(AIevaluator.EvaluateAI(ai));
                     }
                 }
-                
-
-
-
                 break;
-            case eGameState.IdelLoop:
-                StartCoroutine(IdleWait());
+            case eGameState.IdleLoop:
+                StartCoroutine(IdleWait(eGameState.AIturn));
                 break;
         }
-        pUiManager.Refresh();
+        //pUiManager.Refresh();
 
     }
-    private IEnumerator IdleWait()
+ 
+    private IEnumerator IdleWait( eGameState nextGameState)
     {
-        yield return new WaitForSeconds(4);
-        GameManager.pInstance.ChangeState(eGameState.AIturn);
+        yield return new WaitForSeconds(2);
+        GameManager.pInstance.ChangeState(nextGameState);
     }
+
+   
 }

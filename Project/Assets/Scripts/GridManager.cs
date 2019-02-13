@@ -97,10 +97,6 @@ public class GridManager : MonoBehaviour
 
     public void DestroyGrid()
     {
-        //TODO: Is a NULL-Check needed?
-        //if (mGrid == null)
-        //    return;
-
         Debug.Log("Deleting " + transform.childCount + " Tiles");
 
         for (int i = transform.childCount - 1; i >= 0; --i)
@@ -447,7 +443,7 @@ public class GridManager : MonoBehaviour
         {
 
             //Debug.DrawRay(pTile.position, pTile.up, Color.red, 5);
-            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.5f, pTile.up, 3); //TODO: 0.3f radius ist geschätzt. ggfs tweaking nötig.
+            RaycastHit[] raycastTarget = Physics.SphereCastAll(pTile.position - pTile.up, 0.5f, pTile.up, 3);
             Tile tile = pTile.GetComponent<Tile>();
 
             tile.pBlockType = eBlockType.Empty; // resetting tile settings
@@ -477,7 +473,7 @@ public class GridManager : MonoBehaviour
 
 
             }
-            //TODO: remove after testing? color red to represent changed tiles
+ 
             Renderer pRend = pTile.GetComponent<Renderer>();
             if (tile.pBlockType == eBlockType.HalfBlocked || tile.pBlockType == eBlockType.Blocked)
             {

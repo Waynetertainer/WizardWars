@@ -131,17 +131,6 @@ public class Tile : MonoBehaviour
 
     }
 
-    private void Update()
-    {
-        if (mMouseOver)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                //TODO unnessesary update call?
-            }
-        }
-    }
-
     private void OnValidate() //used for rendererchange if blocktype is changed in editor
     {
         Renderer pRend = this.GetComponent<Renderer>();

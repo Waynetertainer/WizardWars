@@ -20,7 +20,7 @@ namespace UI
         public override void Show(Character c)
         {
             base.Show();
-            pSelectButton.interactable = EntityManager.pInstance.pGetCurrentFactionEntities(GameManager.pInstance.pCurrentFraction).Contains(c);
+            pSelectButton.interactable = EntityManager.pInstance.pGetCurrentFactionEntities(GameManager.pInstance.pCurrentFaction).Contains(c);
         }
     }
 }
