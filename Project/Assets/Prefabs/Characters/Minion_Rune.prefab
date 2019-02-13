@@ -346,7 +346,7 @@ GameObject:
   - component: {fileID: 8775311057603029038}
   - component: {fileID: 2278248226988648695}
   m_Layer: 0
-  m_Name: Minion
+  m_Name: Minion_Rune
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -527,7 +527,7 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: e5980e293525b1d4ba25ea003d4dd6fe, type: 2}
+  - {fileID: 2100000, guid: 03837bd7535cc63419673f0f3810d6c9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

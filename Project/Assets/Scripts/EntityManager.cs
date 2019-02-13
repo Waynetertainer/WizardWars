@@ -34,11 +34,13 @@ public class EntityManager : MonoBehaviour
     private List<Character> mPlayer1Prefabs = new List<Character>();
     [SerializeField]
     private List<Character> mPlayer2Prefabs = new List<Character>();
-    [SerializeField] private Character mAIPrefab;
+    [SerializeField] private Character mAI1Prefab;
+    [SerializeField] private Character mAI2Prefab;
 
     private Dictionary<int, Character> mAllEntities = new Dictionary<int, Character>();
     [HideInInspector] public int mAI1EntityPointer = 0;
     [HideInInspector] public int mAI2EntityPointer = 0;
+
 
     public List<ScriptableObject> DBG_Spells = new List<ScriptableObject>();
 
@@ -90,7 +92,7 @@ public class EntityManager : MonoBehaviour
 
         for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI1Spawns.Length; ++i)
         {
-            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]).transform.position, mAIPrefab.transform.rotation);
+            Character e = Instantiate(mAI1Prefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawns[i]).transform.position, mAI1Prefab.transform.rotation);
             mAllEntities.Add(spawnCounter, e);
             e.pApCurrent = e.pAp;
             e.pHpCurrent = e.pHp;
@@ -104,7 +106,7 @@ public class EntityManager : MonoBehaviour
         //AI2 characters already on field
         for (int i = 0; i < GridManager.pInstance.pCurrentLevel.pAI2Spawns.Length; ++i)
         {
-            Character e = Instantiate(mAIPrefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]).transform.position, mAIPrefab.transform.rotation);
+            Character e = Instantiate(mAI2Prefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawns[i]).transform.position, mAI2Prefab.transform.rotation);
             mAllEntities.Add(spawnCounter, e);
             e.pApCurrent = e.pAp;
             e.pHpCurrent = e.pHp;
