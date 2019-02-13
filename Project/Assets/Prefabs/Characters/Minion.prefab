@@ -434,10 +434,11 @@ MonoBehaviour:
   pHpCurrent: 1
   pAp: 25
   pApCurrent: 25
-  pVisionRange: 4
-  pWalkRange: 2
+  pVisionRange: 5
+  pWalkRange: 3
   pEffectHit: 0
   pWalkCost: 10
+  pButtonForSpecial: {fileID: 0}
   pReachableTiles: []
   pVisibleTiles: []
   pMoved: 0
@@ -448,7 +449,7 @@ MonoBehaviour:
   _SpellName: Fireball
   _Damage: 1
   _Cost: 15
-  _Range: 2
+  _Range: 3
   _Cooldown: 0
   _Description: 
   pHitTransform: {fileID: 1074683554801746368}

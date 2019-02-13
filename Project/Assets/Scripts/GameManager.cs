@@ -211,9 +211,16 @@ public class GameManager : MonoBehaviour
         {
             switch (pGameState)
             {
-                case eGameState.Move:
-
+                case eGameState.Select:
+                    pUiManager.pPauseMenu.SetActive(true);
+                    GameManager.pInstance.ChangeState(eGameState.InMenu);
                     break;
+
+                case eGameState.InMenu:
+                    pUiManager.pPauseMenu.SetActive(false);
+                    GameManager.pInstance.ChangeState(eGameState.Select);
+                    break;
+
                 case eGameState.FireSkill:
                     ChangeState(eGameState.Move);
                     break;
@@ -244,6 +251,7 @@ public class GameManager : MonoBehaviour
             case eGameState.Select:
                 pUiManager.CloseAllWindows();
                 pUiManager.UpdatePlayerSelection();
+                pUiManager.pTurnButton.gameObject.SetActive(true);
 
 
                 pGridGameObject.SetActive(false);
@@ -326,6 +334,10 @@ public class GameManager : MonoBehaviour
                 break;
             case eGameState.IdleLoop:
                 StartCoroutine(IdleWait(eGameState.AIturn));
+                break;
+            case eGameState.InMenu:
+                pUiManager.CloseAllWindows();
+                pUiManager.pPauseMenu.SetActive(true);
                 break;
         }
         //pUiManager.Refresh();

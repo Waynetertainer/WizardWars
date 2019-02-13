@@ -22,6 +22,7 @@ public class UIManager : MonoBehaviour
 
     //public Button pMoveButton;
     public Button pTurnButton;
+    public GameObject pPauseMenu;
 
     [Header("Player 1 Settings")]
     public GameObject pStatPanelP1;
@@ -105,6 +106,8 @@ public class UIManager : MonoBehaviour
                 pButtonUniqueBP1.interactable = GameManager.pInstance.pActiveCharacter.pApCurrent > 10; //chain lightning
                 pButtonUniqueCP1.interactable = GameManager.pInstance.pActiveCharacter.pApCurrent > 10; //heal
 
+                pTurnButton.gameObject.SetActive(true);
+
                 break;
             case eFactions.Player2:
                 pStatPanelP2.SetActive(true);
@@ -122,6 +125,8 @@ public class UIManager : MonoBehaviour
                 pButtonUniqueAP2.interactable = GameManager.pInstance.pActiveCharacter.pApCurrent > 10; //some damage spell
                 pButtonUniqueBP2.interactable = GameManager.pInstance.pActiveCharacter.pApCurrent > 10; //chain lightning
                 pButtonUniqueCP2.interactable = GameManager.pInstance.pActiveCharacter.pApCurrent > 10; //heal
+
+                pTurnButton.gameObject.SetActive(true);
 
                 break;
         }
@@ -143,9 +148,9 @@ public class UIManager : MonoBehaviour
                 pButtonCharacter3P2.gameObject.SetActive(false);
                 break;
             case eFactions.Player1:
-                pButtonCharacter1P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[0].pHpCurrent > 0 || true);
-                pButtonCharacter2P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[1].pHpCurrent > 0 || true);
-                pButtonCharacter3P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[2].pHpCurrent > 0 || true);
+                pButtonCharacter1P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[0].pHpCurrent > 0);
+                pButtonCharacter2P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[1].pHpCurrent > 0);
+                pButtonCharacter3P1.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player1)[2].pHpCurrent > 0);
                 pButtonCharacter1P2.gameObject.SetActive(false);
                 pButtonCharacter2P2.gameObject.SetActive(false);
                 pButtonCharacter3P2.gameObject.SetActive(false);
@@ -167,9 +172,9 @@ public class UIManager : MonoBehaviour
                 pButtonCharacter1P1.gameObject.SetActive(false);
                 pButtonCharacter2P1.gameObject.SetActive(false);
                 pButtonCharacter3P1.gameObject.SetActive(false);
-                pButtonCharacter1P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[0].pHpCurrent > 0 || true);
-                pButtonCharacter2P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[1].pHpCurrent > 0 || true);
-                pButtonCharacter3P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[2].pHpCurrent > 0 || true);
+                pButtonCharacter1P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[0].pHpCurrent > 0);
+                pButtonCharacter2P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[1].pHpCurrent > 0);
+                pButtonCharacter3P2.gameObject.SetActive(EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[2].pHpCurrent > 0);
                 //TODO might break after first character kill
                 pButtonCharacter1P2.interactable = EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[0].pApCurrent > 0;
                 pButtonCharacter2P2.interactable = EntityManager.pInstance.pGetFactionEntities(eFactions.Player2)[1].pApCurrent > 0;
@@ -212,6 +217,7 @@ public class UIManager : MonoBehaviour
         GameManager.pInstance.ChangeState(state);
     }
 
+    /*
     public void Refresh()
     {
         switch (GameManager.pInstance.pGameState)
@@ -261,6 +267,8 @@ public class UIManager : MonoBehaviour
                 break;
         }
     }
+
+    */
     public void ShowTooltip(string action)
     {
         //pToolTipScreen.Show(action);
@@ -274,6 +282,18 @@ public class UIManager : MonoBehaviour
     public void Restart()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void ResumeGame()
+    {
+        pPauseMenu.SetActive(false);
+        GameManager.pInstance.ChangeState(eGameState.Select);
+    }
+
+    public void ShowPauseMenu()
+    {
+        pPauseMenu.SetActive(true);
+        GameManager.pInstance.ChangeState(eGameState.InMenu);
     }
 
     public void BackToMenu()

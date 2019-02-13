@@ -22,7 +22,7 @@ public enum eGameState
     EndOfMatch,
     AIturn,
     IdleLoop,
-    IdleTransition
+    InMenu
 
 }
 

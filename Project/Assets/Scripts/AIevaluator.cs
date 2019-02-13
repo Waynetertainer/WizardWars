@@ -7,8 +7,8 @@ public class AIevaluator
 
     public static IEnumerator EvaluateAI(Character mCharacter)
     {
-        Debug.Log("Starte AI für " + mCharacter.pName);
-        mCharacter.pApCurrent = mCharacter.pAp;
+        Debug.Log("Starte AI für " + mCharacter.pName + " Faction:" + mCharacter.pFaction + " Pat:" + mCharacter.pPatrouilleSelection);
+        //mCharacter.pApCurrent = mCharacter.pAp;
         eAIState pAIState = eAIState.Patrouille;
         Character pActiveTarget = null;
 
@@ -60,7 +60,7 @@ public class AIevaluator
                         else
                             patrolTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2PatrouilleB[mCharacter.mPatWaypointID]);
                     }
-                    
+
 
                     pSteps = GridManager.pInstance.GetPathTo(mCharacter.pTile, patrolTile);
                     if (pSteps == null) break;
@@ -160,6 +160,7 @@ public class AIevaluator
                             break;
                     }
 
+                    /*
                     // if we are going to get cover
                     if (currentCoverTarget != eBlockType.Empty && wayToTarget.Count <= mCharacter.pApCurrent / mCharacter.pWalkCost && wayToTarget.Count > 1)
                     {
@@ -171,7 +172,7 @@ public class AIevaluator
                         mCharacter.pApCurrent -= 10;
                         break;
                     }
-
+                    */
                     // if we need to get in range and no cover is present
                     if (currentCoverTarget == eBlockType.Empty && wayToTarget.Count > mCharacter.Range)
                     {
@@ -191,12 +192,12 @@ public class AIevaluator
                         }
 
                         Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps");
-
+                        /*
                         for (int stepCount = 1; stepCount <= possibleFinalWaypoint; ++stepCount)
                         {
                             yield return AIevaluator.AImove(mCharacter, wayToTarget[stepCount]);
                         }
-
+                        */
 
                         //informing Grid about changes
                         mCharacter.pTile.pCharacterId = -1;
@@ -277,7 +278,7 @@ public class AIevaluator
                     visibleCharaters.Add(playerChar);
                 }
             }
-            foreach (var playerChar in EntityManager.pInstance.pGetFactionEntities( eFactions.AI2))
+            foreach (var playerChar in EntityManager.pInstance.pGetFactionEntities(eFactions.AI2))
             {
                 if (GridManager.pInstance.GetVisibilityToTarget(mCharacter.pTile, playerChar.pTile, mCharacter.pVisionRange) == eVisibility.Seethrough) // character visible
                 {
@@ -338,6 +339,7 @@ public class AIevaluator
     /// <param name="mCharacter">AI Character to move</param>
     /// <param name="targetTile">Adjenct Tile to place the character on</param>
     /// <returns></returns>
+    /*
     public static IEnumerator AImove(Character mCharacter, Tile targetTile)
     {
 
@@ -351,5 +353,5 @@ public class AIevaluator
         }
 
         yield return null;
-    }
+    }*/
 }
