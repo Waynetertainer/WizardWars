@@ -160,7 +160,7 @@ public class EntityManager : MonoBehaviour
     {
         character.pApCurrent = 0;
 
-        if (pGetCurrentFactionEntities(character.pFaction) == null)
+        if (pGetCurrentFactionEntities(character.pFaction).Count == 0)
         {
             foreach (Character chara in pGetAliveFactionEntities(character.pFaction))
             {

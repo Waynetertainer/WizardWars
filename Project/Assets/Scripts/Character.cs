@@ -318,11 +318,6 @@ public class Character : Occupant, IUniqueSpell
             EntityManager.pInstance.KillCharacter(this);
     }
 
-    private void Update()
-    {
-        //GetComponent<Renderer>().material.SetColor("_Color", mIsActiveCharacter ? Color.white :
-        //                                                        pFraction == eFraction.PC ? Color.blue : Color.red);
-    }
 
     public void Select()
     {

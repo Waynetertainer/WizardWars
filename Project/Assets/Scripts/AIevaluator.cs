@@ -40,10 +40,7 @@ public class AIevaluator
                             break;
                         }
                     }
-                    mCharacter.pApCurrent -= 10;
-                    Debug.Log("AI patrol to next waypoint");
-
-
+                    
 
                     Tile patrolTile;
                     if (mCharacter.pFaction == eFactions.AI1)
@@ -68,7 +65,7 @@ public class AIevaluator
 
                     if (pSteps.Count < 3) //close enough to pat-point?
                     {
-
+                        Debug.Log("AI patrol to next waypoint");
                         mCharacter.mPatWaypointID = (mCharacter.mPatWaypointID + 1) % (mCharacter.pPatrouilleSelection == ePatrouilleSelection.A ? GridManager.pInstance.pCurrentLevel.pAI1PatrouilleA.Length : GridManager.pInstance.pCurrentLevel.pAI1PatrouilleB.Length);
                         if (mCharacter.pFaction == eFactions.AI1)
                         {
@@ -90,11 +87,11 @@ public class AIevaluator
 
                     if (pSteps.Count > mCharacter.pWalkRange)
                     {
-                        mCharacter.Move(pSteps[pSteps.Count - 1 - mCharacter.pWalkRange]);
+                        yield return mCharacter.MoveEnumerator(pSteps[pSteps.Count - mCharacter.pWalkRange]);
                     }
                     else
                     {
-                        mCharacter.Move(pSteps[0]);
+                        yield return mCharacter.MoveEnumerator(pSteps[0]);
                     }
 
 

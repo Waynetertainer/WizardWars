@@ -291,12 +291,16 @@ public class GameManager : MonoBehaviour
                 pGridGameObject.SetActive(true);
                 break;
             case eGameState.EndTurn:
-                pActiveCharacter.pApCurrent = 0;
-                pActiveCharacter.HideRange();
-                pActiveCharacter.HideView();
-                pActiveCharacter.pAura.gameObject.SetActive(false);
-                EntityManager.pInstance.EndRound(pActiveCharacter);
-                pActiveCharacter.Deselect();
+                if (pActiveCharacter != null)
+                {
+                    pActiveCharacter.pApCurrent = 0;
+                    pActiveCharacter.HideRange();
+                    pActiveCharacter.HideView();
+                    pActiveCharacter.pAura.gameObject.SetActive(false);
+                    EntityManager.pInstance.EndRound(pActiveCharacter);
+                    pActiveCharacter.Deselect();
+                }
+
 
                 pCurrentFaction = pCurrentFaction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
 
@@ -343,12 +347,12 @@ public class GameManager : MonoBehaviour
         //pUiManager.Refresh();
 
     }
- 
-    private IEnumerator IdleWait( eGameState nextGameState)
+
+    private IEnumerator IdleWait(eGameState nextGameState)
     {
         yield return new WaitForSeconds(2);
         GameManager.pInstance.ChangeState(nextGameState);
     }
 
-   
+
 }
