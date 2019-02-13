@@ -498,12 +498,12 @@ MonoBehaviour:
   pTile: {fileID: 0}
   pFaction: 0
   pName: BadGuy1
-  pHp: 10
-  pHpCurrent: 10
+  pHp: 4
+  pHpCurrent: 4
   pAp: 25
   pApCurrent: 25
   pVisionRange: 8
-  pWalkRange: 5
+  pWalkRange: 6
   pEffectHit: 0
   pWalkCost: 10
   pButtonForSpecial: {fileID: 0}
@@ -515,9 +515,9 @@ MonoBehaviour:
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 5794943623290344489}
   _SpellName: Magic Missile
-  _Damage: 2
+  _Damage: 1
   _Cost: 15
-  _Range: 4
+  _Range: 3
   _Cooldown: 0
   _Description: "Yo momma's so fat and old when God \nsaid, \"Let there be light,\"
     he asked \nyour mother to move out of the way.\r\n\r\n"
@@ -552,10 +552,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _SpellName: Damage
-  _Damage: 5
+  _Damage: 2
   _Cost: 5
-  _Range: 4
-  _Cooldown: 0
+  _Range: 5
+  _Cooldown: 2
   _Description: "Yo momma's so fat, that when she fell, \nno one was laughing but
     the ground was \ncracking up.\r\n\r\n"
   _VFXPrefab: {fileID: 1390603915554272, guid: 404d1dc9975f0404d8465ddc0e5602c0, type: 3}
@@ -876,26 +876,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700008, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 3f33f26ff7425ee458c25f1d77e0d9fc, type: 2}
-    - target: {fileID: 13700002, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: c5a4602000061f64fb0c802781637246, type: 2}
     - target: {fileID: 13700000, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 1cc9dc0b0a4679047a01fe73e641e223, type: 2}
-    - target: {fileID: 13700006, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
+    - target: {fileID: 13700002, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 52a43735d8fcc9148b77c0770dd2ea25, type: 2}
+      objectReference: {fileID: 2100000, guid: c5a4602000061f64fb0c802781637246, type: 2}
     - target: {fileID: 13700004, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: a6bd9d61508fb30488f2bb96f0bd9d06, type: 2}
+    - target: {fileID: 13700006, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 52a43735d8fcc9148b77c0770dd2ea25, type: 2}
+    - target: {fileID: 13700008, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f33f26ff7425ee458c25f1d77e0d9fc, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3d39fca273f5a0a4a967ef1211b8c20b, type: 3}
 --- !u!1001 &9155309203796342395

@@ -484,12 +484,12 @@ MonoBehaviour:
   pTile: {fileID: 0}
   pFaction: 0
   pName: BadGuy2
-  pHp: 10
-  pHpCurrent: 10
+  pHp: 4
+  pHpCurrent: 4
   pAp: 25
   pApCurrent: 25
   pVisionRange: 8
-  pWalkRange: 5
+  pWalkRange: 6
   pEffectHit: 0
   pWalkCost: 10
   pButtonForSpecial: {fileID: 0}
@@ -501,9 +501,9 @@ MonoBehaviour:
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 2783553547508948808}
   _SpellName: Magic Missile
-  _Damage: 2
+  _Damage: 1
   _Cost: 15
-  _Range: 4
+  _Range: 3
   _Cooldown: 0
   _Description: "Yo momma is so fat when she sat on \nWalMart, she lowered the prices.\r\n\r\n"
   pHitTransform: {fileID: 8516273416661871069}
@@ -537,10 +537,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _SpellName: Heal
-  _Damage: -3
+  _Damage: -1
   _Cost: 15
-  _Range: 6
-  _Cooldown: 0
+  _Range: 5
+  _Cooldown: 2
   _Description: "Yo momma is so stupid when an intruder \nbroke into her house, she
     ran \ndownstairs, dialed 9-1-1 on the \nmicrowave, and couldn't find the \"CALL\"
     \nbutton.\r\n\r\n"
@@ -801,30 +801,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700006, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: db1538cf54728b24d8c68b3e7e067214, type: 2}
-    - target: {fileID: 13700004, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 52f0d7fe897cd0f49a946b627af33e43, type: 2}
-    - target: {fileID: 13700002, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 2c9a8efbc7888ad43ab95004f173618c, type: 2}
     - target: {fileID: 13700000, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: f0bf026ed1c0c4c439599b197a816503, type: 2}
-    - target: {fileID: 13700010, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
+    - target: {fileID: 13700002, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 1d5ab866c16aab2468b02386e0bed32f, type: 2}
+      objectReference: {fileID: 2100000, guid: 2c9a8efbc7888ad43ab95004f173618c, type: 2}
+    - target: {fileID: 13700004, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 52f0d7fe897cd0f49a946b627af33e43, type: 2}
+    - target: {fileID: 13700006, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: db1538cf54728b24d8c68b3e7e067214, type: 2}
     - target: {fileID: 13700008, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3994486748ccb0842b66849f2a8e9635, type: 2}
+    - target: {fileID: 13700010, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1d5ab866c16aab2468b02386e0bed32f, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ad45eac1c50c9f74e9cc4ab1fc5f3593, type: 3}
 --- !u!1001 &5851721743773608540

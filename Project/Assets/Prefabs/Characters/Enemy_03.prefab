@@ -126,12 +126,12 @@ MonoBehaviour:
   pTile: {fileID: 0}
   pFaction: 0
   pName: BadGuy3
-  pHp: 14
-  pHpCurrent: 14
+  pHp: 4
+  pHpCurrent: 4
   pAp: 25
   pApCurrent: 25
   pVisionRange: 8
-  pWalkRange: 5
+  pWalkRange: 6
   pEffectHit: 0
   pWalkCost: 10
   pButtonForSpecial: {fileID: 0}
@@ -143,9 +143,9 @@ MonoBehaviour:
   mPatWaypointID: 0
   pHealthBarScript: {fileID: 383713327480641001}
   _SpellName: Magic Missile
-  _Damage: 2
+  _Damage: 1
   _Cost: 15
-  _Range: 4
+  _Range: 3
   _Cooldown: 0
   _Description: "Yo momma is so fat that Dora can't \neven explore her!\r\n\r\n"
   pHitTransform: {fileID: 8665253960318237514}
@@ -179,9 +179,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _SpellName: Chain Lightning
-  _Damage: 4
+  _Damage: 1
   _Cost: 15
-  _Range: 4
+  _Range: 3
   _Cooldown: 0
   _Description: "Your momma is so ugly she made \nOne Direction go another direction.\r\n\r\n"
   _VFXPrefab: {fileID: 1681509065507608, guid: 134dea8ed9c44ea42ac15c6b85624165, type: 3}
@@ -950,22 +950,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 13700006, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 646e35daeac195a4f805299a15b0e098, type: 2}
-    - target: {fileID: 13700004, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 79419b131fd2f7b40b85fc83bfb97760, type: 2}
-    - target: {fileID: 13700002, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: edf0291facad0e144a1a0735d3e86b63, type: 2}
     - target: {fileID: 13700000, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: ab9c276c790148f43b1596124fc55255, type: 2}
+    - target: {fileID: 13700002, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: edf0291facad0e144a1a0735d3e86b63, type: 2}
+    - target: {fileID: 13700004, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 79419b131fd2f7b40b85fc83bfb97760, type: 2}
+    - target: {fileID: 13700006, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 646e35daeac195a4f805299a15b0e098, type: 2}
     - target: {fileID: 13700008, guid: b5a33327c72969d4998a4d56e4ed7474, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
