@@ -21,9 +21,9 @@ public class EntityManager : MonoBehaviour
     }
     public List<Character> pGetCurrentFactionEntities(eFactions faction)
     {
-        return mAllEntities.Values.ToList().FindAll(T => T.pFaction == faction && T.pHpCurrent >0 && T.pApCurrent >9);
+        return mAllEntities.Values.ToList().FindAll(T => T.pFaction == faction && T.pHpCurrent > 0 && T.pApCurrent > 9);
     }
-    
+
 
     /*
     [HideInInspector]
@@ -40,7 +40,10 @@ public class EntityManager : MonoBehaviour
     private Dictionary<int, Character> mAllEntities = new Dictionary<int, Character>();
     [HideInInspector] public int mAI1EntityPointer = 0;
     [HideInInspector] public int mAI2EntityPointer = 0;
-
+    private int spawnCounter = 0; // unique counter for entities
+    private ePatrouilleSelection mLastAISpawnPatSelection = ePatrouilleSelection.A;
+    private int spawnCooldown = 2;
+    private int spawnCooldownCurrent = 2;
 
     public List<ScriptableObject> DBG_Spells = new List<ScriptableObject>();
 
@@ -59,7 +62,7 @@ public class EntityManager : MonoBehaviour
 
     public void SpawnCharacters()
     {
-        int spawnCounter = 0;
+
 
         //player 1 characters
         for (int i = 0; i < mPlayer1Prefabs.Count; i++)
@@ -116,6 +119,40 @@ public class EntityManager : MonoBehaviour
             e.pTile.pCharacterId = GetIdForCharacter(e);
             ++spawnCounter;
         }
+    }
+
+    public void SpawnAI()
+    {
+        
+        if (--spawnCooldownCurrent > 0)
+            return;
+
+        // AI1
+        Character e;
+         e = Instantiate(mAI1Prefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawner[spawnCounter % 2]).transform.position, mAI1Prefab.transform.rotation);
+        mAllEntities.Add(spawnCounter, e);
+        e.pApCurrent = e.pAp;
+        e.pHpCurrent = e.pHp;
+        e.pFaction = eFactions.AI1;
+        e.pPatrouilleSelection = mLastAISpawnPatSelection;
+        e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI1Spawner[spawnCounter % 2]);
+        e.pTile.pCharacterId = GetIdForCharacter(e);
+        ++spawnCounter;
+
+        // AI2
+        e = Instantiate(mAI2Prefab, GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawner[(spawnCounter - 1) % 2]).transform.position, mAI2Prefab.transform.rotation);
+        mAllEntities.Add(spawnCounter, e);
+        e.pApCurrent = e.pAp;
+        e.pHpCurrent = e.pHp;
+        e.pFaction = eFactions.AI2;
+        e.pPatrouilleSelection = mLastAISpawnPatSelection;
+        e.pTile = GridManager.pInstance.GetTileAt(GridManager.pInstance.pCurrentLevel.pAI2Spawner[(spawnCounter - 1) % 2]);
+        e.pTile.pCharacterId = GetIdForCharacter(e);
+        ++spawnCounter;
+
+        mLastAISpawnPatSelection = (mLastAISpawnPatSelection == ePatrouilleSelection.A ? ePatrouilleSelection.B : ePatrouilleSelection.A);
+        spawnCooldownCurrent = ++spawnCooldown;
+
     }
 
     public void KillCharacter(Character c)

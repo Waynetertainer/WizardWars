@@ -943,6 +943,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 467483864754309245, guid: fc387b4073cc46042a451617fd9b48c4,
+        type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc387b4073cc46042a451617fd9b48c4, type: 3}
 --- !u!4 &545505523 stripped
@@ -3083,17 +3088,6 @@ Terrain:
   m_LightmapParameters: {fileID: 15203, guid: 0000000000000000f000000000000000, type: 0}
   m_GroupingID: 0
   m_AllowAutoConnect: 0
---- !u!154 &3513970121474667605
-TerrainCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3513970121474667607}
-  m_Material: {fileID: 0}
-  m_Enabled: 0
-  m_TerrainData: {fileID: 15600000, guid: 4ba019fee1178784591f3b1f3367d0b6, type: 2}
-  m_EnableTreeColliders: 0
 --- !u!4 &3513970121474667606
 Transform:
   m_ObjectHideFlags: 0
@@ -3118,7 +3112,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3513970121474667606}
   - component: {fileID: 3513970121474667604}
-  - component: {fileID: 3513970121474667605}
   m_Layer: 11
   m_Name: Terrain
   m_TagString: Untagged
@@ -3146,9 +3139,9 @@ Light:
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
+    m_Bias: 0
+    m_NormalBias: 0
+    m_NearPlane: 0.1
   m_Cookie: {fileID: 0}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
@@ -3309,7 +3302,7 @@ MeshCollider:
   m_GameObject: {fileID: 3513970122044242371}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 14

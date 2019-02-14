@@ -160,11 +160,12 @@ public class Character : Occupant, IUniqueSpell
         }
 
         pTile.pCharacterId = -1;
-        pApCurrent -= pWalkCost;
+        pApCurrent -= 10;
         pTile = targetTile;
         if (pFaction == eFactions.AI1 || pFaction == eFactions.AI2)
             yield break;
 
+        GameManager.pInstance.pUiManager.ShowStatScreen();
         targetTile.pCharacterId = EntityManager.pInstance.GetIdForCharacter(this);
         pReachableTiles = GridManager.pInstance.GetReachableTiles(pTile, pWalkRange);
         foreach (Tile tile in pReachableTiles)
@@ -195,36 +196,39 @@ public class Character : Occupant, IUniqueSpell
     {
         if (mTarget.pCharacterId == -1) // shot on tile without a character on it
             return;
+        StartCoroutine(StandardAttackCoroutine(mTarget));
 
+
+    }
+
+    public IEnumerator StandardAttackCoroutine(Tile targetTile)
+    {
         //friendly fire checks
         if (pFaction == eFactions.AI1 || pFaction == eFactions.Player1)
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI2 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player2)
+            if (EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pFaction == eFactions.AI1 || EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pFaction == eFactions.Player1)
             {
-                if (pFaction == eFactions.Player1)
-                    GameManager.pInstance.ChangeState(eGameState.FireSkill);
-                StartCoroutine(StandardAttackCoroutine(mTarget));
+                Debug.Log("Friendly fire, ignored");
+                yield break;
             }
         }
         else
         {
-            if (EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.AI1 || EntityManager.pInstance.GetCharacterForId(mTarget.pCharacterId).pFaction == eFactions.Player1)
+            if (EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pFaction == eFactions.AI2 || EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pFaction == eFactions.Player2)
             {
-                if (pFaction == eFactions.Player2)
-                    GameManager.pInstance.ChangeState(eGameState.FireSkill);
-                StartCoroutine(StandardAttackCoroutine(mTarget));
+                Debug.Log("Friendly fire, ignored");
+                yield break;
             }
         }
-    }
 
-    private IEnumerator StandardAttackCoroutine(Tile targetTile)
-    {
+        //GameManager.pInstance.ChangeState(eGameState.FireSkill);
+
         transform.LookAt(targetTile.transform.position);
         transform.localEulerAngles = new Vector3(pFaction == eFactions.Player1 || pFaction == eFactions.Player2 ? 0 : -90, transform.localEulerAngles.y, 0);
 
         var inst = Instantiate(_VFXPrefab, _VFXSpawner.transform);
         inst.transform.LookAt(EntityManager.pInstance.GetCharacterForId(targetTile.pCharacterId).pHitTransform);
-        pApCurrent -= Cost; // always reduce AP, even when not hit.
+        pApCurrent -= 15; // always reduce AP, even when not hit.
         yield return new WaitUntil(() => pEffectHit);
 
         pEffectHit = false;
@@ -258,6 +262,7 @@ public class Character : Occupant, IUniqueSpell
 
         if (this.pFaction == eFactions.Player1 || pFaction == eFactions.Player2)
         {
+            GameManager.pInstance.pUiManager.ShowStatScreen();
             if (pApCurrent > 5)
             {
                 GameManager.pInstance.ChangeState(eGameState.Selected);

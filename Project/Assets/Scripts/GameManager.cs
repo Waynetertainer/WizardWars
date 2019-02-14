@@ -20,6 +20,9 @@ public class GameManager : MonoBehaviour
 
     public UIManager pUiManager;
 
+    private eFactions mFirstFaction;
+
+
     private void Awake()
     {
         if (pInstance == null)
@@ -46,7 +49,7 @@ public class GameManager : MonoBehaviour
             pCurrentFaction = eFactions.AI1;
         else
             pCurrentFaction = eFactions.AI2;
-
+        mFirstFaction = pCurrentFaction;
         Debug.Log("Starting with " + pCurrentFaction.ToString());
 
         pUiManager.CloseAllWindows();
@@ -81,14 +84,10 @@ public class GameManager : MonoBehaviour
                         {
                             if (EntityManager.pInstance.pGetFactionEntities(pCurrentFaction).Contains(hit.transform.GetComponent<Character>()))
                             {
-
                                 hit.transform.GetComponent<Character>().Select();
                                 ChangeState(eGameState.Move);
                             }
-                            else
-                            {
-                                //TODO Show info of clicked enemy character
-                            }
+                            
                         }
                         break;
                     case eGameState.Selected:
@@ -97,6 +96,7 @@ public class GameManager : MonoBehaviour
                             pActiveCharacter.Deselect();
                             hit.transform.GetComponent<Character>().Select();
                             ChangeState(eGameState.Selected);
+                            GameManager.pInstance.pUiManager.ShowStatScreen();
                         }
                         else
                         {
@@ -124,14 +124,6 @@ public class GameManager : MonoBehaviour
                             {
                                 ChangeState(eGameState.Firing);
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Tile>());
-                                if (pActiveCharacter.pApCurrent > 5)
-                                {
-                                    ChangeState(eGameState.FireSkill);
-                                }
-                                else
-                                {
-                                    ChangeState(eGameState.EndTurn);
-                                }
                             }
                         }
                         else if (hit.isType<Character>())
@@ -140,14 +132,6 @@ public class GameManager : MonoBehaviour
                             {
                                 ChangeState(eGameState.Firing);
                                 pActiveCharacter.StandardAttack(hit.transform.GetComponent<Character>().pTile);
-                                if (pActiveCharacter.pApCurrent > 5)
-                                {
-                                    ChangeState(eGameState.FireSkill);
-                                }
-                                else
-                                {
-                                    ChangeState(eGameState.EndTurn);
-                                }
                             }
                         }
                         else
@@ -303,6 +287,15 @@ public class GameManager : MonoBehaviour
 
 
                 pCurrentFaction = pCurrentFaction == eFactions.Player1 ? eFactions.AI2 : eFactions.AI1;
+
+
+                //spawning of new npcs if next faction is beginner faction
+
+                if (pCurrentFaction == mFirstFaction)
+                {
+                    EntityManager.pInstance.SpawnAI();
+                }
+
 
 
                 ChangeState(eGameState.AIturn);

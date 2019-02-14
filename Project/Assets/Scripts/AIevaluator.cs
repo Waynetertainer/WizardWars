@@ -22,25 +22,22 @@ public class AIevaluator
             switch (pAIState)
             {
                 case eAIState.Patrouille:
-
                     #region Patrouille
+                    pActiveTarget = AIfindTarget(mCharacter);
+                    if (pActiveTarget != null)
+                    {
+                        pAIState = eAIState.Fight;
+                        Debug.Log("AI switching from patrol to fight mode");
+                        break;
+                    }
+
                     if (mCharacter.pPatrouilleSelection == ePatrouilleSelection.Static) // wenn statischer gegner ohne wegpunkte, early exit
                     {
-                        pActiveTarget = AIfindTarget(mCharacter);
-                        if (pActiveTarget != null)
-                        {
-                            pAIState = eAIState.Fight;
-                            Debug.Log("AI switching from patrol to fight mode");
-                            break;
-                        }
-                        else
-                        {
-                            mCharacter.pApCurrent = 0;
-                            Debug.Log("AI Nothing to do, skipping turn");
-                            break;
-                        }
+                        mCharacter.pApCurrent = 0;
+                        Debug.Log("AI Nothing to do, skipping turn");
+                        break;
                     }
-                    
+
 
                     Tile patrolTile;
                     if (mCharacter.pFaction == eFactions.AI1)
@@ -189,32 +186,7 @@ public class AIevaluator
                         }
 
                         Debug.Log("Move to Enemy because out of range, possible " + wayToTarget.Count.ToString() + " steps");
-                        /*
-                        for (int stepCount = 1; stepCount <= possibleFinalWaypoint; ++stepCount)
-                        {
-                            yield return AIevaluator.AImove(mCharacter, wayToTarget[stepCount]);
-                        }
-                        */
-
-                        //informing Grid about changes
-                        mCharacter.pTile.pCharacterId = -1;
-                        wayToTarget[possibleFinalWaypoint].pCharacterId = EntityManager.pInstance.GetIdForCharacter(mCharacter);
-                        mCharacter.pTile = wayToTarget[possibleFinalWaypoint];
-
-                        // substract cost for step
-                        mCharacter.pApCurrent -= 10;
-
-                        /*
-                        if (wayToTarget[1].pCharacterId != -1 && wayToTarget.Count >1) //targettile is blocked by another player.
-                        {
-                            yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
-                            yield return AIevaluator.AImove(mCharacter, wayToTarget[2]); //HACK: step over target. Needs loop
-                        }
-                        else
-                        {
-                            yield return AIevaluator.AImove(mCharacter, wayToTarget[1]);
-                        }
-                        */
+                        yield return mCharacter.MoveEnumerator(wayToTarget[mCharacter.pWalkRange]);
                         break;
                     }
 
@@ -225,7 +197,7 @@ public class AIevaluator
                         break;
                     }
                     Debug.Log("AI shooting Normal spell at " + pActiveTarget.pName);
-                    mCharacter.StandardAttack(pActiveTarget.pTile);// shoot normal spell at target
+                    yield return mCharacter.StandardAttackCoroutine(pActiveTarget.pTile);// shoot normal spell at target
 
                     pActiveTarget = AIfindTarget(mCharacter); //check for survivors
                     if (pActiveTarget == null)
@@ -328,27 +300,4 @@ public class AIevaluator
         }
         return returnCharacter;
     }
-
-    /// <summary>
-    /// Moves the Player to the target tile. Use for one single Step only. No pathfinding!
-    /// !Does not Set Tile occupation Automatically!
-    /// </summary>
-    /// <param name="mCharacter">AI Character to move</param>
-    /// <param name="targetTile">Adjenct Tile to place the character on</param>
-    /// <returns></returns>
-    /*
-    public static IEnumerator AImove(Character mCharacter, Tile targetTile)
-    {
-
-        //moving the object
-        mCharacter.transform.LookAt(targetTile.transform.position);
-        mCharacter.transform.localEulerAngles = new Vector3(-90, mCharacter.transform.localEulerAngles.y, 0);
-        while (Vector3.Distance(mCharacter.transform.position, targetTile.transform.position) >= 0.1f)
-        {
-            mCharacter.transform.position = Vector3.Lerp(mCharacter.transform.position, targetTile.transform.position, Time.deltaTime * 5);
-            yield return new WaitForEndOfFrame(); ;
-        }
-
-        yield return null;
-    }*/
 }
